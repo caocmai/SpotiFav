@@ -14,27 +14,27 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return view.window ?? ASPresentationAnchor()
-
+        
     }
     
     var token : String? = nil
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         if token == nil {
-               simpleButton()
-               } else {
-                   print(token)
-               }
+            simpleButton()
+        } else {
+            print(token)
+        }
     }
-
+    
     
     func simpleButton() {
         let button = UIButton()
-
+        
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.setTitle("Log In", for: .normal)
@@ -48,43 +48,45 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     }
     
     @objc func buttonTapped() {
-           print("button tapped")
-           spotifyAuthVC()
-
-
-       }
+        print("button tapped")
+        getSpotifyAccessCode()
+        
+    }
     
-    private func spotifyAuthVC() {
-            let urlRequest = SpotifyNetworkLayer.requestAccessCode()
-            print(urlRequest)
-            let scheme = "auth"
-            let session = ASWebAuthenticationSession(url: urlRequest, callbackURLScheme: scheme) { (callbackURL, error) in
-                print(callbackURL)
-                guard error == nil, let callbackURL = callbackURL else { return }
-                let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
-                guard let requestToken = queryItems?.first(where: { $0.name == "code" })?.value else { return }
-    //            print(" Code \(requestToken)")
-                print(requestToken)
-                UserDefaults.standard.set(requestToken, forKey: "token")
-                SpotifyNetworkLayer.exchangeCodeForToken(accessCode: requestToken) {results in
-                    switch results {
-                    case .success(let dictionary):
-    //                    print(dictionary)
-                        let token = (dictionary["access_token"]! as! String)
-                        print("access-token", token)
-                        
-                        SpotifyNetworkLayer.fetchEndPoints(endPoint: .userInfo, bearerToken: token)
-                        
-                    case .failure(let error):
-                        print(error)
-                    }
+    private func getSpotifyAccessCode() {
+        let urlRequest = SpotifyNetworkLayer.requestAccessCodeURL()
+        print(urlRequest)
+        let scheme = "auth"
+        let session = ASWebAuthenticationSession(url: urlRequest, callbackURLScheme: scheme) { (callbackURL, error) in
+            print(callbackURL)
+            guard error == nil, let callbackURL = callbackURL else { return }
+            let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
+            guard let requestAccessCode = queryItems?.first(where: { $0.name == "code" })?.value else { return }
+            //            print(" Code \(requestToken)")
+            //                print(requestToken)
+            UserDefaults.standard.set(requestAccessCode, forKey: "requestAccessCode")
+            SpotifyNetworkLayer.exchangeCodeForToken(accessCode: requestAccessCode) {results in
+                switch results {
+                case .success(let dictionary):
+                    //                    print(dictionary)
+                    let accessToken = (dictionary["access_token"]! as! String)
+                    print("access-token", accessToken)
+                    
+//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artists(ids: ["0oSGxfWSnnOXhD2fKuz2Gy","3dBVyJ7JuOMt4GE9607Qin"]), bearerToken: accessToken)
+//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .authorize, bearerToken: accessToken)
+//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Cher", type: .artist), bearerToken: accessToken)
+                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artistTopTracks(artistId: "43ZHCT0cAZBISjO8DG9PnE"), bearerToken: accessToken)
+                    
+                case .failure(let error):
+                    print(error)
                 }
-                
             }
-            session.presentationContextProvider = self
-            session.start()
-
+            
         }
-
+        session.presentationContextProvider = self
+        session.start()
+        
+    }
+    
 }
 
