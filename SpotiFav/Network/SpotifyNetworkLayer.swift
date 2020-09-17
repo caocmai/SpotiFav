@@ -60,6 +60,7 @@ class SpotifyNetworkLayer {
         case artists(ids: [String])
         case artistTopTracks(artistId: String, country: String="US")
         case search(q: String, type: SpotifyType)
+        case playlists(id: String)
         
         func getPath() -> String {
             switch self {
@@ -73,6 +74,8 @@ class SpotifyNetworkLayer {
                 return "search"
             case .artistTopTracks(let id, _):
                 return "artists/\(id)/top-tracks"
+            case .playlists (let id):
+                return "playlists/\(id)"
             }
         }
         
@@ -147,7 +150,7 @@ class SpotifyNetworkLayer {
         
     }
     
-    static internal func fetchEndPoints(endPoint: EndPoints, bearerToken: String) {
+    static internal func fetchEndPoints(endPoint: EndPoints, bearerToken: String,  completion: @escaping (UserModel?, String?, Playlist?) -> Void) {
         let path = endPoint.getPath()
         let params = endPoint.parasToString()
         let fullURL : URL!
@@ -166,10 +169,28 @@ class SpotifyNetworkLayer {
             
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data!, options: []) as! [String:Any]
-                print(jsonObject)
+//                print(jsonObject)
+//                completion(nil, nil, jsonObject)
+                
             } catch {
                 print(error.localizedDescription)
             }
+            
+            guard let safeData = data else {
+                return completion(nil, "Do data", nil)
+            }
+//            guard let expireToken = try? JSONDecoder().decode(ExpireToken.self, from: safeData),
+//            guard let userDetail = try? JSONDecoder().decode(UserModel.self, from: safeData)
+            guard let playlist = try? JSONDecoder().decode(Playlist.self, from: safeData)
+//                return completion(nil, "Can't parse", nil)
+                else {
+                    return completion(nil, "Can't parse User Model", nil)
+                }
+
+            DispatchQueue.main.async {
+                completion(nil, nil, playlist)
+            }
+            
         }.resume()
         
     }
