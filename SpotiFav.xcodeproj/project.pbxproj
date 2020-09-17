@@ -14,6 +14,8 @@
 		2C75523B2510775400D8238C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C75523A2510775400D8238C /* Assets.xcassets */; };
 		2C75523E2510775400D8238C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C75523C2510775400D8238C /* LaunchScreen.storyboard */; };
 		2C7552462510784200D8238C /* SpotifyNetworkLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7552452510784200D8238C /* SpotifyNetworkLayer.swift */; };
+		2C7F0AC62512DA7B004195CD /* Top50ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */; };
+		2C80F8EB2512E1E60057A05A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C80F8EA2512E1E60057A05A /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		2C75523D2510775400D8238C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C75523F2510775400D8238C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C7552452510784200D8238C /* SpotifyNetworkLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyNetworkLayer.swift; sourceTree = "<group>"; };
+		2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Top50ViewController.swift; sourceTree = "<group>"; };
+		2C80F8EA2512E1E60057A05A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +46,7 @@
 		2C7552252510775200D8238C = {
 			isa = PBXGroup;
 			children = (
+				2C80F8EA2512E1E60057A05A /* README.md */,
 				2C7552302510775200D8238C /* SpotiFav */,
 				2C75522F2510775200D8238C /* Products */,
 			);
@@ -60,6 +65,7 @@
 			children = (
 				2C7552312510775200D8238C /* AppDelegate.swift */,
 				2C7552332510775200D8238C /* SceneDelegate.swift */,
+				2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */,
 				2C7552352510775200D8238C /* ViewController.swift */,
 				2C7552452510784200D8238C /* SpotifyNetworkLayer.swift */,
 				2C7552372510775200D8238C /* Main.storyboard */,
@@ -130,6 +136,7 @@
 			files = (
 				2C75523E2510775400D8238C /* LaunchScreen.storyboard in Resources */,
 				2C75523B2510775400D8238C /* Assets.xcassets in Resources */,
+				2C80F8EB2512E1E60057A05A /* README.md in Resources */,
 				2C7552392510775200D8238C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,6 +152,7 @@
 				2C7552462510784200D8238C /* SpotifyNetworkLayer.swift in Sources */,
 				2C7552322510775200D8238C /* AppDelegate.swift in Sources */,
 				2C7552342510775200D8238C /* SceneDelegate.swift in Sources */,
+				2C7F0AC62512DA7B004195CD /* Top50ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

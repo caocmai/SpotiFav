@@ -21,9 +21,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        let homeVC = ViewController()
-        window?.rootViewController = UINavigationController(rootViewController: homeVC)
+        window?.rootViewController = createTabbar(rootViewController: ViewController(), secondViewController: Top50ViewController())
         window?.makeKeyAndVisible()
+    }
+    
+    private func createTabbar(rootViewController: UIViewController, secondViewController: UIViewController) -> UITabBarController {
+        let tabbar = UITabBarController()
+        rootViewController.tabBarItem = UITabBarItem(title: "HOME", image: UIImage(systemName: "house"), selectedImage: nil)
+        secondViewController.tabBarItem = UITabBarItem(title: "TOP50", image: UIImage(systemName: "pencil.circle"), selectedImage: nil)
+        let navController = UINavigationController(rootViewController: rootViewController)
+        let secondNavController = UINavigationController(rootViewController: secondViewController)
+        tabbar.viewControllers = [navController, secondNavController]
+        return tabbar
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

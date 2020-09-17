@@ -29,6 +29,9 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         } else {
             print(token)
         }
+        
+        let tokenTest = (UserDefaults.standard.string(forKey: "token"))
+        SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Kenny G", type: .artist), bearerToken: tokenTest!)
     }
     
     
@@ -71,11 +74,13 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
                     //                    print(dictionary)
                     let accessToken = (dictionary["access_token"]! as! String)
                     print("access-token", accessToken)
+                    UserDefaults.standard.set(accessToken, forKey: "token")
+
                     
 //                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artists(ids: ["0oSGxfWSnnOXhD2fKuz2Gy","3dBVyJ7JuOMt4GE9607Qin"]), bearerToken: accessToken)
-//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .authorize, bearerToken: accessToken)
-//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Cher", type: .artist), bearerToken: accessToken)
-                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artistTopTracks(artistId: "43ZHCT0cAZBISjO8DG9PnE"), bearerToken: accessToken)
+//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Kenny G", type: .artist), bearerToken: accessToken)
+//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artistTopTracks(artistId: "43ZHCT0cAZBISjO8DG9PnE"), bearerToken: accessToken)
+                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .userInfo, bearerToken: accessToken)
                     
                 case .failure(let error):
                     print(error)

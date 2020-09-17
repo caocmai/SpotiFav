@@ -54,8 +54,8 @@ class SpotifyNetworkLayer {
     
     
     enum EndPoints {
-        case authorize
-        //can add search case here, otherwise make a new endpoints
+        case authorize // Only used internally; DO NOT USE EXTERNALLY
+        
         case userInfo
         case artists(ids: [String])
         case artistTopTracks(artistId: String, country: String="US")
@@ -120,7 +120,8 @@ class SpotifyNetworkLayer {
                 ]
             
             case .search(let q, let type):
-                return ["q" : q,
+                let convertSpacesToProperURL = q.replacingOccurrences(of: " ", with: "%20")
+                return ["q" : convertSpacesToProperURL,
                         "type" : type.getSpotifyType()
                 ]
             
@@ -150,14 +151,15 @@ class SpotifyNetworkLayer {
         let path = endPoint.getPath()
         let params = endPoint.parasToString()
         let fullURL : URL!
-        if params != "NOT_VALID&NOT_NEEDED" {
-            fullURL = URL(string: SpotifyNetworkLayer.baseAPICallURL.appending("\(path)?\(params)"))
-        } else {
+        if params == "NOT_VALID&NOT_NEEDED" { // Means there's no additional query parameters necessary
             fullURL = URL(string: SpotifyNetworkLayer.baseAPICallURL.appending("\(path)"))
+        } else {
+            fullURL = URL(string: SpotifyNetworkLayer.baseAPICallURL.appending("\(path)?\(params)"))
         }
+        
         print(fullURL!)
         var request = URLRequest(url: fullURL!)
-        print(endPoint.getHeaders(accessToken: bearerToken))
+//        print(endPoint.getHeaders(accessToken: bearerToken))
         request.allHTTPHeaderFields = endPoint.getHeaders(accessToken: bearerToken)
         
         URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
@@ -184,7 +186,7 @@ class SpotifyNetworkLayer {
         
     }
     
-    static public func exchangeCodeForToken(accessCode: String, completion: @escaping(Result<[String:Any]>)->Void) {
+    static internal func exchangeCodeForToken(accessCode: String, completion: @escaping(Result<[String:Any]>)->Void) {
         //        let SPOTIFY_API_AUTH_KEY = "Basic \((SPOTIFY_API_CLIENT_ID + ":" + SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
         
         let SPOTIFY_API_AUTH_KEY = "Basic \((SpotifyNetworkLayer.SPOTIFY_API_CLIENT_ID + ":" + SpotifyNetworkLayer.SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
