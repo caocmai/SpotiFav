@@ -37,11 +37,19 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-        SpotifyNetworkLayer.fetchEndPoints(endPoint: .playlists(id: global50), bearerToken: tokenTest!) { (int, str, playlist) in
+//        SpotifyNetworkLayer.fetchEndPoints(endPoint: .playlists(id: global50), bearerToken: tokenTest!) { (int, str, playlist) in
+//            print(int)
+//            print(str)
+//            print(playlist)
+//        }
+        
+        
+        SpotifyNetworkLayer.fetchEndPoints(endPoint: .myTop(type: .tracks), bearerToken: tokenTest!) { (int, str, playlist) in
             print(int)
             print(str)
             print(playlist)
         }
+        
         
 //        print(tokenTest)
     }

@@ -25,6 +25,20 @@ class SpotifyNetworkLayer {
         case failure(Error)
     }
     
+    enum MyTopTypes {
+        case tracks
+        case artists
+        
+        func getType() -> String {
+            switch self {
+            case .tracks:
+                return "tracks"
+            case .artists:
+                return "artists"
+            }
+        }
+    }
+    
     enum SpotifyType {
         case album
         case artist
@@ -61,6 +75,7 @@ class SpotifyNetworkLayer {
         case artistTopTracks(artistId: String, country: String="US")
         case search(q: String, type: SpotifyType)
         case playlists(id: String)
+        case myTop(type: MyTopTypes)
         
         func getPath() -> String {
             switch self {
@@ -76,6 +91,8 @@ class SpotifyNetworkLayer {
                 return "artists/\(id)/top-tracks"
             case .playlists (let id):
                 return "playlists/\(id)"
+            case .myTop(let type):
+                return "me/top/\(type)"
             }
         }
         
@@ -136,10 +153,7 @@ class SpotifyNetworkLayer {
                 
             }
             
-            
         }
-        
-        
         
         func parasToString() -> String {
             let parameterArray = getURLParams().map{key, value in
@@ -150,11 +164,11 @@ class SpotifyNetworkLayer {
         
     }
     
-    static internal func fetchEndPoints(endPoint: EndPoints, bearerToken: String,  completion: @escaping (UserModel?, String?, Playlist?) -> Void) {
+    static internal func fetchEndPoints(endPoint: EndPoints, bearerToken: String,  completion: @escaping (MyTopTracks?, String?, Playlist?) -> Void) {
         let path = endPoint.getPath()
         let params = endPoint.parasToString()
         let fullURL : URL!
-        if params == "NOT_VALID&NOT_NEEDED" { // Means there's no additional query parameters necessary
+        if params == "NOT_VALID=NOT_NEEDED" { // Means there's no additional query parameters necessary
             fullURL = URL(string: SpotifyNetworkLayer.baseAPICallURL.appending("\(path)"))
         } else {
             fullURL = URL(string: SpotifyNetworkLayer.baseAPICallURL.appending("\(path)?\(params)"))
@@ -181,14 +195,15 @@ class SpotifyNetworkLayer {
             }
 //            guard let expireToken = try? JSONDecoder().decode(ExpireToken.self, from: safeData),
 //            guard let userDetail = try? JSONDecoder().decode(UserModel.self, from: safeData)
-            guard let playlist = try? JSONDecoder().decode(Playlist.self, from: safeData)
-//                return completion(nil, "Can't parse", nil)
+//            guard let playlist = try? JSONDecoder().decode(Playlist.self, from: safeData)
+            guard let playlist = try? JSONDecoder().decode(MyTopTracks.self, from: safeData)
+
                 else {
                     return completion(nil, "Can't parse User Model", nil)
                 }
 
             DispatchQueue.main.async {
-                completion(nil, nil, playlist)
+                completion(playlist, nil, nil)
             }
             
         }.resume()
@@ -263,70 +278,3 @@ class SpotifyNetworkLayer {
         return fullURL!
     }
 }
-
-
-
-//    /// Get token if have hte access Code
-//    func requestAccessAndRefreshTokens(accessCode: String) {
-//        let SPOTIFY_API_AUTH_KEY = "Basic \((SpotifyNetworkLayer.SPOTIFY_API_CLIENT_ID + ":" + SpotifyNetworkLayer.SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
-//        let requestHeaders: [String:String] = ["Authorization" : SPOTIFY_API_AUTH_KEY,
-//                                               "Content-Type" : "application/x-www-form-urlencoded"]
-//        var requestBodyComponents = URLComponents()
-//        requestBodyComponents.queryItems = [URLQueryItem(name: "grant_type", value: "authorization_code"),
-//                                            URLQueryItem(name: "code", value: accessCode),
-//                                            URLQueryItem(name: "redirect_uri", value: SpotifyNetworkLayer.REDIRECT_URI)]
-//        var request = URLRequest(url: URL(string: "https://accounts.spotify.com/api/token")!)
-//        request.httpMethod = "POST"
-//        request.allHTTPHeaderFields = requestHeaders
-//        request.httpBody = requestBodyComponents.query?.data(using: .utf8)
-//        URLSession.shared.dataTask(with: request) { (data, response, error) in
-//            print("data", data)
-//            print("response", response)
-//        }.resume()
-//    }
-
-
-//NOT USING
-//func fetchSpotifyProfile(accessToken: String) {
-//    let tokenURLFull = "https://api.spotify.com/v1/me"
-//    //    let topTrackURL = "https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF"
-//    //    let myTopArtistURL = "https://api.spotify.com/v1/me/top/artists"
-//    //        let tokenURLFull = "https://api.spotify.com/v1/me/top/tracks"
-//    let verify: NSURL = NSURL(string: tokenURLFull)!
-//    let request: NSMutableURLRequest = NSMutableURLRequest(url: verify as URL)
-//    request.addValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
-//
-//
-//    let task = URLSession.shared.dataTask(with: request as URLRequest) { data, response, error in
-//        if error == nil {
-//
-//            let result = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [AnyHashable: Any]
-//            print(result)
-//            //AccessToken
-//            //            print("Spotify Access Token: \(accessToken)")
-//            //            //Spotify Handle
-//            //            let spotifyId: String! = (result?["id"] as! String)
-//            //            print("Spotify Id: \(spotifyId ?? "")")
-//            //            //Spotify Display Name
-//            //            let spotifyDisplayName: String! = (result?["display_name"] as! String)
-//            //            print("Spotify Display Name: \(spotifyDisplayName ?? "")")
-//            //            //Spotify Email
-//            //            let spotifyEmail: String! = (result?["email"] as! String)
-//            //            print("Spotify Email: \(spotifyEmail ?? "")")
-//
-//            //            let spotifyTopArtist: String! = (result?["name"] as! String)
-//            //            print("TOp artist", spotifyTopArtist ?? "")
-//
-//            //Spotify Profile Avatar URL
-//            //            let spotifyAvatarURL: String!
-//            //            let spotifyProfilePicArray = result?["images"] as? [AnyObject]
-//            //            if (spotifyProfilePicArray?.count)! > 0 {
-//            //                spotifyAvatarURL = spotifyProfilePicArray![0]["url"] as? String
-//            //            } else {
-//            //                spotifyAvatarURL = "Not exists"
-//            //            }
-//            //            print("Spotify Profile Avatar URL: \(spotifyAvatarURL ?? "")")
-//        }
-//    }
-//    task.resume()
-//}
