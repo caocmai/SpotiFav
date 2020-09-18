@@ -8,6 +8,7 @@
 
 import UIKit
 import AuthenticationServices
+import AVFoundation
 
 
 class ViewController: UIViewController, ASWebAuthenticationPresentationContextProviding {
@@ -19,10 +20,17 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     
     var token : String? = nil
     
+    var player: AVAudioPlayer!
+    
+    var testMP3Preview: URL?
+    
+    var timer:Timer!
+    
+    var isPlaying = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
         if token == nil {
             simpleButton()
@@ -31,28 +39,68 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         }
         
         let tokenTest = (UserDefaults.standard.string(forKey: "token"))
-//        SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Kenny G", type: .artist), bearerToken: tokenTest!)
+        //        SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Kenny G", type: .artist), bearerToken: tokenTest!)
         
         print(tokenTest)
         
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-//        SpotifyNetworkLayer.fetchEndPoints(endPoint: .playlists(id: global50), bearerToken: tokenTest!) { (int, str, playlist) in
-//            print(int)
-//            print(str)
-//            print(playlist)
-//        }
+        //        SpotifyNetworkLayer.fetchEndPoints(endPoint: .playlists(id: global50), bearerToken: tokenTest!) { (int, str, playlist) in
+        //            print(int)
+        //            print(str)
+        //            print(playlist)
+        //        }
         
         
         SpotifyNetworkLayer.fetchEndPoints(endPoint: .myTop(type: .tracks), bearerToken: tokenTest!) { (int, str, playlist) in
-            print(int)
-            print(str)
-            print(playlist)
+            //            print(int)
+            //            print(str)
+            //            print(playlist)
+            
+            let test = (int?.items.last?.previewURL)
+            
+            self.downloadFileFromURL(url: test!)
         }
         
         
-//        print(tokenTest)
+        //        print(tokenTest)
     }
+    
+    func downloadFileFromURL(url: URL){
+        
+        var downloadTask: URLSessionDownloadTask
+        downloadTask = URLSession.shared.downloadTask(with: url as URL, completionHandler: { [weak self](URL, response, error) -> Void in
+            
+            //            self!.testMP3Preview = URL!
+            //            print(self?.testMP3Preview)
+            self?.play(url: URL!)
+        })
+        
+        downloadTask.resume()
+        
+    }
+    
+    func play(url: URL) {
+        print("playing \(url)")
+        
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            //            player.prepareToPlay()
+            //            player.volume = 1.0
+            //            player.play()
+            //            let test = player.currentTime
+            //            Thread.sleep(forTimeInterval: 20)
+            //            player.pause()
+            //            Thread.sleep(forTimeInterval: 2)
+            //            player.play()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        } catch {
+            print("AVAudioPlayer init failed")
+        }
+        
+    }
+    
     
     
     func simpleButton() {
@@ -72,16 +120,38 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     
     @objc func buttonTapped() {
         print("button tapped")
-        getSpotifyAccessCode()
         
+        if isPlaying {
+            player.pause()
+            isPlaying = false
+        } else {
+            player.play()
+            isPlaying = true
+            
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        }
+        
+        
+        
+        //        getSpotifyAccessCode()
+        
+    }
+    
+    
+    @objc func updateTime() {
+        let currentTime = Int(player.currentTime)
+        let minutes = currentTime/60
+        let seconds = currentTime - minutes * 60
+        
+        print(String(format: "%02d:%02d", minutes,seconds) as String)
     }
     
     private func getSpotifyAccessCode() {
         let urlRequest = SpotifyNetworkLayer.requestAccessCodeURL()
-        print(urlRequest)
+//        print(urlRequest)
         let scheme = "auth"
         let session = ASWebAuthenticationSession(url: urlRequest, callbackURLScheme: scheme) { (callbackURL, error) in
-            print(callbackURL)
+//            print(callbackURL)
             guard error == nil, let callbackURL = callbackURL else { return }
             let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
             guard let requestAccessCode = queryItems?.first(where: { $0.name == "code" })?.value else { return }
@@ -95,7 +165,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
                     let accessToken = (dictionary["access_token"]! as! String)
                     print("access-token", accessToken)
                     UserDefaults.standard.set(accessToken, forKey: "token")
-
+                    
                     
 //                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artists(ids: ["0oSGxfWSnnOXhD2fKuz2Gy","3dBVyJ7JuOMt4GE9607Qin"]), bearerToken: accessToken)
 //                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Kenny G", type: .artist), bearerToken: accessToken)
@@ -108,6 +178,13 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
                     print(error)
                 }
             }
+            
+            
+            
+            //            let answer = (SpotifyNetworkLayer.exchangeCodeForToken(accessCode: requestAccessCode))
+            //            if answer["expires_in"] as! Int == 3600 {
+            //                print("will expire in about an hour!")
+            //            }
             
         }
         session.presentationContextProvider = self

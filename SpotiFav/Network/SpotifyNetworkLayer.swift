@@ -224,44 +224,91 @@ class SpotifyNetworkLayer {
     
     static internal func exchangeCodeForToken(accessCode: String, completion: @escaping(Result<[String:Any]>)->Void) {
         //        let SPOTIFY_API_AUTH_KEY = "Basic \((SPOTIFY_API_CLIENT_ID + ":" + SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
-        
+
         let SPOTIFY_API_AUTH_KEY = "Basic \((SpotifyNetworkLayer.SPOTIFY_API_CLIENT_ID + ":" + SpotifyNetworkLayer.SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
-        
-        
+
+
         let requestHeaders: [String:String] = ["Authorization" : SPOTIFY_API_AUTH_KEY,
                                                "Content-Type" : "application/x-www-form-urlencoded"]
         var requestBodyComponents = URLComponents()
         requestBodyComponents.queryItems = [URLQueryItem(name: "grant_type", value: "authorization_code"),
                                             URLQueryItem(name: "code", value: accessCode),
                                             URLQueryItem(name: "redirect_uri", value: SpotifyNetworkLayer.REDIRECT_URI)]
-        
+
         var request = URLRequest(url: URL(string: "https://accounts.spotify.com/api/token")!)
         request.httpMethod = "POST"
         request.allHTTPHeaderFields = requestHeaders
         request.httpBody = requestBodyComponents.query?.data(using: .utf8)
-        
-        
+
+
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             //            print(data)
             //            print(response)
-            
+
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data!, options: []) as! [String:Any]
                 //                print(jsonObject)
-                
+
                 //                let jsonDict = jsonObject as! [String:String]
                 let test = ["access_token": jsonObject["access_token"], "expires_in": jsonObject["expires_in"]]
                 //                print(test)
                 completion(.success(test as [String : Any]))
-                
-                
+
+
             } catch {
                 print(error.localizedDescription)
             }
         }.resume()
         //
-        
+
     }
+    
+//    static internal func exchangeCodeForToken(accessCode: String) -> [String:Any]{
+//        //        let SPOTIFY_API_AUTH_KEY = "Basic \((SPOTIFY_API_CLIENT_ID + ":" + SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
+//
+//        let SPOTIFY_API_AUTH_KEY = "Basic \((SpotifyNetworkLayer.SPOTIFY_API_CLIENT_ID + ":" + SpotifyNetworkLayer.SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
+//
+//        var returnedvalue: [String:Any]?
+//        let sema = DispatchSemaphore(value: 0)
+//
+//        let requestHeaders: [String:String] = ["Authorization" : SPOTIFY_API_AUTH_KEY,
+//                                               "Content-Type" : "application/x-www-form-urlencoded"]
+//        var requestBodyComponents = URLComponents()
+//        requestBodyComponents.queryItems = [URLQueryItem(name: "grant_type", value: "authorization_code"),
+//                                            URLQueryItem(name: "code", value: accessCode),
+//                                            URLQueryItem(name: "redirect_uri", value: SpotifyNetworkLayer.REDIRECT_URI)]
+//
+//        var request = URLRequest(url: URL(string: "https://accounts.spotify.com/api/token")!)
+//        request.httpMethod = "POST"
+//        request.allHTTPHeaderFields = requestHeaders
+//        request.httpBody = requestBodyComponents.query?.data(using: .utf8)
+//
+//
+//        URLSession.shared.dataTask(with: request) { (data, response, error) in
+//            //            print(data)
+//            //            print(response)
+//
+//            do {
+//                let jsonObject = try JSONSerialization.jsonObject(with: data!, options: []) as! [String:Any]
+//                //                print(jsonObject)
+//
+//                //                let jsonDict = jsonObject as! [String:String]
+//                let test = ["access_token": jsonObject["access_token"], "expires_in": jsonObject["expires_in"]]
+//                //                print(test)
+//                returnedvalue = test as [String : Any]
+////                completion(.success(test as [String : Any]))
+//
+//                sema.signal()
+//
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+//        }.resume()
+//        //
+//
+//        sema.wait()
+//        return returnedvalue!
+//    }
     
     //NOT USING
     static internal func makeRequest(for endPoint: EndPoints, with accessToken: String?=nil) -> URL {
