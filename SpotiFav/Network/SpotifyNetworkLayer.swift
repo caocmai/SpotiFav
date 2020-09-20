@@ -67,6 +67,8 @@ class SpotifyNetworkLayer {
     }
     
     
+    
+    
     enum EndPoints {
         case authorize // Only used internally; DO NOT USE EXTERNALLY
         
@@ -164,7 +166,7 @@ class SpotifyNetworkLayer {
         
     }
     
-    static internal func fetchEndPoints(endPoint: EndPoints, bearerToken: String,  completion: @escaping (MyTopTracks?, String?, Playlist?) -> Void) {
+    static internal func fetchEndPoints(endPoint: EndPoints, bearerToken: String,  completion: @escaping (Any?, String?, Playlist?) -> Void) {
         let path = endPoint.getPath()
         let params = endPoint.parasToString()
         let fullURL : URL!
@@ -174,12 +176,18 @@ class SpotifyNetworkLayer {
             fullURL = URL(string: SpotifyNetworkLayer.baseAPICallURL.appending("\(path)?\(params)"))
         }
         
-        print(fullURL!)
+//        let sema = DispatchSemaphore(value: 0)
+        var anythingAPI: Any!
+
+        
+//        print(fullURL!)
         var request = URLRequest(url: fullURL!)
 //        print(endPoint.getHeaders(accessToken: bearerToken))
         request.allHTTPHeaderFields = endPoint.getHeaders(accessToken: bearerToken)
         
         URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+
             
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data!, options: []) as! [String:Any]
@@ -189,27 +197,71 @@ class SpotifyNetworkLayer {
             } catch {
                 print(error.localizedDescription)
             }
-            
             guard let safeData = data else {
                 return completion(nil, "Do data", nil)
             }
-//            guard let expireToken = try? JSONDecoder().decode(ExpireToken.self, from: safeData),
-//            guard let userDetail = try? JSONDecoder().decode(UserModel.self, from: safeData)
-//            guard let playlist = try? JSONDecoder().decode(Playlist.self, from: safeData)
-            guard let playlist = try? JSONDecoder().decode(MyTopTracks.self, from: safeData)
+            
 
-                else {
-                    return completion(nil, "Can't parse User Model", nil)
-                }
-
-            DispatchQueue.main.async {
-                completion(playlist, nil, nil)
+            guard let expireToken = try? JSONDecoder().decode(ExpireToken.self, from: safeData) else {
+            
+                print("non expires")
+                anythingAPI = self.decodeData1(endPoint: endPoint, safeData: safeData)
+//                print(anythingAPI)
+            
+                DispatchQueue.main.async {
+                               completion(anythingAPI, nil, nil)
+                           }
+                return
+                
             }
             
+
+            if expireToken.error.status == 401 {
+                print("expires?, fetch new token here")
+                print(expireToken.error.message)
+//                let newtoken =
+//                fetchEndPoints(endPoint: endPoint, bearerToken: newtoken) { (anything, you, me) in
+//                    completion(anything, nil, nil)
+//                }
+//                fetchEndPoints(endPoint: endPoint, bearerToken: bearerToken) { stuff, hon, me  in
+//                    completion(stuff, nil, nil)
+//                }
+            }
+
+            
+//            sema.signal()
+
+//            guard let userDetail = try? JSONDecoder().decode(UserModel.self, from: safeData)
+//            guard let playlist = try? JSONDecoder().decode(Playlist.self, from: safeData)
+            
+
+
         }.resume()
+        
+//        sema.wait()
+//        completion(anythingAPI, nil, nil)
         
     }
     
+    
+    static private func decodeData1(endPoint: EndPoints, safeData: Data) -> Any? {
+        switch endPoint {
+                            
+                        case .myTop(type: .tracks):
+                            let myTopTracks = try? JSONDecoder().decode(MyTopTracks.self, from: safeData)
+                            print("into this thing")
+
+                            return myTopTracks
+        //                    print(anythingAPI)
+                        default:
+                            print("nothing here")
+                            
+                       
+                        
+                    }
+        
+        return nil
+    }
     
     static internal func requestAccessCodeURL() -> URL {
         let path = EndPoints.authorize.getPath()
@@ -222,14 +274,25 @@ class SpotifyNetworkLayer {
         
     }
     
+//    static internal func exchangeRefreshTokenForAccessTokn(refreshToken: String) -> String {
+//        let requestHeaders: [String:String] = ["Content-Type": "application/x-www-form-urlencoded"]
+//        var requestBodyComponents = URLComponents()
+//
+//        requestBodyComponents.queryItems = [URLQueryItem(name: "refresh_token", value: refreshToken)]
+//
+//        var request = URLRequest(url: URL(string: "https://accounts.spotify.com/api/token")!)
+//        request.httpMethod = "POST"
+//
+//    }
+    
     static internal func exchangeCodeForToken(accessCode: String, completion: @escaping(Result<[String:Any]>)->Void) {
         //        let SPOTIFY_API_AUTH_KEY = "Basic \((SPOTIFY_API_CLIENT_ID + ":" + SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
 
         let SPOTIFY_API_AUTH_KEY = "Basic \((SpotifyNetworkLayer.SPOTIFY_API_CLIENT_ID + ":" + SpotifyNetworkLayer.SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
 
 
-        let requestHeaders: [String:String] = ["Authorization" : SPOTIFY_API_AUTH_KEY,
-                                               "Content-Type" : "application/x-www-form-urlencoded"]
+        let requestHeaders: [String:String] = ["Authorization": SPOTIFY_API_AUTH_KEY,
+                                               "Content-Type": "application/x-www-form-urlencoded"]
         var requestBodyComponents = URLComponents()
         requestBodyComponents.queryItems = [URLQueryItem(name: "grant_type", value: "authorization_code"),
                                             URLQueryItem(name: "code", value: accessCode),
@@ -243,14 +306,13 @@ class SpotifyNetworkLayer {
 
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             //            print(data)
-            //            print(response)
 
             do {
                 let jsonObject = try JSONSerialization.jsonObject(with: data!, options: []) as! [String:Any]
-                //                print(jsonObject)
+                                print(jsonObject)
 
                 //                let jsonDict = jsonObject as! [String:String]
-                let test = ["access_token": jsonObject["access_token"], "expires_in": jsonObject["expires_in"]]
+                let test = ["access_token": jsonObject["access_token"], "refresh_token": jsonObject["refresh_token"]]
                 //                print(test)
                 completion(.success(test as [String : Any]))
 
@@ -263,6 +325,7 @@ class SpotifyNetworkLayer {
 
     }
     
+    /// same method as above but using semaphore and to return value instead of having completion
 //    static internal func exchangeCodeForToken(accessCode: String) -> [String:Any]{
 //        //        let SPOTIFY_API_AUTH_KEY = "Basic \((SPOTIFY_API_CLIENT_ID + ":" + SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
 //

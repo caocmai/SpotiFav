@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C6077EC2515AEAF00B50BC8 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6077EB2515AEAF00B50BC8 /* Network.swift */; };
+		2C6077F02515CF5A00B50BC8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6077EF2515CF5A00B50BC8 /* Constant.swift */; };
+		2C6077F22515D27500B50BC8 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6077F12515D27500B50BC8 /* APIClient.swift */; };
+		2C6077F42515DA6100B50BC8 /* AccessTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6077F32515DA6100B50BC8 /* AccessTokens.swift */; };
 		2C7552322510775200D8238C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7552312510775200D8238C /* AppDelegate.swift */; };
 		2C7552342510775200D8238C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7552332510775200D8238C /* SceneDelegate.swift */; };
 		2C7552362510775200D8238C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7552352510775200D8238C /* ViewController.swift */; };
@@ -18,12 +22,16 @@
 		2C80F8EB2512E1E60057A05A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C80F8EA2512E1E60057A05A /* README.md */; };
 		2C80F8F0251319210057A05A /* ExpiredToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8EF251319210057A05A /* ExpiredToken.swift */; };
 		2C80F8F3251322530057A05A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F2251322530057A05A /* UserModel.swift */; };
-		2C80F8F5251332580057A05A /* Playlists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F4251332580057A05A /* Playlists.swift */; };
+		2C80F8F5251332580057A05A /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F4251332580057A05A /* Playlist.swift */; };
 		2CC479C82513D73100203F42 /* MyTopArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC479C72513D73100203F42 /* MyTopArtists.swift */; };
 		2CC479CA2513D93200203F42 /* MyTopTracks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC479C92513D93200203F42 /* MyTopTracks.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C6077EB2515AEAF00B50BC8 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		2C6077EF2515CF5A00B50BC8 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		2C6077F12515D27500B50BC8 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		2C6077F32515DA6100B50BC8 /* AccessTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokens.swift; sourceTree = "<group>"; };
 		2C75522E2510775200D8238C /* SpotiFav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotiFav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C7552312510775200D8238C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C7552332510775200D8238C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,7 +45,7 @@
 		2C80F8EA2512E1E60057A05A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2C80F8EF251319210057A05A /* ExpiredToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredToken.swift; sourceTree = "<group>"; };
 		2C80F8F2251322530057A05A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		2C80F8F4251332580057A05A /* Playlists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlists.swift; sourceTree = "<group>"; };
+		2C80F8F4251332580057A05A /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		2CC479C72513D73100203F42 /* MyTopArtists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTopArtists.swift; sourceTree = "<group>"; };
 		2CC479C92513D93200203F42 /* MyTopTracks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTopTracks.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +98,7 @@
 			children = (
 				2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */,
 				2C7552352510775200D8238C /* ViewController.swift */,
+				2C6077EF2515CF5A00B50BC8 /* Constant.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -106,6 +115,8 @@
 			isa = PBXGroup;
 			children = (
 				2C7552452510784200D8238C /* SpotifyNetworkLayer.swift */,
+				2C6077EB2515AEAF00B50BC8 /* Network.swift */,
+				2C6077F12515D27500B50BC8 /* APIClient.swift */,
 				2C80F8F1251319310057A05A /* Network Models */,
 			);
 			path = Network;
@@ -116,9 +127,10 @@
 			children = (
 				2C80F8EF251319210057A05A /* ExpiredToken.swift */,
 				2C80F8F2251322530057A05A /* UserModel.swift */,
-				2C80F8F4251332580057A05A /* Playlists.swift */,
+				2C80F8F4251332580057A05A /* Playlist.swift */,
 				2CC479C72513D73100203F42 /* MyTopArtists.swift */,
 				2CC479C92513D93200203F42 /* MyTopTracks.swift */,
+				2C6077F32515DA6100B50BC8 /* AccessTokens.swift */,
 			);
 			path = "Network Models";
 			sourceTree = "<group>";
@@ -196,15 +208,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C7552362510775200D8238C /* ViewController.swift in Sources */,
+				2C6077F42515DA6100B50BC8 /* AccessTokens.swift in Sources */,
 				2C80F8F3251322530057A05A /* UserModel.swift in Sources */,
 				2CC479C82513D73100203F42 /* MyTopArtists.swift in Sources */,
 				2C80F8F0251319210057A05A /* ExpiredToken.swift in Sources */,
 				2C7552462510784200D8238C /* SpotifyNetworkLayer.swift in Sources */,
+				2C6077EC2515AEAF00B50BC8 /* Network.swift in Sources */,
 				2C7552322510775200D8238C /* AppDelegate.swift in Sources */,
 				2C7552342510775200D8238C /* SceneDelegate.swift in Sources */,
 				2CC479CA2513D93200203F42 /* MyTopTracks.swift in Sources */,
+				2C6077F22515D27500B50BC8 /* APIClient.swift in Sources */,
 				2C7F0AC62512DA7B004195CD /* Top50ViewController.swift in Sources */,
-				2C80F8F5251332580057A05A /* Playlists.swift in Sources */,
+				2C80F8F5251332580057A05A /* Playlist.swift in Sources */,
+				2C6077F02515CF5A00B50BC8 /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

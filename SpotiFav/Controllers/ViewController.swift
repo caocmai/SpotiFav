@@ -21,8 +21,9 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     var token : String? = nil
     
     var player: AVAudioPlayer!
+    var refresh_token: String? = nil
     
-    var testMP3Preview: URL?
+//    var testMP3Preview: URL?
     
     var timer:Timer!
     
@@ -38,10 +39,16 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
             print(token)
         }
         
+//        print(Request.getAccessCodeURL())
+
+        
         let tokenTest = (UserDefaults.standard.string(forKey: "token"))
         //        SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Kenny G", type: .artist), bearerToken: tokenTest!)
         
-        print(tokenTest)
+//        print(tokenTest)
+        
+        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
+//        print(refreshToken)
         
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
@@ -52,18 +59,38 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         //        }
         
         
-        SpotifyNetworkLayer.fetchEndPoints(endPoint: .myTop(type: .tracks), bearerToken: tokenTest!) { (int, str, playlist) in
-            //            print(int)
-            //            print(str)
-            //            print(playlist)
-            
-            let test = (int?.items.last?.previewURL)
-            
-            self.downloadFileFromURL(url: test!)
-        }
+//        SpotifyNetworkLayer.fetchEndPoints(endPoint: .myTop(type: .tracks), bearerToken: tokenTest!) { (int, str, playlist) in
+//            print(int)
+//                        print(str)
+//                        print(playlist)
+//            print("goes in here")
+////            let casting = int as! MyTopTracks
+////            let test = (casting.items.last?.previewURL)
+////
+////            self.downloadFileFromURL(url: test!)
+//        }
         
         
         //        print(tokenTest)
+        
+//        call fetch -> data or expired token
+//        check if reuturn is expired token
+//            fetch refresh method
+//            fetch the original api call with new token
+        
+        
+        
+        let token = UserDefaults.standard.string(forKey: "token")!
+        APIClient.shared.getUserTopTracks(token: token) { (track) in
+            print("goes in here")
+            print(track)
+        }
+
+//        APIClient.shared.checkExpire(token: token) { (expire) in
+//            print(expire)
+//        }
+        
+        
     }
     
     func downloadFileFromURL(url: URL){
@@ -121,19 +148,19 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     @objc func buttonTapped() {
         print("button tapped")
         
-        if isPlaying {
-            player.pause()
-            isPlaying = false
-        } else {
-            player.play()
-            isPlaying = true
-            
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        }
+//        if isPlaying {
+//            player.pause()
+//            isPlaying = false
+//        } else {
+//            player.play()
+//            isPlaying = true
+//
+//            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+//        }
+//
         
         
-        
-        //        getSpotifyAccessCode()
+                getSpotifyAccessCode()
         
     }
     
@@ -155,29 +182,34 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
             guard error == nil, let callbackURL = callbackURL else { return }
             let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
             guard let requestAccessCode = queryItems?.first(where: { $0.name == "code" })?.value else { return }
-            //            print(" Code \(requestToken)")
-            //                print(requestToken)
+                        print(" Code \(requestAccessCode)")
+//                            print(requestToken)
             UserDefaults.standard.set(requestAccessCode, forKey: "requestAccessCode")
-            SpotifyNetworkLayer.exchangeCodeForToken(accessCode: requestAccessCode) {results in
-                switch results {
-                case .success(let dictionary):
-                    //                    print(dictionary)
-                    let accessToken = (dictionary["access_token"]! as! String)
-                    print("access-token", accessToken)
-                    UserDefaults.standard.set(accessToken, forKey: "token")
-                    
-                    
-//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artists(ids: ["0oSGxfWSnnOXhD2fKuz2Gy","3dBVyJ7JuOMt4GE9607Qin"]), bearerToken: accessToken)
-//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Kenny G", type: .artist), bearerToken: accessToken)
-//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artistTopTracks(artistId: "43ZHCT0cAZBISjO8DG9PnE"), bearerToken: accessToken)
-//                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .userInfo, bearerToken: accessToken)
+//            SpotifyNetworkLayer.exchangeCodeForToken(accessCode: requestAccessCode) {results in
+//                switch results {
+//                case .success(let dictionary):
+//                    //                    print(dictionary)
+//                    let accessToken = (dictionary["access_token"]! as! String)
+//                    let refresh_token = dictionary["refresh_token"]! as! String
+//                    print("access-token", accessToken)
+//                    print("refresh_token", refresh_token)
+//                    UserDefaults.standard.set(accessToken, forKey: "token")
+//                    UserDefaults.standard.set(refresh_token, forKey: "refresh_token")
 //
-                    
-                    
-                case .failure(let error):
-                    print(error)
-                }
-            }
+//
+////                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artists(ids: ["0oSGxfWSnnOXhD2fKuz2Gy","3dBVyJ7JuOMt4GE9607Qin"]), bearerToken: accessToken)
+////                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Kenny G", type: .artist), bearerToken: accessToken)
+////                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .artistTopTracks(artistId: "43ZHCT0cAZBISjO8DG9PnE"), bearerToken: accessToken)
+////                    SpotifyNetworkLayer.fetchEndPoints(endPoint: .userInfo, bearerToken: accessToken)
+////
+//
+//
+//                case .failure(let error):
+//                    print(error)
+//                }
+//            }
+            
+            
             
             
             
@@ -185,6 +217,16 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
             //            if answer["expires_in"] as! Int == 3600 {
             //                print("will expire in about an hour!")
             //            }
+            
+            APIClient.shared.xchangecodeforToken(code: requestAccessCode) { accesstoken in
+                print(accesstoken.accessToken)
+                
+                UserDefaults.standard.set(accesstoken.accessToken, forKey: "token")
+                UserDefaults.standard.set(accesstoken.refreshToken, forKey: "refresh_token")
+                
+            }
+            
+            
             
         }
         session.presentationContextProvider = self
