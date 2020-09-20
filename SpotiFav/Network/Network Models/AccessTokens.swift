@@ -11,7 +11,7 @@ import Foundation
 struct AccessTokens: Decodable {
     let accessToken: String
     let tokenExpiration: Int
-    let refreshToken: String
+    let refreshToken: String?
     
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"

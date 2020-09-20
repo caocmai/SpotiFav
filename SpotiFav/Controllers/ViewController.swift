@@ -81,14 +81,18 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         
         
         let token = UserDefaults.standard.string(forKey: "token")!
-        APIClient.shared.getUserTopTracks(token: token) { (track) in
-            print("goes in here")
-            print(track)
-        }
+//        APIClient.shared.getUserTopTracks(token: token) { (track) in
+//            print("goes in here")
+//            print(track)
+//        }
 
 //        APIClient.shared.checkExpire(token: token) { (expire) in
 //            print(expire)
 //        }
+        let refreshtoken = "AQAKczUFfZUTPCnmOGO6iosv8oVxNaklpsVii1X3M1tkYYJ0V0BJEXifR1wmCHwYuf-Z-j5eLrSJzs0AqRTja2WV81GB1nVf9h8xeqQt-Ht4WU2hyDKOBnpfeIa8prHDgBk"
+        APIClient.shared.exchangeRefreshTknToAccessTkn(refreshToken: refreshtoken) { (test) in
+            print(test)
+        }
         
         
     }
@@ -218,8 +222,8 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
             //                print("will expire in about an hour!")
             //            }
             
-            APIClient.shared.xchangecodeforToken(code: requestAccessCode) { accesstoken in
-                print(accesstoken.accessToken)
+            APIClient.shared.exchangeCodeForAccessToken(code: requestAccessCode) { accesstoken in
+                print(accesstoken)
                 
                 UserDefaults.standard.set(accesstoken.accessToken, forKey: "token")
                 UserDefaults.standard.set(accesstoken.refreshToken, forKey: "refresh_token")

@@ -10,6 +10,9 @@ import UIKit
 
 struct Request {
     
+    static let spotifyAuthBase = "https://accounts.spotify.com/api/"
+    static let spotifyAPICallBase = "https://api.spotify.com/v1/"
+    
     enum Header {
         case GETHeader(accessTokeny: String)
         case POSTHeader
@@ -31,7 +34,7 @@ struct Request {
     
     enum EndPoints {
         
-        case accessToken
+        case token
         case userInfo
         case artists(ids: [String])
         case artistTopTracks(artistId: String, country: Country)
@@ -41,7 +44,7 @@ struct Request {
         
         func getPath() -> String {
             switch self {
-            case .accessToken:
+            case .token:
                 return "token"
             case .userInfo:
                 return "me"
@@ -71,28 +74,31 @@ struct Request {
     }
     
     
-    static func configureRequest(from route: EndPoints, withParams postParameters: PostParameters?, and method: HTTPMethod, contains body: Data?, accessToken: String?=nil) throws -> URLRequest {
+    static func configureRequest(from route: EndPoints, accessToken: String?=nil, withParams postParameters: PostParameters?, and method: HTTPMethod, contains body: Data?) throws -> URLRequest {
         
         var trueURL: URL!
         
         if accessToken != nil {
-            guard let url = URL(string: "https://api.spotify.com/v1/\(route.getPath())") else { fatalError("Error while unwrapping url")}
+            guard let url = URL(string: Request.spotifyAPICallBase.appending(route.getPath())) else { fatalError("Error while unwrapping url")}
             trueURL = url
         } else {
-            guard let url = URL(string: "https://accounts.spotify.com/api/\(route.getPath())") else { fatalError("Error while unwrapping url")}
+            guard let url = URL(string: Request.spotifyAuthBase.appending(route.getPath())) else { fatalError("Error while unwrapping url")}
             trueURL = url
         }
+        print(trueURL)
         var request = URLRequest(url: trueURL, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10.0)
         request.httpMethod = method.rawValue
         request.httpBody = body
+        
+        // checks to see if there's a token if so provide Header for GET method, if not get header for POST method
         if accessToken != nil {
             //            print("token in building", accessToken)
             //            print("parameters", postParameters?.getCodeForToken())
             //            print("header", Header.GETHeader(accessTokeny: accessToken!).getProperHeader())
             //            print(request)
             try configureParametersAndHeaders(parameters: postParameters?.getCodeForToken(), headers: Header.GETHeader(accessTokeny: accessToken!).getProperHeader(), request: &request)
-            
         } else {
+            // here the paramters can be nil because doesn't have accessToken yet
             try configureParametersAndHeaders(parameters: postParameters!.getCodeForToken(), headers: Header.POSTHeader.getProperHeader(), request: &request)
         }
         
@@ -152,6 +158,7 @@ struct Request {
         
     }
 }
+//        request.httpBody = requestBodyComponents.query?.data(using: .utf8)
 
 public struct Encoder {
     
@@ -164,14 +171,16 @@ public struct Encoder {
                 let queryItem = URLQueryItem(name: key, value: "\(value)")
                 urlComponents.queryItems?.append(queryItem)
             }
+            print("urel compentet", urlComponents)
             urlRequest.url = urlComponents.url
+
         }
     }
     
     static func setHeaders(for urlRequest: inout URLRequest, with headers: [String: String]) throws {
         for (key, value) in headers{
-            print(key)
-            print(value)
+//            print(key)
+//            print(value)
             urlRequest.setValue(value, forHTTPHeaderField: key)
         }
     }
@@ -212,14 +221,18 @@ enum Country: String {
 
 enum PostParameters {
     case codeForToken(accessCode: String)
+    case refreshTokenForAccessCode(refreshToken: String)
     
     func getCodeForToken() -> [String:Any] {
         switch self {
         case .codeForToken(let code):
             return ["grant_type": "authorization_code",
                     "code": "\(code)",
-                "redirect_uri": K.REDIRECT_URI]
-            
+                    "redirect_uri": K.REDIRECT_URI]
+        case .refreshTokenForAccessCode(let refreshToken):
+            return ["grant_type": "refresh_token",
+                    "refresh_token": refreshToken
+            ]
         }
     }
 }
