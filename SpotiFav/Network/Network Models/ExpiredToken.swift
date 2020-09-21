@@ -9,11 +9,11 @@
 import Foundation
 
 struct ExpireToken: Decodable {
-    let error: Error
+    let error: ErrorMessage
    
 }
 
-struct Error: Decodable {
+struct ErrorMessage: Decodable {
     let status: Int?
     let message: String?
 }

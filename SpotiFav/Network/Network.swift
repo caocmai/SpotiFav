@@ -171,7 +171,7 @@ public struct Encoder {
                 let queryItem = URLQueryItem(name: key, value: "\(value)")
                 urlComponents.queryItems?.append(queryItem)
             }
-            print("urel compentet", urlComponents)
+//            print("urel compentet", urlComponents)
             urlRequest.url = urlComponents.url
 
         }

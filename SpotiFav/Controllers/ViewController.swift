@@ -80,21 +80,19 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         
         
         
-        let token = UserDefaults.standard.string(forKey: "token")!
-//        APIClient.shared.getUserTopTracks(token: token) { (track) in
-//            print("goes in here")
-//            print(track)
-//        }
+//        let token = UserDefaults.standard.string(forKey: "token")!
+        let token = "BQCN_0AsHDFqaTv1n6hognTkwuNoBLeexN6jJ0mjYLYdBPcQwDDErkJCRDGEZSQiuMHk0ET5mLiu89mVUwf6Qo_UwUKOwZbwHm3LXB1O7p9guFyANvG4w-b4tQ-jH0uM4auRAKGw-IJ6fRymUD04fMrq1QHucz-ovj22dnhiR_zTrChBAR--N9Y"
+        APIClient.getUserTopTracks(token: token) { (tracks) in
+            print(tracks)
+//            let preivewURL = tracks.items.last?.previewURL
+//            self.downloadFileFromURL(url: preivewURL!)
 
-//        APIClient.shared.checkExpire(token: token) { (expire) in
-//            print(expire)
-//        }
-        let refreshtoken = "AQAKczUFfZUTPCnmOGO6iosv8oVxNaklpsVii1X3M1tkYYJ0V0BJEXifR1wmCHwYuf-Z-j5eLrSJzs0AqRTja2WV81GB1nVf9h8xeqQt-Ht4WU2hyDKOBnpfeIa8prHDgBk"
-        APIClient.shared.exchangeRefreshTknToAccessTkn(refreshToken: refreshtoken) { (test) in
-            print(test)
+//        let refreshtoken = "AQAKczUFfZUTPCnmOGO6iosv8oVxNaklpsVii1X3M1tkYYJ0V0BJEXifR1wmCHwYuf-Z-j5eLrSJzs0AqRTja2WV81GB1nVf9h8xeqQt-Ht4WU2hyDKOBnpfeIa8prHDgBk"
+//        let brannewtoken = APIClient.shared.exchangeRefreshTknToAccessTkn(refreshToken: refreshtoken)
+//        print(brannewtoken)
+        
+        
         }
-        
-        
     }
     
     func downloadFileFromURL(url: URL){
@@ -152,19 +150,19 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     @objc func buttonTapped() {
         print("button tapped")
         
-//        if isPlaying {
-//            player.pause()
-//            isPlaying = false
-//        } else {
-//            player.play()
-//            isPlaying = true
-//
-//            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-//        }
+        if isPlaying {
+            player.pause()
+            isPlaying = false
+        } else {
+            player.play()
+            isPlaying = true
+
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        }
 //
         
         
-                getSpotifyAccessCode()
+//                getSpotifyAccessCode()
         
     }
     
@@ -222,7 +220,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
             //                print("will expire in about an hour!")
             //            }
             
-            APIClient.shared.exchangeCodeForAccessToken(code: requestAccessCode) { accesstoken in
+            APIClient.exchangeCodeForAccessToken(code: requestAccessCode) { accesstoken in
                 print(accesstoken)
                 
                 UserDefaults.standard.set(accesstoken.accessToken, forKey: "token")

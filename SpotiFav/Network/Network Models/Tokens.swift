@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AccessTokens: Decodable {
+struct Tokens: Decodable {
     let accessToken: String
     let tokenExpiration: Int
     let refreshToken: String?
