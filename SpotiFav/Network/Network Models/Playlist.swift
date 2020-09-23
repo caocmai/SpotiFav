@@ -27,23 +27,23 @@ struct Item: Decodable {
     let track: Album
 }
 
-struct Album: Decodable {
+struct Album: Model {
 
     let artists: [Artist]
 //    let popularity: Int
-    let durationMS: Int
-    let previewURL: URL?
+    let durationMs: Int?
+    let previewUrl: URL?
     
-    enum CodingKeys: String, CodingKey {
-        case artists
-//        case popularity
-        case durationMS = "duration_ms"
-        case previewURL = "preview_url"
-    }
+//    enum CodingKeys: String, CodingKey {
+//        case artists
+////        case popularity
+//        case durationMS = "duration_ms"
+//        case previewURL = "preview_url"
+//    }
     
 }
 
-struct Artist: Decodable {
+struct Artist: Model {
     let name: String
     let type: String
 }

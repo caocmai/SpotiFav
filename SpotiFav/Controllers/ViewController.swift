@@ -29,6 +29,9 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     
     var isPlaying = false
     
+    let client = Client(configuration: URLSessionConfiguration.default)
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,34 +74,57 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
 //        }
         
         
-        //        print(tokenTest)
-        
-//        call fetch -> data or expired token
-//        check if reuturn is expired token
-//            fetch refresh method
-//            fetch the original api call with new token
-        
-        
-        
-//        let token = UserDefaults.standard.string(forKey: "token")!
-        let token = "BQCN_0AsHDFqaTv1n6hognTkwuNoBLeexN6jJ0mjYLYdBPcQwDDErkJCRDGEZSQiuMHk0ET5mLiu89mVUwf6Qo_UwUKOwZbwHm3LXB1O7p9guFyANvG4w-b4tQ-jH0uM4auRAKGw-IJ6fRymUD04fMrq1QHucz-ovj22dnhiR_zTrChBAR--N9Y"
-        APIClient.getUserTopTracks(token: token) { (tracks) in
-            print(tracks)
-//            let preivewURL = tracks.items.last?.previewURL
-//            self.downloadFileFromURL(url: preivewURL!)
 
-//        let refreshtoken = "AQAKczUFfZUTPCnmOGO6iosv8oVxNaklpsVii1X3M1tkYYJ0V0BJEXifR1wmCHwYuf-Z-j5eLrSJzs0AqRTja2WV81GB1nVf9h8xeqQt-Ht4WU2hyDKOBnpfeIa8prHDgBk"
-//        let brannewtoken = APIClient.shared.exchangeRefreshTknToAccessTkn(refreshToken: refreshtoken)
-//        print(brannewtoken)
+//        let token = UserDefaults.standard.string(forKey: "token")!
+        let token = "BQB8Sg4_FQyq9UN7hMLNDayoUdS4Iil1pQCC3fBvQC3FqZGbIufA1UKf8fy2JBIm7sZJz8jQppjVLpAcwndL-JPEx4f3bpEVy-PL0ALrCw49tk-HWikTQjengHsQaaO4vhXMuR0NnYC1kEbaH3aflxbVMdnCNVk01a3wNel5d95IbuDcx6aiMpM"
+//        APIClient.getUserTopTracks(token: token) { (tracks) in
+//            print(tracks)
+////            let preivewURL = tracks.items.last?.previewURL
+////            self.downloadFileFromURL(url: preivewURL!)
+//
+//        }
         
         
-        }
+        let refreshtoken = "AQAKczUFfZUTPCnmOGO6iosv8oVxNaklpsVii1X3M1tkYYJ0V0BJEXifR1wmCHwYuf-Z-j5eLrSJzs0AqRTja2WV81GB1nVf9h8xeqQt-Ht4WU2hyDKOBnpfeIa8prHDgBk"
+//        APIClient.exchangeRefreshTknToAccessTkn(refreshToken: refreshtoken) { result in
+//            print(result)
+//
+//        }
+        
+//        client.call(request: .refreshTokenToAccessToken(completion: { (tokens) in
+//            switch tokens {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let results):
+//                print(results)
+//            }
+//        }))
+        
+//        client.call(request: .checkExpiredToken(token: token, completion: { (token) in
+//            switch token{
+//            case .failure(let error):
+//                print(error)
+//            case .success(let results):
+//                print(results)
+//            }
+//        }))
+        
+//        client.call(request: .getUserTopTracks(token: token, completion: { (result) in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let results):
+//                print(results)
+////                self.downloadFileFromURL(url: (results.items.last?.previewUrl)!)
+//            }
+//        }))
+        
     }
     
     func downloadFileFromURL(url: URL){
         
         var downloadTask: URLSessionDownloadTask
-        downloadTask = URLSession.shared.downloadTask(with: url as URL, completionHandler: { [weak self](URL, response, error) -> Void in
+        downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { [weak self] (URL, response, error) in
             
             //            self!.testMP3Preview = URL!
             //            print(self?.testMP3Preview)
@@ -114,7 +140,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         
         do {
             player = try AVAudioPlayer(contentsOf: url)
-            //            player.prepareToPlay()
+//                        player.prepareToPlay()
             //            player.volume = 1.0
             //            player.play()
             //            let test = player.currentTime
@@ -127,7 +153,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         } catch {
             print("AVAudioPlayer init failed")
         }
-        
+
     }
     
     
@@ -150,19 +176,18 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     @objc func buttonTapped() {
         print("button tapped")
         
-        if isPlaying {
-            player.pause()
-            isPlaying = false
-        } else {
-            player.play()
-            isPlaying = true
-
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        }
+//        if isPlaying {
+//            player.pause()
+//            isPlaying = false
+//        } else {
+//            player.play()
+//            isPlaying = true
 //
+//            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+//        }
         
         
-//                getSpotifyAccessCode()
+                getSpotifyAccessCode()
         
     }
     
@@ -220,13 +245,17 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
             //                print("will expire in about an hour!")
             //            }
             
-            APIClient.exchangeCodeForAccessToken(code: requestAccessCode) { accesstoken in
-                print(accesstoken)
-                
-                UserDefaults.standard.set(accesstoken.accessToken, forKey: "token")
-                UserDefaults.standard.set(accesstoken.refreshToken, forKey: "refresh_token")
-                
-            }
+//            APIClient.exchangeCodeForAccessToken(code: requestAccessCode) { accesstoken in
+//                print(accesstoken)
+//
+//                UserDefaults.standard.set(accesstoken.accessToken, forKey: "token")
+//                UserDefaults.standard.set(accesstoken.refreshToken, forKey: "refresh_token")
+//
+//            }
+            
+            self.client.call(request: .accessCodeToAccessToken(code: requestAccessCode, completion: { (token) in
+                print(token)
+            }))
             
             
             

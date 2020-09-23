@@ -142,14 +142,14 @@ struct APIClient {
             session.dataTask(with: request) { (data, response, error) in
                 
                 guard let safeData = data else {return}
-                //                print("data", data!)
-                //                    do {
-                //                        let jsonObject = try JSONSerialization.jsonObject(with: data!, options: [])
-                //                        print(jsonObject)
-                //                    } catch {
-                //                        print("error with data task")
-                //                        print(error.localizedDescription)
-                //                    }
+//                                print("data", data!)
+//                                    do {
+//                                        let jsonObject = try JSONSerialization.jsonObject(with: data!, options: [])
+//                                        print(jsonObject)
+//                                    } catch {
+//                                        print(error.localizedDescription)
+//                                    }
+                print("response", response)
                 //
                 
                 guard let newToken = try? JSONDecoder().decode(Tokens.self, from: safeData) else {return}

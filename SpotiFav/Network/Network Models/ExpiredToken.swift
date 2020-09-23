@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct ExpireToken: Decodable {
+struct ExpireToken: Model {
     let error: ErrorMessage
    
 }
 
-struct ErrorMessage: Decodable {
+struct ErrorMessage: Model {
     let status: Int?
     let message: String?
 }

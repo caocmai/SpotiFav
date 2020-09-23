@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct MyTopTracks: Decodable {
+struct MyTopTracks: Model {
     let items: [Album]
 }
