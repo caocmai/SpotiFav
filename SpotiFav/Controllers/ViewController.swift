@@ -109,15 +109,18 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
 //            }
 //        }))
         
-        client.call(request: .getUserTopTracks(token: token, completions: { (result) in
+//        let validtoken = "BQA89FgycK8Xao_ywTO9LEv9_DyiTBHwrjsqb1iYyTyeyezkL2RKUoK_3_TVmwOTqSj82ZYhOHPMVh12TiI2bVAJu8DI-prPR9kTWA1Xqy46Dk271xd4wWvu40pFli54OnPtmGEdvFsxSRkqcAPUGWART8ZyGlFLjxcn6E4r9pZ7UkuQ3OQlgtg"
+        
+        client.call(request: .getUserTopTracks(token: refreshtoken, completions: { (result) in
             switch result {
             case .failure(let error):
                 print(error)
                 print("got back completion; error")
             case .success(let results):
-                print(results)
+//                print(results)
                 print("got back completion; success")
-//                self.downloadFileFromURL(url: (results.items.last?.previewUrl)!)
+                print(results.items.last?.previewUrl)
+                self.downloadFileFromURL(url: (results.items.last?.previewUrl)!)
             }
         }))
         
@@ -179,18 +182,18 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     @objc func buttonTapped() {
         print("button tapped")
         
-//        if isPlaying {
-//            player.pause()
-//            isPlaying = false
-//        } else {
-//            player.play()
-//            isPlaying = true
-//
-//            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-//        }
+        if isPlaying {
+            player.pause()
+            isPlaying = false
+        } else {
+            player.play()
+            isPlaying = true
+
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        }
         
         
-                getSpotifyAccessCode()
+//                getSpotifyAccessCode()
         
     }
     
