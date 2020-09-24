@@ -109,16 +109,19 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
 //            }
 //        }))
         
-//        client.call(request: .getUserTopTracks(token: token, completion: { (result) in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let results):
-//                print(results)
-////                self.downloadFileFromURL(url: (results.items.last?.previewUrl)!)
-//            }
-//        }))
+        client.call(request: .getUserTopTracks(token: token, completions: { (result) in
+            switch result {
+            case .failure(let error):
+                print(error)
+                print("got back completion; error")
+            case .success(let results):
+                print(results)
+                print("got back completion; success")
+//                self.downloadFileFromURL(url: (results.items.last?.previewUrl)!)
+            }
+        }))
         
+//
     }
     
     func downloadFileFromURL(url: URL){

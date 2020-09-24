@@ -20,7 +20,7 @@ enum Header {
                     "Authorization": "Bearer \(accessToken)"
             ]
         case .POSTHeader:
-            let SPOTIFY_API_AUTH_KEY = "Basic \((SpotifyNetworkLayer.SPOTIFY_API_CLIENT_ID + ":" + SpotifyNetworkLayer.SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
+            let SPOTIFY_API_AUTH_KEY = "Basic \((K.SPOTIFY_API_CLIENT_ID + ":" + K.SPOTIFY_API_SCRET_KEY).data(using: .utf8)!.base64EncodedString())"
             return ["Authorization": SPOTIFY_API_AUTH_KEY,
                     "Content-Type": "application/x-www-form-urlencoded"]
         }

@@ -8,22 +8,22 @@
 
 import Foundation
 
-struct UserModel: Decodable {
+struct UserModel: Model {
     let displayName: String
     let email: String
 }
 
-extension UserModel {
-     private enum UserCodingKeys: String, CodingKey {
-        case displayName = "display_name"
-        case email
-    }
-    
-    init(from decoder: Decoder) throws {
-        let movieContainer = try decoder.container(keyedBy: UserCodingKeys.self)
-        displayName = try movieContainer.decode(String.self, forKey: .displayName)
-        email = try movieContainer.decode(String.self, forKey: .email)
-
-    }
-    
-}
+//extension UserModel {
+//     private enum UserCodingKeys: String, CodingKey {
+//        case displayName = "display_name"
+//        case email
+//    }
+//
+//    init(from decoder: Decoder) throws {
+//        let movieContainer = try decoder.container(keyedBy: UserCodingKeys.self)
+//        displayName = try movieContainer.decode(String.self, forKey: .displayName)
+//        email = try movieContainer.decode(String.self, forKey: .email)
+//
+//    }
+//
+//}
