@@ -13,5 +13,5 @@ struct K {
     static let SPOTIFY_API_SCRET_KEY = "dd5e252ed5754c4889f733a82f5135e2"
     static let REDIRECT_URI = "spotifav://callback"
     static let SCOPE = ["user-read-email", "user-top-read"]
-    static let RESPONSE_TYPE = "code" // not using at the moment
+    static let RESPONSE_TYPE = "code"
 }

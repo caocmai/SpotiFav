@@ -46,7 +46,11 @@ extension RequestFinal {
         //        let path = "token"
         //
         guard let refreshToken = UserDefaults.standard.string(forKey: "refresh_token") else {return nil}
-        return RequestFinal.buildRequest(method: .post, header: Header.POSTHeader.getProperHeader(), baseURL: SpotifyBaseURL.authBaseURL.url, path: EndingPath.token.getPath(), params: PostParameters.getCodeForToken(.refreshTokenForAccessCode(refreshToken: refreshToken))()
+        return RequestFinal.buildRequest(method: .post,
+                                         header: Header.POSTHeader.getProperHeader(),
+                                         baseURL: SpotifyBaseURL.authBaseURL.url,
+                                         path: EndingPath.token.getPath(),
+                                         params: PostParameters.getCodeForToken(.refreshTokenForAccessCode(refreshToken: refreshToken))()
             
         ) { result in // the data is passed on to here!
             // makeing decoding call
@@ -59,7 +63,10 @@ extension RequestFinal {
     
     static func checkExpiredToken(token: String, completion: @escaping (Result<ExpireToken, Error>) -> Void) -> RequestFinal {
         
-        RequestFinal.buildRequest(method: .get, header: Header.GETHeader(accessTokeny: token).getProperHeader(), baseURL: SpotifyBaseURL.APICallBase.url, path: EndingPath.userInfo.getPath()) { (result) in
+        RequestFinal.buildRequest(method: .get,
+                                  header: Header.GETHeader(accessTokeny: token).getProperHeader(),
+                                  baseURL: SpotifyBaseURL.APICallBase.url,
+                                  path: EndingPath.userInfo.getPath()) { (result) in
             
             result.decoding(ExpireToken.self, completion: completion)
         }
@@ -67,83 +74,56 @@ extension RequestFinal {
     
     static func getUserTopTracks(token: String, completions: @escaping (Result<MyTopTracks, Error>) -> Void) -> RequestFinal {
         
-        let apiclient = Client(configuration: URLSessionConfiguration.default)
-        
-        print("token passed to here", token)
-        
-        apiclient.call(request: .checkExpiredToken(token: token, completion: { (expiredToken) in
+        let apiClient = Client(configuration: URLSessionConfiguration.default)
+                
+        apiClient.call(request: .checkExpiredToken(token: token, completion: { (expiredToken) in
             switch expiredToken {
             case .failure(_):
                 print("token still valid")
-                
-//                RequestFinal.buildRequest(method: .get, header: Header.GETHeader(accessTokeny: token).getProperHeader(), baseURL: SpotifyBaseURL.APICallBase.url, path: EndingPath.myTop(type: .tracks).getPath()) { (result) in
-//                                    print(result)
-//                                    print("tracks found")
-//                                    result.decoding(MyTopTracks.self, completion: completions)
-//
-//                                }
-//
-                
-            case .success(let expiredToken):
+
+            case .success(_):
                 print("token expired")
-                apiclient.call(request: refreshTokenToAccessToken(completion: { (refreshToken) in
+                apiClient.call(request: refreshTokenToAccessToken(completion: { (refreshToken) in
                     switch refreshToken {
                     case .failure(_):
-                        print("failure")
+                        print("no refresh token returned")
                     case .success(let refresh):
-                        apiclient.call(request: .getUserTopTracks(token: refresh.accessToken, completions: completions))
+                        apiClient.call(request: .getUserTopTracks(token: refresh.accessToken, completions: completions))
                     }
                 })!)
             }
         }))
         
-        
-//        return checkExpiredToken(token: token) { expireToken in
-//            switch expireToken {
-//            case .failure(_):
-//                print("failed to find expired token, token still valid")
-//                print(token)
-//                RequestFinal.buildRequest(method: .get, header: Header.GETHeader(accessTokeny: token).getProperHeader(), baseURL: SpotifyBaseURL.APICallBase.url, path: EndingPath.myTop(type: .tracks).getPath()) { (result) in
-//                    print(result)
-//                    print("tracks found")
-//                    result.decoding(MyTopTracks.self, completion: completions)
-//
-//                }
-//            case .success:
-//                print("got back expired token, token expired")
-//
-//                apiclient.call(request: refreshTokenToAccessToken(completion: { (token) in
-//                    switch token {
-//                    case .success(let token):
-//                        print(token)
-//
-//                        apiclient.call(request: .getUserTopTracks(token: token.accessToken, completions: completions))
-//                    case .failure(let error):
-//                        print(error)
-//                    }
-//                })!)
-//            }
-//        }
-        
-        return RequestFinal.buildRequest(method: .get, header: Header.GETHeader(accessTokeny: token).getProperHeader(), baseURL: SpotifyBaseURL.APICallBase.url, path: EndingPath.myTop(type: .tracks).getPath()) { (result) in
-                            print(result)
-                            print("tracks found")
-                            result.decoding(MyTopTracks.self, completion: completions)
-        
-                        }
+        return RequestFinal.buildRequest(method: .get,
+                                         header: Header.GETHeader(accessTokeny: token).getProperHeader(),
+                                         baseURL: SpotifyBaseURL.APICallBase.url,
+                                         path: EndingPath.myTop(type: .tracks).getPath()) { (result) in
+                                            
+            result.decoding(MyTopTracks.self, completion: completions)
+            
+        }
         
     }
     
     static func accessCodeToAccessToken(code: String, completion: @escaping (Result<Tokens, Error>) -> Void) -> RequestFinal {
         
-        RequestFinal.buildRequest(method: .post, header: Header.POSTHeader.getProperHeader(), baseURL: SpotifyBaseURL.authBaseURL.url, path: EndingPath.token.getPath(), params: PostParameters.codeForToken(accessCode: code).getCodeForToken()) { (result) in
+        RequestFinal.buildRequest(method: .post,
+                                  header: Header.POSTHeader.getProperHeader(),
+                                  baseURL: SpotifyBaseURL.authBaseURL.url,
+                                  path: EndingPath.token.getPath(),
+                                  params: PostParameters.codeForToken(accessCode: code).getCodeForToken()) { (result) in
             
             result.decoding(Tokens.self, completion: completion)
         }
     }
     
     static func getUserInfo(token: String, completion: @escaping (Result<UserModel, Error>) -> Void) -> RequestFinal {
-        RequestFinal.buildRequest(method: .get, header: Header.GETHeader(accessTokeny: token).getProperHeader(), baseURL: SpotifyBaseURL.APICallBase.url, path: EndingPath.userInfo.getPath()) { (user) in
+        
+        RequestFinal.buildRequest(method: .get,
+                                  header: Header.GETHeader(accessTokeny: token).getProperHeader(),
+                                  baseURL: SpotifyBaseURL.APICallBase.url,
+                                  path: EndingPath.userInfo.getPath()) { (user) in
+                                    
             user.decoding(UserModel.self, completion: completion)
         }
     }

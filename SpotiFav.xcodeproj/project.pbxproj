@@ -101,6 +101,7 @@
 			children = (
 				2C7552312510775200D8238C /* AppDelegate.swift */,
 				2C7552332510775200D8238C /* SceneDelegate.swift */,
+				2C6077EF2515CF5A00B50BC8 /* Constant.swift */,
 				2C80F8EC251318E80057A05A /* Controllers */,
 				2C80F8EE251319140057A05A /* Network */,
 				2C80F8ED251318FF0057A05A /* Views */,
@@ -116,7 +117,6 @@
 			children = (
 				2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */,
 				2C7552352510775200D8238C /* ViewController.swift */,
-				2C6077EF2515CF5A00B50BC8 /* Constant.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

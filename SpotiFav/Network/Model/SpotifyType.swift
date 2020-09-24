@@ -32,7 +32,6 @@ enum SpotifyType {
             return "episode"
         }
     }
-
 }
 
 enum MyTopTypes {
@@ -48,7 +47,6 @@ enum MyTopTypes {
         }
     }
 }
-
 
 
 enum Country: String {

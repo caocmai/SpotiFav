@@ -37,21 +37,15 @@ public extension RequestBuilder {
             }
             
             request.url = components.url
-            
         }
     }
-
-        
 //        print(params)
 //        components.queryItems = params
 //        let url = components.url!
 //        print("url with components", url)
-        
         request.allHTTPHeaderFields = headers
         request.httpMethod = method.rawValue.uppercased()
-        return request
-        
-        
+        return request  
     }
 }
 

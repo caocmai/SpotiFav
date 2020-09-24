@@ -20,7 +20,6 @@ struct PlaylistImage: Decodable {
 
 struct Track: Decodable {
     let items: [Item]
-    
 }
 
 struct Item: Decodable {

@@ -43,13 +43,13 @@ struct Client {
         }.resume()
     }
     
-    static func getAccessCodeURL() -> URL {
-        let accessCodeBaseURL = "https://accounts.spotify.com/"
+    internal func getSpotifyAccessCodeURL() -> URL {
+        let accessCodeBaseURL = "https://accounts.spotify.com/authorize"
 
-        let paramDictionary = ["client_id" : SpotifyNetworkLayer.SPOTIFY_API_CLIENT_ID,
-                               "redirect_uri" : SpotifyNetworkLayer.REDIRECT_URI,
-                               "response_type" : SpotifyNetworkLayer.RESPONSE_TYPE,
-                               "scope" : SpotifyNetworkLayer.SCOPE.joined(separator: "%20")
+        let paramDictionary = ["client_id" : K.SPOTIFY_API_CLIENT_ID,
+                               "redirect_uri" : K.REDIRECT_URI,
+                               "response_type" : K.RESPONSE_TYPE,
+                               "scope" : K.SCOPE.joined(separator: "%20")
         ]
 
         let mapToHTMLQuery = paramDictionary.map { key, value in
