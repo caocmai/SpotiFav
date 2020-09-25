@@ -45,4 +45,6 @@ struct Album: Model {
 struct Artist: Model {
     let name: String
     let type: String
+//    let images: [ArtistImage]?
 }
+

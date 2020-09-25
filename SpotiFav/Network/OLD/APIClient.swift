@@ -40,7 +40,7 @@ struct APIClient {
     /// - Parameter token: takes in an access token
     /// - Returns: all of the user's top tracks
     
-    static func getUserTopTracks(token: String, completion: @escaping (MyTopTracks) -> Void) {
+    static func getUserTopTracks(token: String, completion: @escaping (UserTopTracks) -> Void) {
         
         checkForExpireToken(token: token) { (expiredToken) in
             
@@ -63,7 +63,7 @@ struct APIClient {
                         guard let safeData = data else {return}
                         //                        print(safeData)
                         
-                        guard let accessTokens = try? JSONDecoder().decode(MyTopTracks.self, from: safeData) else {return}
+                        guard let accessTokens = try? JSONDecoder().decode(UserTopTracks.self, from: safeData) else {return}
                         
                         completion(accessTokens)
                         

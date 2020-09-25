@@ -9,6 +9,7 @@
 import UIKit
 import AuthenticationServices
 import AVFoundation
+import Kingfisher
 
 
 class ViewController: UIViewController, ASWebAuthenticationPresentationContextProviding {
@@ -25,106 +26,92 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     
     //    var testMP3Preview: URL?
     
-    var timer:Timer!
+    var timer: Timer!
     
     var isPlaying = false
     
     let client = Client(configuration: URLSessionConfiguration.default)
     
+    let artistsTableView = UITableView()
+    
+    var artists = [ArtistItem]()
+    
+    var test = ["a", "b", "c", "d"]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if token == nil {
-            simpleButton()
-        } else {
-            print(token)
-        }
-        
-        //        print(Request.getSpotifyAccessCodeURL())
-        
-        
-        let tokenTest = (UserDefaults.standard.string(forKey: "token"))
-        //        SpotifyNetworkLayer.fetchEndPoints(endPoint: .search(q: "Kenny G", type: .artist), bearerToken: tokenTest!)
-        
-        //        print(tokenTest)
-        
+//        if token == nil {
+//            simpleButton()
+//        } else {
+//            print(token)
+//        }
+//
+        let sema = DispatchSemaphore(value: 0)
+//        let token = (UserDefaults.standard.string(forKey: "token"))
+
+//        print(token)
         let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
-        //        print(refreshToken)
         
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-        //        SpotifyNetworkLayer.fetchEndPoints(endPoint: .playlists(id: global50), bearerToken: tokenTest!) { (int, str, playlist) in
-        //            print(int)
-        //            print(str)
-        //            print(playlist)
-        //        }
+        let token = "BQCQZIBcy493wdiSzIQd7HNQg44pwqju9AQ2dLkJ7YbaVFG4maZ6nkcbjqbXHwYjIv8l5zKhN36TEqrOa_vEZ83ibBFrRjk-5tKCJzB4nYDaDAMUzQ5V-agPMCuAtjF1OBKz6nkmu9D3c1BqyQyNfhp6r5hguqYFGoLOBdkZp7J5cZmrG0wDJFo"
+        
+        client.call(request: .getUserTopArtists(token: refreshToken!, completions: { (result) in
+                    switch result {
+                    case .failure(let error):
+                        print(error)
+                        print("got back completion; error")
+                    case .success(let results):
+                        self.artists = results.items
+//                        print("got back completion; success")
+//                        print(results.items.last?.previewUrl)
+//                        self.downloadFileFromURL(url: (results.items.last?.previewUrl)!)
+//                        var ids = [String]()
+//                        for item in results.items {
+//                            ids.append(item.id)
+//                        }
+                        
+//
+                        
+                        
+                        
+                        DispatchQueue.main.async {
+                            self.configureTableView()
+//                            print(self.artists)
+                        }
+
+                    }
+
+                }))
+        
+
+        configureNavBar()
         
         
-        //        SpotifyNetworkLayer.fetchEndPoints(endPoint: .myTop(type: .tracks), bearerToken: tokenTest!) { (int, str, playlist) in
-        //            print(int)
-        //                        print(str)
-        //                        print(playlist)
-        //            print("goes in here")
-        ////            let casting = int as! MyTopTracks
-        ////            let test = (casting.items.last?.previewURL)
-        ////
-        ////            self.downloadFileFromURL(url: test!)
-        //        }
         
-        
-        
-        //        let token = UserDefaults.standard.string(forKey: "token")!
-        let token = "BQB8Sg4_FQyq9UN7hMLNDayoUdS4Iil1pQCC3fBvQC3FqZGbIufA1UKf8fy2JBIm7sZJz8jQppjVLpAcwndL-JPEx4f3bpEVy-PL0ALrCw49tk-HWikTQjengHsQaaO4vhXMuR0NnYC1kEbaH3aflxbVMdnCNVk01a3wNel5d95IbuDcx6aiMpM"
-        //        APIClient.getUserTopTracks(token: token) { (tracks) in
-        //            print(tracks)
-        ////            let preivewURL = tracks.items.last?.previewURL
-        ////            self.downloadFileFromURL(url: preivewURL!)
-        //
-        //        }
-        
-        
-        let refreshtoken = "AQAKczUFfZUTPCnmOGO6iosv8oVxNaklpsVii1X3M1tkYYJ0V0BJEXifR1wmCHwYuf-Z-j5eLrSJzs0AqRTja2WV81GB1nVf9h8xeqQt-Ht4WU2hyDKOBnpfeIa8prHDgBk"
-        //        APIClient.exchangeRefreshTknToAccessTkn(refreshToken: refreshtoken) { result in
-        //            print(result)
-        //
-        //        }
-        
-        //        client.call(request: .refreshTokenToAccessToken(completion: { (tokens) in
-        //            switch tokens {
-        //            case .failure(let error):
-        //                print(error)
-        //            case .success(let results):
-        //                print(results)
-        //            }
-        //        }))
-        
-        //        client.call(request: .checkExpiredToken(token: token, completion: { (token) in
-        //            switch token{
-        //            case .failure(let error):
-        //                print(error)
-        //            case .success(let results):
-        //                print(results)
-        //            }
-        //        }))
-        
-        //        let validtoken = "BQA89FgycK8Xao_ywTO9LEv9_DyiTBHwrjsqb1iYyTyeyezkL2RKUoK_3_TVmwOTqSj82ZYhOHPMVh12TiI2bVAJu8DI-prPR9kTWA1Xqy46Dk271xd4wWvu40pFli54OnPtmGEdvFsxSRkqcAPUGWART8ZyGlFLjxcn6E4r9pZ7UkuQ3OQlgtg"
-        
-        //        client.call(request: .getUserTopTracks(token: refreshtoken, completions: { (result) in
-        //            switch result {
-        //            case .failure(let error):
-        //                print(error)
-        //                print("got back completion; error")
-        //            case .success(let results):
-        ////                print(results)
-        //                print("got back completion; success")
-        //                print(results.items.last?.previewUrl)
-        //                self.downloadFileFromURL(url: (results.items.last?.previewUrl)!)
-        //            }
-        //        }))
-        
-        //
+    }
+    
+    private func configureNavBar() {
+        self.view.backgroundColor = .white
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.title = "Need if statement"
+        let authSpotifyBarButton = UIBarButtonItem(title: "Auth Spotify", style: .plain, target: self, action: #selector(authButtontapped))
+        self.navigationItem.rightBarButtonItem = authSpotifyBarButton
+    }
+    
+    @objc func authButtontapped() {
+        getSpotifyAccessCode()
+    }
+    
+    private func configureTableView() {
+        artistsTableView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(artistsTableView)
+        artistsTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
+        artistsTableView.dataSource = self
+        artistsTableView.delegate = self
+        artistsTableView.frame = self.view.bounds
     }
     
     func downloadFileFromURL(url: URL){
@@ -190,7 +177,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         //
         
         
-        getSpotifyAccessCode()
+ 
         
     }
     
@@ -235,3 +222,47 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     
 }
 
+
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return artists.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
+        cell.textLabel?.text = artists[indexPath.row].name
+        
+        let artist = artists[indexPath.row]
+        
+
+        for image in artist.images {
+            if image.height == 160 {
+                print(image.url)
+                cell.imageView?.kf.setImage(with: image.url, options: []) { result in
+                    switch result {
+                    case .success(let value):
+                        print("sucess")
+                        cell.imageView?.image = value.image
+                    case .failure(let error):
+                        print("error")
+                        print(error)
+                    }
+
+                }
+
+            }
+        }
+        
+        cell.imageView?.image = UIImage(named: "b")
+
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    
+}

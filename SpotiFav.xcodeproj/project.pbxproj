@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C2E922D251D9EEB008F635A /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2E922C251D9EEB008F635A /* TableCell.swift */; };
 		2C6077EC2515AEAF00B50BC8 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6077EB2515AEAF00B50BC8 /* Network.swift */; };
 		2C6077F02515CF5A00B50BC8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6077EF2515CF5A00B50BC8 /* Constant.swift */; };
 		2C6077F22515D27500B50BC8 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6077F12515D27500B50BC8 /* APIClient.swift */; };
@@ -23,8 +24,9 @@
 		2C80F8F0251319210057A05A /* ExpiredToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8EF251319210057A05A /* ExpiredToken.swift */; };
 		2C80F8F3251322530057A05A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F2251322530057A05A /* UserModel.swift */; };
 		2C80F8F5251332580057A05A /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F4251332580057A05A /* Playlist.swift */; };
-		2CC479C82513D73100203F42 /* MyTopArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC479C72513D73100203F42 /* MyTopArtists.swift */; };
-		2CC479CA2513D93200203F42 /* MyTopTracks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC479C92513D93200203F42 /* MyTopTracks.swift */; };
+		2CBEFF78251DB051000DDBD1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 2CBEFF77251DB051000DDBD1 /* Kingfisher */; };
+		2CC479C82513D73100203F42 /* UserTopArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC479C72513D73100203F42 /* UserTopArtists.swift */; };
+		2CC479CA2513D93200203F42 /* UserTopTracks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC479C92513D93200203F42 /* UserTopTracks.swift */; };
 		2CF85E4B251AF4490054E856 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E4A251AF4490054E856 /* RequestBuilder.swift */; };
 		2CF85E4D251AF46A0054E856 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E4C251AF46A0054E856 /* Request.swift */; };
 		2CF85E4F251AF7FA0054E856 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E4E251AF7FA0054E856 /* Model.swift */; };
@@ -37,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C2E922C251D9EEB008F635A /* TableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
 		2C6077EB2515AEAF00B50BC8 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		2C6077EF2515CF5A00B50BC8 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		2C6077F12515D27500B50BC8 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -55,8 +58,8 @@
 		2C80F8EF251319210057A05A /* ExpiredToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredToken.swift; sourceTree = "<group>"; };
 		2C80F8F2251322530057A05A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		2C80F8F4251332580057A05A /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
-		2CC479C72513D73100203F42 /* MyTopArtists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTopArtists.swift; sourceTree = "<group>"; };
-		2CC479C92513D93200203F42 /* MyTopTracks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTopTracks.swift; sourceTree = "<group>"; };
+		2CC479C72513D73100203F42 /* UserTopArtists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTopArtists.swift; sourceTree = "<group>"; };
+		2CC479C92513D93200203F42 /* UserTopTracks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTopTracks.swift; sourceTree = "<group>"; };
 		2CF85E4A251AF4490054E856 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
 		2CF85E4C251AF46A0054E856 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		2CF85E4E251AF7FA0054E856 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -73,12 +76,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CBEFF78251DB051000DDBD1 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C2E922E251D9EEF008F635A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2C2E922C251D9EEB008F635A /* TableCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		2C7552252510775200D8238C = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +114,7 @@
 				2C7552312510775200D8238C /* AppDelegate.swift */,
 				2C7552332510775200D8238C /* SceneDelegate.swift */,
 				2C6077EF2515CF5A00B50BC8 /* Constant.swift */,
+				2C2E922E251D9EEF008F635A /* View */,
 				2C80F8EC251318E80057A05A /* Controllers */,
 				2C80F8EE251319140057A05A /* Network */,
 				2C80F8ED251318FF0057A05A /* Views */,
@@ -152,8 +165,8 @@
 				2C80F8EF251319210057A05A /* ExpiredToken.swift */,
 				2C80F8F2251322530057A05A /* UserModel.swift */,
 				2C80F8F4251332580057A05A /* Playlist.swift */,
-				2CC479C72513D73100203F42 /* MyTopArtists.swift */,
-				2CC479C92513D93200203F42 /* MyTopTracks.swift */,
+				2CC479C72513D73100203F42 /* UserTopArtists.swift */,
+				2CC479C92513D93200203F42 /* UserTopTracks.swift */,
 				2C6077F32515DA6100B50BC8 /* Tokens.swift */,
 			);
 			path = "Network Models";
@@ -194,6 +207,9 @@
 			dependencies = (
 			);
 			name = SpotiFav;
+			packageProductDependencies = (
+				2CBEFF77251DB051000DDBD1 /* Kingfisher */,
+			);
 			productName = SpotiFav;
 			productReference = 2C75522E2510775200D8238C /* SpotiFav.app */;
 			productType = "com.apple.product-type.application";
@@ -222,6 +238,9 @@
 				Base,
 			);
 			mainGroup = 2C7552252510775200D8238C;
+			packageReferences = (
+				2CBEFF76251DB051000DDBD1 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 2C75522F2510775200D8238C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -256,7 +275,7 @@
 				2C7552362510775200D8238C /* ViewController.swift in Sources */,
 				2C6077F42515DA6100B50BC8 /* Tokens.swift in Sources */,
 				2C80F8F3251322530057A05A /* UserModel.swift in Sources */,
-				2CC479C82513D73100203F42 /* MyTopArtists.swift in Sources */,
+				2CC479C82513D73100203F42 /* UserTopArtists.swift in Sources */,
 				2CF85E5F251B160F0054E856 /* Parameters.swift in Sources */,
 				2C80F8F0251319210057A05A /* ExpiredToken.swift in Sources */,
 				2C7552462510784200D8238C /* SpotifyNetworkLayer.swift in Sources */,
@@ -267,7 +286,8 @@
 				2CF85E4F251AF7FA0054E856 /* Model.swift in Sources */,
 				2C7552342510775200D8238C /* SceneDelegate.swift in Sources */,
 				2CF85E5A251B02820054E856 /* SpotifyBaseURL.swift in Sources */,
-				2CC479CA2513D93200203F42 /* MyTopTracks.swift in Sources */,
+				2CC479CA2513D93200203F42 /* UserTopTracks.swift in Sources */,
+				2C2E922D251D9EEB008F635A /* TableCell.swift in Sources */,
 				2C6077F22515D27500B50BC8 /* APIClient.swift in Sources */,
 				2C7F0AC62512DA7B004195CD /* Top50ViewController.swift in Sources */,
 				2CF85E58251B02350054E856 /* EndingPath.swift in Sources */,
@@ -468,6 +488,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2CBEFF76251DB051000DDBD1 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.15.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2CBEFF77251DB051000DDBD1 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2CBEFF76251DB051000DDBD1 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2C7552262510775200D8238C /* Project object */;
 }

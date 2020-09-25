@@ -248,7 +248,7 @@ class SpotifyNetworkLayer {
         switch endPoint {
                             
                         case .myTop(type: .tracks):
-                            let myTopTracks = try? JSONDecoder().decode(MyTopTracks.self, from: safeData)
+                            let myTopTracks = try? JSONDecoder().decode(UserTopTracks.self, from: safeData)
                             print("into this thing")
 
                             return myTopTracks

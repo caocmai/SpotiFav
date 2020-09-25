@@ -9,11 +9,21 @@
 
 import Foundation
 
-struct MyTopArtists: Decodable {
+struct UserTopArtists: Model {
     let items: [ArtistItem]
 }
 
-struct ArtistItem: Decodable {
+struct ArtistItem: Model {
     let id: String
     let name: String
+    let images: [ArtistImage]
+}
+
+struct ArtistImage: Model {
+    let height: Int
+    let url: URL
+}
+
+struct Artists: Model {
+    let artists: [Artist]
 }

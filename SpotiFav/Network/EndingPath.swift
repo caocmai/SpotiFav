@@ -12,6 +12,7 @@ enum EndingPath {
 
     case token
     case userInfo
+    case artist(id: String)
     case artists(ids: [String])
     case artistTopTracks(artistId: String, country: Country)
     case search(q: String, type: SpotifyType)
@@ -24,6 +25,8 @@ enum EndingPath {
             return "token"
         case .userInfo:
             return "me"
+        case .artist(let id):
+            return "artist/\(id)"
         case .artists (let ids):
             return "artists&ids=\(ids.joined(separator: ","))"
         case .search(let q, let type):

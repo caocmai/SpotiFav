@@ -35,8 +35,8 @@ struct Client {
 //                print("error with data task")
 //                print(error.localizedDescription)
 //            }
-                               
-            
+//                               
+//            
             DispatchQueue.main.async {
                 request.completion(result)
             }
