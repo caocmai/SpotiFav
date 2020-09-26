@@ -18,7 +18,7 @@ struct Client {
     
     public func call(request: RequestFinal) {
         let urlRequest = request.builder.toURLRequest()
-        
+        print(urlRequest)
         session.dataTask(with: urlRequest) { (data, response, error) in
             let result: Result<Data, Error>
             
@@ -35,8 +35,7 @@ struct Client {
 //                print("error with data task")
 //                print(error.localizedDescription)
 //            }
-//                               
-//            
+//                                          
             DispatchQueue.main.async {
                 request.completion(result)
             }

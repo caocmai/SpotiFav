@@ -51,4 +51,5 @@ enum MyTopTypes {
 
 enum Country: String {
     case US = "US"
+    case UK = "UK"
 }

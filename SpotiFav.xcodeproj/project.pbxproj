@@ -25,6 +25,8 @@
 		2C80F8F3251322530057A05A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F2251322530057A05A /* UserModel.swift */; };
 		2C80F8F5251332580057A05A /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F4251332580057A05A /* Playlist.swift */; };
 		2CBEFF78251DB051000DDBD1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 2CBEFF77251DB051000DDBD1 /* Kingfisher */; };
+		2CBEFF7C251DBCE0000DDBD1 /* ArtistTopTracksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBEFF7B251DBCE0000DDBD1 /* ArtistTopTracksVC.swift */; };
+		2CBEFF7E251DC16A000DDBD1 /* ArtistTopTracks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBEFF7D251DC16A000DDBD1 /* ArtistTopTracks.swift */; };
 		2CC479C82513D73100203F42 /* UserTopArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC479C72513D73100203F42 /* UserTopArtists.swift */; };
 		2CC479CA2513D93200203F42 /* UserTopTracks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC479C92513D93200203F42 /* UserTopTracks.swift */; };
 		2CF85E4B251AF4490054E856 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E4A251AF4490054E856 /* RequestBuilder.swift */; };
@@ -58,6 +60,8 @@
 		2C80F8EF251319210057A05A /* ExpiredToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredToken.swift; sourceTree = "<group>"; };
 		2C80F8F2251322530057A05A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		2C80F8F4251332580057A05A /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		2CBEFF7B251DBCE0000DDBD1 /* ArtistTopTracksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTopTracksVC.swift; sourceTree = "<group>"; };
+		2CBEFF7D251DC16A000DDBD1 /* ArtistTopTracks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTopTracks.swift; sourceTree = "<group>"; };
 		2CC479C72513D73100203F42 /* UserTopArtists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTopArtists.swift; sourceTree = "<group>"; };
 		2CC479C92513D93200203F42 /* UserTopTracks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTopTracks.swift; sourceTree = "<group>"; };
 		2CF85E4A251AF4490054E856 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
@@ -130,6 +134,7 @@
 			children = (
 				2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */,
 				2C7552352510775200D8238C /* ViewController.swift */,
+				2CBEFF7B251DBCE0000DDBD1 /* ArtistTopTracksVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 				2C80F8EF251319210057A05A /* ExpiredToken.swift */,
 				2C80F8F2251322530057A05A /* UserModel.swift */,
 				2C80F8F4251332580057A05A /* Playlist.swift */,
+				2CBEFF7D251DC16A000DDBD1 /* ArtistTopTracks.swift */,
 				2CC479C72513D73100203F42 /* UserTopArtists.swift */,
 				2CC479C92513D93200203F42 /* UserTopTracks.swift */,
 				2C6077F32515DA6100B50BC8 /* Tokens.swift */,
@@ -278,6 +284,7 @@
 				2CC479C82513D73100203F42 /* UserTopArtists.swift in Sources */,
 				2CF85E5F251B160F0054E856 /* Parameters.swift in Sources */,
 				2C80F8F0251319210057A05A /* ExpiredToken.swift in Sources */,
+				2CBEFF7C251DBCE0000DDBD1 /* ArtistTopTracksVC.swift in Sources */,
 				2C7552462510784200D8238C /* SpotifyNetworkLayer.swift in Sources */,
 				2CF85E52251AF9650054E856 /* Client.swift in Sources */,
 				2CF85E5D251B069B0054E856 /* SpotifyType.swift in Sources */,
@@ -292,6 +299,7 @@
 				2C7F0AC62512DA7B004195CD /* Top50ViewController.swift in Sources */,
 				2CF85E58251B02350054E856 /* EndingPath.swift in Sources */,
 				2C80F8F5251332580057A05A /* Playlist.swift in Sources */,
+				2CBEFF7E251DC16A000DDBD1 /* ArtistTopTracks.swift in Sources */,
 				2C6077F02515CF5A00B50BC8 /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

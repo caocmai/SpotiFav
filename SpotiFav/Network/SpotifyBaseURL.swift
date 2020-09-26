@@ -8,21 +8,21 @@
 
 import Foundation
 
-enum SpotifyBaseURL {
+enum SpotifyBaseURL: String {
     
-    case authBaseURL
-    case APICallBase
+    case authBaseURL = "https://accounts.spotify.com/api/"
+    case APICallBase = "https://api.spotify.com/v1/"
 }
 
-extension SpotifyBaseURL {
-    var url: URL {
-        get {
-            switch self {
-            case .authBaseURL:
-                return URL(string: "https://accounts.spotify.com/api/")!
-            case .APICallBase:
-                return URL(string: "https://api.spotify.com/v1/")!
-            }
-        }
-    }
-}
+//extension SpotifyBaseURL {
+//    var url: URL {
+//        get {
+//            switch self {
+//            case .authBaseURL:
+//                return URL(string: "https://accounts.spotify.com/api/")!
+//            case .APICallBase:
+//                return URL(string: "https://api.spotify.com/v1/")!
+//            }
+//        }
+//    }
+//}

@@ -33,7 +33,7 @@ enum EndingPath {
             let convertSpacesToProperURL = q.replacingOccurrences(of: " ", with: "%20")
             return "search&q=\(convertSpacesToProperURL)&type\(type)"
         case .artistTopTracks(let id, let country):
-            return "artists/\(id)/top-tracks&country\(country)"
+            return "artists/\(id)/top-tracks?country=\(country)"
         case .playlists (let id):
             return "playlists/\(id)"
         case .myTop(let type):

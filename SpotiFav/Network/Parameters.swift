@@ -11,8 +11,9 @@ import Foundation
 enum PostParameters {
     case codeForToken(accessCode: String)
     case refreshTokenForAccessCode(refreshToken: String)
+    case timeRange(range: String)
 
-    func getCodeForToken() -> [String:Any] {
+    func getParamters() -> [String:Any] {
         switch self {
         case .codeForToken(let code):
             return ["grant_type": "authorization_code",
@@ -22,6 +23,8 @@ enum PostParameters {
             return ["grant_type": "refresh_token",
                     "refresh_token": refreshToken
             ]
+        case .timeRange(let range):
+            return ["time_range": range]
         }
     }
 }

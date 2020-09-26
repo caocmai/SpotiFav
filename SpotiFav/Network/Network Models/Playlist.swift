@@ -27,11 +27,13 @@ struct Item: Decodable {
 }
 
 struct Album: Model {
-
+    let album: Albumx?
     let artists: [Artist]
 //    let popularity: Int
+    let name: String
     let durationMs: Int?
     let previewUrl: URL?
+    let images: [ArtistImage]?
     
 //    enum CodingKeys: String, CodingKey {
 //        case artists
@@ -40,6 +42,11 @@ struct Album: Model {
 //        case previewURL = "preview_url"
 //    }
     
+}
+
+struct Albumx: Model {
+    let name: String
+    let images: [ArtistImage]
 }
 
 struct Artist: Model {

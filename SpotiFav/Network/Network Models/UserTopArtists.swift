@@ -24,6 +24,7 @@ struct ArtistImage: Model {
     let url: URL
 }
 
+// not using
 struct Artists: Model {
     let artists: [Artist]
 }

@@ -12,7 +12,7 @@ import Foundation
 public protocol RequestBuilder {
     var method: HTTPMethodFinal { get }
     var headers: [String: String] { get }
-    var baseURL: URL { get }
+    var baseURL: String { get }
     var path: String { get }
     var params: [String:Any]? { get }
 
@@ -23,12 +23,13 @@ public extension RequestBuilder {
     
     func toURLRequest() -> URLRequest {
         
-        let fullURL = baseURL.appendingPathComponent(path)
-        var request = URLRequest(url: fullURL)
+        let fullURL = URL(string: baseURL + path)
+        print(fullURL)
+        var request = URLRequest(url: fullURL!)
 
         if params != nil {
             
-         if var components = URLComponents(url: fullURL, resolvingAgainstBaseURL: false)  {
+            if var components = URLComponents(url: fullURL!, resolvingAgainstBaseURL: false)  {
             components.queryItems = [URLQueryItem]()
             
             for (key, value) in params! {
@@ -43,6 +44,7 @@ public extension RequestBuilder {
 //        components.queryItems = params
 //        let url = components.url!
 //        print("url with components", url)
+        print(request)
         request.allHTTPHeaderFields = headers
         request.httpMethod = method.rawValue.uppercased()
         return request  
@@ -52,7 +54,7 @@ public extension RequestBuilder {
 struct BasicRequestBuilder: RequestBuilder {
     var method: HTTPMethodFinal
     var headers: [String: String] = [:]
-    var baseURL: URL
+    var baseURL: String
     var path: String
     var params: [String:Any]?
 }

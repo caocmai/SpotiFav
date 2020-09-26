@@ -79,10 +79,10 @@ struct Request {
             //            print("parameters", postParameters?.getCodeForToken())
             //            print("header", Header.GETHeader(accessTokeny: accessToken!).getProperHeader())
             //            print(request)
-            try configureParametersAndHeaders(parameters: postParameters?.getCodeForToken(), headers: Header.GETHeader(accessTokeny: accessToken!).getProperHeader(), request: &request)
+            try configureParametersAndHeaders(parameters: postParameters?.getParamters(), headers: Header.GETHeader(accessTokeny: accessToken!).getProperHeader(), request: &request)
         } else {
             // here the paramters can be nil because doesn't have accessToken yet
-            try configureParametersAndHeaders(parameters: postParameters!.getCodeForToken(), headers: Header.POSTHeader.getProperHeader(), request: &request)
+            try configureParametersAndHeaders(parameters: postParameters!.getParamters(), headers: Header.POSTHeader.getProperHeader(), request: &request)
         }
 
         return request

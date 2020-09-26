@@ -49,15 +49,24 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
 //        }
 //
         let sema = DispatchSemaphore(value: 0)
-//        let token = (UserDefaults.standard.string(forKey: "token"))
+        let token = (UserDefaults.standard.string(forKey: "token"))
 
 //        print(token)
         let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
         
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-        let token = "BQCQZIBcy493wdiSzIQd7HNQg44pwqju9AQ2dLkJ7YbaVFG4maZ6nkcbjqbXHwYjIv8l5zKhN36TEqrOa_vEZ83ibBFrRjk-5tKCJzB4nYDaDAMUzQ5V-agPMCuAtjF1OBKz6nkmu9D3c1BqyQyNfhp6r5hguqYFGoLOBdkZp7J5cZmrG0wDJFo"
+       print(token)
         
+//        client.call(request: .getArtistTopTracks(id: "0SfsnGyD8FpIN4U4WCkBZ5", token: token!, completions: { (result) in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let tracks):
+//                print(tracks)
+//            }
+//        }))
+
         client.call(request: .getUserTopArtists(token: refreshToken!, completions: { (result) in
                     switch result {
                     case .failure(let error):
@@ -72,11 +81,11 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
 //                        for item in results.items {
 //                            ids.append(item.id)
 //                        }
-                        
+
 //
-                        
-                        
-                        
+
+
+
                         DispatchQueue.main.async {
                             self.configureTableView()
 //                            print(self.artists)
@@ -85,6 +94,15 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
                     }
 
                 }))
+        
+//        client.call(request: .getUserTopTracks(token: token!, completions: { (result) in
+//            switch result {
+//            case .failure(let error):
+//                print(error)
+//            case .success(let tracks):
+//                print(tracks)
+//            }
+//        }))
         
 
         configureNavBar()
@@ -96,7 +114,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     private func configureNavBar() {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.title = "Need if statement"
+        self.navigationItem.title = "MY TOP"
         let authSpotifyBarButton = UIBarButtonItem(title: "Auth Spotify", style: .plain, target: self, action: #selector(authButtontapped))
         self.navigationItem.rightBarButtonItem = authSpotifyBarButton
     }
@@ -231,30 +249,34 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
-        cell.textLabel?.text = artists[indexPath.row].name
         
         let artist = artists[indexPath.row]
-        
+//        print(artist.id)
 
         for image in artist.images {
-            if image.height == 160 {
-                print(image.url)
+//            if image.height == 160 {
+//                print(image.url)
                 cell.imageView?.kf.setImage(with: image.url, options: []) { result in
                     switch result {
                     case .success(let value):
-                        print("sucess")
-                        cell.imageView?.image = value.image
+//                        print("sucess")
+                        DispatchQueue.main.async {
+                            cell.textLabel?.text = self.artists[indexPath.row].name
+                            cell.imageView?.image = value.image
+
+                        }
+
                     case .failure(let error):
-                        print("error")
+//                        print("error")
                         print(error)
                     }
 
                 }
 
-            }
+//            }
         }
         
-        cell.imageView?.image = UIImage(named: "b")
+//        cell.imageView?.image = UIImage(named: "b")
 
         
         return cell
@@ -264,5 +286,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return 60
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let artist = artists[indexPath.row]
+        
+        let destinationVC = ArtistTopTracksVC()
+//        destinationVC.label = artist.id
+        destinationVC.artist = artist
+        artistsTableView.deselectRow(at: indexPath, animated: true)
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+    }
     
 }
