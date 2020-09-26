@@ -8,26 +8,22 @@
 
 import Foundation
 
-public enum HTTPMethodFinal: String {
-    case get, post, put, delete
-}
-
-struct RequestFinal {
+struct Request {
     let builder: RequestBuilder
     let completion: (Result<Data, Error>) -> Void
     
-    private static func buildRequest(method: HTTPMethodFinal, header: [String:String], baseURL: String, path: String, params: [String:Any]?=nil, completion: @escaping (Result<Data, Error>) -> Void) -> RequestFinal {
+    private static func buildRequest(method: HTTPMethod, header: [String:String], baseURL: String, path: String, params: [String:Any]?=nil, completion: @escaping (Result<Data, Error>) -> Void) -> Request {
         
         let builder = BasicRequestBuilder(method: method, headers: header, baseURL: baseURL, path: path, params: params)
         
-        return RequestFinal(builder: builder, completion: completion)
+        return Request(builder: builder, completion: completion)
     }
 }
 
 
-extension RequestFinal {
+extension Request {
     
-    static func refreshTokenToAccessToken(completion: @escaping (Result<Tokens, Error>) -> Void) -> RequestFinal? {
+    static func refreshTokenToAccessToken(completion: @escaping (Result<Tokens, Error>) -> Void) -> Request? {
         // making the call
         
         //        let refreshtoken = "AQAKczUFfZUTPCnmOGO6iosv8oVxNaklpsVii1X3M1tkYYJ0V0BJEXifR1wmCHwYuf-Z-j5eLrSJzs0AqRTja2WV81GB1nVf9h8xeqQt-Ht4WU2hyDKOBnpfeIa8prHDgBk"
@@ -46,7 +42,7 @@ extension RequestFinal {
         //        let path = "token"
         //
         guard let refreshToken = UserDefaults.standard.string(forKey: "refresh_token") else {return nil}
-        return RequestFinal.buildRequest(method: .post,
+        return Request.buildRequest(method: .post,
                                          header: Header.POSTHeader.getProperHeader(),
                                          baseURL: SpotifyBaseURL.authBaseURL.rawValue,
                                          path: EndingPath.token.getPath(),
@@ -61,9 +57,9 @@ extension RequestFinal {
     }
     
     
-    static func checkExpiredToken(token: String, completion: @escaping (Result<ExpireToken, Error>) -> Void) -> RequestFinal {
+    static func checkExpiredToken(token: String, completion: @escaping (Result<ExpireToken, Error>) -> Void) -> Request {
         
-        RequestFinal.buildRequest(method: .get,
+        Request.buildRequest(method: .get,
                                   header: Header.GETHeader(accessTokeny: token).getProperHeader(),
                                   baseURL: SpotifyBaseURL.APICallBase.rawValue,
                                   path: EndingPath.userInfo.getPath()) { (result) in
@@ -72,7 +68,7 @@ extension RequestFinal {
         }
     }
     
-    static func getUserTopTracks(token: String, completions: @escaping (Result<UserTopTracks, Error>) -> Void) -> RequestFinal {
+    static func getUserTopTracks(token: String, completions: @escaping (Result<UserTopTracks, Error>) -> Void) -> Request {
         
         let apiClient = Client(configuration: URLSessionConfiguration.default)
                 
@@ -95,7 +91,7 @@ extension RequestFinal {
             }
         }))
         
-        return RequestFinal.buildRequest(method: .get,
+        return Request.buildRequest(method: .get,
                                          header: Header.GETHeader(accessTokeny: token).getProperHeader(),
                                          baseURL: SpotifyBaseURL.APICallBase.rawValue,
                                          path: EndingPath.myTop(type: .tracks).getPath(), params: PostParameters.timeRange(range: "long_term").getParamters()) { (result) in
@@ -106,7 +102,7 @@ extension RequestFinal {
         
     }
     
-    static func getUserTopArtists(token: String, completions: @escaping (Result<UserTopArtists, Error>) -> Void) -> RequestFinal {
+    static func getUserTopArtists(token: String, completions: @escaping (Result<UserTopArtists, Error>) -> Void) -> Request {
         let apiClient = Client(configuration: URLSessionConfiguration.default)
                 
         apiClient.call(request: .checkExpiredToken(token: token, completion: { (expiredToken) in
@@ -129,7 +125,7 @@ extension RequestFinal {
             }
         }))
         
-        return RequestFinal.buildRequest(method: .get,
+        return Request.buildRequest(method: .get,
                                          header: Header.GETHeader(accessTokeny: token).getProperHeader(),
                                          baseURL: SpotifyBaseURL.APICallBase.rawValue,
                                          path: EndingPath.myTop(type: .artists).getPath(),
@@ -142,7 +138,7 @@ extension RequestFinal {
     }
     
     // haven't tested parsing
-    static func getArtistsInfo(token: String, artistIds: [String], completions: @escaping (Result<Artists, Error>) -> Void) -> RequestFinal {
+    static func getArtistsInfo(token: String, artistIds: [String], completions: @escaping (Result<Artists, Error>) -> Void) -> Request {
         
         let apiClient = Client(configuration: URLSessionConfiguration.default)
                 
@@ -166,7 +162,7 @@ extension RequestFinal {
             }
         }))
         
-        return RequestFinal.buildRequest(method: .get,
+        return Request.buildRequest(method: .get,
                                          header: Header.GETHeader(accessTokeny: token).getProperHeader(),
                                          baseURL: SpotifyBaseURL.APICallBase.rawValue,
                                          path: EndingPath.myTop(type: .artists).getPath()) { (result) in
@@ -178,7 +174,7 @@ extension RequestFinal {
     }
     
     // need to check json printout not ready to use
-    static func getArtistTopTracks(id: String, token: String, completions: @escaping (Result<ArtistTopTracks, Error>) -> Void) -> RequestFinal {
+    static func getArtistTopTracks(id: String, token: String, completions: @escaping (Result<ArtistTopTracks, Error>) -> Void) -> Request {
         
 //        let apiClient = Client(configuration: URLSessionConfiguration.default)
 //
@@ -201,7 +197,7 @@ extension RequestFinal {
 //            }
 //        }))
         
-        return RequestFinal.buildRequest(method: .get,
+        return Request.buildRequest(method: .get,
                                          header: Header.GETHeader(accessTokeny: token).getProperHeader(),
                                          baseURL: SpotifyBaseURL.APICallBase.rawValue,
                                          path: EndingPath.artistTopTracks(artistId: id, country: .US).getPath()) { (result) in
@@ -212,9 +208,9 @@ extension RequestFinal {
         
     }
     
-    static func accessCodeToAccessToken(code: String, completion: @escaping (Result<Tokens, Error>) -> Void) -> RequestFinal {
+    static func accessCodeToAccessToken(code: String, completion: @escaping (Result<Tokens, Error>) -> Void) -> Request {
         
-        RequestFinal.buildRequest(method: .post,
+        Request.buildRequest(method: .post,
                                   header: Header.POSTHeader.getProperHeader(),
                                   baseURL: SpotifyBaseURL.authBaseURL.rawValue,
                                   path: EndingPath.token.getPath(),
@@ -224,9 +220,9 @@ extension RequestFinal {
         }
     }
     
-    static func getUserInfo(token: String, completion: @escaping (Result<UserModel, Error>) -> Void) -> RequestFinal {
+    static func getUserInfo(token: String, completion: @escaping (Result<UserModel, Error>) -> Void) -> Request {
         
-        RequestFinal.buildRequest(method: .get,
+        Request.buildRequest(method: .get,
                                   header: Header.GETHeader(accessTokeny: token).getProperHeader(),
                                   baseURL: SpotifyBaseURL.APICallBase.rawValue,
                                   path: EndingPath.userInfo.getPath()) { (user) in

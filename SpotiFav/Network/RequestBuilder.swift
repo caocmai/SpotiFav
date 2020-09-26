@@ -10,7 +10,7 @@ import Foundation
 
 
 public protocol RequestBuilder {
-    var method: HTTPMethodFinal { get }
+    var method: HTTPMethod { get }
     var headers: [String: String] { get }
     var baseURL: String { get }
     var path: String { get }
@@ -52,19 +52,13 @@ public extension RequestBuilder {
 }
 
 struct BasicRequestBuilder: RequestBuilder {
-    var method: HTTPMethodFinal
+    var method: HTTPMethod
     var headers: [String: String] = [:]
     var baseURL: String
     var path: String
     var params: [String:Any]?
 }
 
-
-
-//
-//public enum HTTPMethod: String {
-//    case get
-//    case post
-//    case put
-//    case delete
-//}
+public enum HTTPMethod: String {
+    case get, post, put, delete
+}

@@ -24,7 +24,6 @@ class Top50ViewController: UIViewController {
     
     var albumns = [Album]()
     
-    var test = ["a", "b", "c", "d"]
     
     var player: AVAudioPlayer!
     var isPlaying = false
@@ -37,7 +36,6 @@ class Top50ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        let sema = DispatchSemaphore(value: 0)
         let token = (UserDefaults.standard.string(forKey: "token"))
         
         //        print(token)
@@ -103,12 +101,11 @@ extension Top50ViewController: UITableViewDelegate, UITableViewDataSource {
         //        if let safeimages = artist.album.images {
         
         for image in artist.album!.images {
-            //            if image.height == 160 {
+            if image.height == 300 {
             //                print(image.url)
             cell.imageView?.kf.setImage(with: image.url, options: []) { result in
                 switch result {
                 case .success(let value):
-                                            print("sucess")
                     DispatchQueue.main.async {
                         cell.textLabel?.text = self.albumns[indexPath.row].name
 
@@ -117,11 +114,12 @@ extension Top50ViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                     cell.imageView?.image = value.image
                 case .failure(let error):
-                    //                        print("error")
-                    print(error)
+                                            print("error")
+//                    print(error)
                 }
                 
             }
+        }
             
         }
         

@@ -16,7 +16,7 @@ struct Client {
         session = URLSession(configuration: configuration)
     }
     
-    public func call(request: RequestFinal) {
+    public func call(request: Request) {
         let urlRequest = request.builder.toURLRequest()
         print(urlRequest)
         session.dataTask(with: urlRequest) { (data, response, error) in

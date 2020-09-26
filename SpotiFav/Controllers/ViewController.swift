@@ -48,7 +48,6 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
 //            print(token)
 //        }
 //
-        let sema = DispatchSemaphore(value: 0)
         let token = (UserDefaults.standard.string(forKey: "token"))
 
 //        print(token)
@@ -103,12 +102,8 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
 //                print(tracks)
 //            }
 //        }))
-        
-
         configureNavBar()
-        
-        
-        
+
     }
     
     private func configureNavBar() {
@@ -193,10 +188,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         //            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         //        }
         //
-        
-        
- 
-        
+
     }
     
     
@@ -254,7 +246,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //        print(artist.id)
 
         for image in artist.images {
-//            if image.height == 160 {
+            if image.height == 160 {
 //                print(image.url)
                 cell.imageView?.kf.setImage(with: image.url, options: []) { result in
                     switch result {
@@ -267,13 +259,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         }
 
                     case .failure(let error):
-//                        print("error")
-                        print(error)
+                        print("error")
+//                        print(error)
                     }
 
                 }
 
-//            }
+            }
         }
         
 //        cell.imageView?.image = UIImage(named: "b")

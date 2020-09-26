@@ -14,12 +14,12 @@ class ArtistTopTracksVC: UIViewController {
     let client = Client(configuration: URLSessionConfiguration.default)
     
     // do the get here!
-    var label: String! {
-        didSet {
-            fetch()
-            
-        }
-    }
+    //    var label: String! {
+    //        didSet {
+    //            fetch()
+    //
+    //        }
+    //    }
     
     var artist: ArtistItem! {
         didSet {
@@ -28,10 +28,7 @@ class ArtistTopTracksVC: UIViewController {
     }
     
     let table = UITableView()
-    
     var tracks = [ArtistTrack]()
-    
-    var test = ["a", "b", "c", "d"]
     
     var player: AVAudioPlayer!
     var isPlaying = false
@@ -51,17 +48,7 @@ class ArtistTopTracksVC: UIViewController {
         
         //        let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-        //        print(token)
         
-        
-        
-        
-        // Do any additional setup after loading the view.
-        //        self.view.addSubview(label)
-        //        label.translatesAutoresizingMaskIntoConstraints = false
-        //        NSLayoutConstraint.activate([
-        //            label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        //        ])
     }
     
     private func configureTable() {
@@ -80,10 +67,6 @@ class ArtistTopTracksVC: UIViewController {
                 print(error)
             case .success(let tracks):
                 self.tracks = tracks.tracks
-                //                for track in tracks.tracks {
-                //                    print(track.name)
-                //                }
-                
                 DispatchQueue.main.async {
                     self.title = self.artist.name
                     self.configureTable()
@@ -92,15 +75,6 @@ class ArtistTopTracksVC: UIViewController {
         }))
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }
 
@@ -112,32 +86,27 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         let track = tracks[indexPath.row]
-        //        cell.textLabel?.text = test[indexPath.row]
         for image in track.album.images! {
-            //            if image.height == 160 {
-            //            print(image.height)
-            cell.imageView?.kf.setImage(with: image.url, options: []) { result in
-                switch result {
-                case .success(let value):
-                    
-                    DispatchQueue.main.async {
-                        cell.textLabel?.text = track.name
-
-                        cell.imageView?.image = value.image
-
+            if image.height == 300 {
+                cell.imageView?.kf.setImage(with: image.url, options: []) { result in
+                    switch result {
+                    case .success(let value):
+                        
+                        DispatchQueue.main.async {
+                            cell.textLabel?.text = track.name
+                            
+                            cell.imageView?.image = value.image
+                            
+                        }
+                    case .failure(let error):
+                        print(error)
                     }
-                case .failure(let error):
-                    print(error)
+                    
                 }
                 
             }
-            
-            //            }
         }
-        
-//        cell.imageView?.image = UIImage(named: "b")
-        
-        
+
         return cell
     }
     
@@ -146,7 +115,7 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         if isPlaying == true && !paused{
             player.pause()
             paused = true
@@ -162,7 +131,7 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
                 downloadFileFromURL(url: URL(string: previewURL)!)
             }
             curretPlayingIndex = indexPath.row
-
+            
         }
         
         if curretPlayingIndex != indexPath.row {
@@ -194,15 +163,9 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
         
         do {
             player = try AVAudioPlayer(contentsOf: url)
-            //                        player.prepareToPlay()
-            //            player.volume = 1.0
             player.play()
             isPlaying = true
-            //            let test = player.currentTime
-            //            Thread.sleep(forTimeInterval: 20)
-            //            player.pause()
-            //            Thread.sleep(forTimeInterval: 2)
-            //            player.play()
+
         } catch let error as NSError {
             print(error.localizedDescription)
         } catch {
