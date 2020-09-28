@@ -30,41 +30,34 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     
     var isPlaying = false
     
-    let client = Client(configuration: URLSessionConfiguration.default)
+    let client = APIClient(configuration: URLSessionConfiguration.default)
     
     let artistsTableView = UITableView()
     
     var artists = [ArtistItem]()
     
-    var test = ["a", "b", "c", "d"]
+    let notifyEmptyTableLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .gray
+        return label
+    }()
+
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        if token == nil {
-//            simpleButton()
-//        } else {
-//            print(token)
-//        }
-//
         let token = (UserDefaults.standard.string(forKey: "token"))
-
-//        print(token)
         let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
-        
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
        print(token)
         
-//        client.call(request: .getArtistTopTracks(id: "0SfsnGyD8FpIN4U4WCkBZ5", token: token!, completions: { (result) in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let tracks):
-//                print(tracks)
-//            }
-//        }))
+        if token == nil {
+            emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
+        } else {
 
         client.call(request: .getUserTopArtists(token: refreshToken!, completions: { (result) in
                     switch result {
@@ -73,35 +66,14 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
                         print("got back completion; error")
                     case .success(let results):
                         self.artists = results.items
-//                        print("got back completion; success")
-//                        print(results.items.last?.previewUrl)
-//                        self.downloadFileFromURL(url: (results.items.last?.previewUrl)!)
-//                        var ids = [String]()
-//                        for item in results.items {
-//                            ids.append(item.id)
-//                        }
-
-//
-
-
-
                         DispatchQueue.main.async {
                             self.configureTableView()
 //                            print(self.artists)
                         }
-
                     }
-
                 }))
-        
-//        client.call(request: .getUserTopTracks(token: token!, completions: { (result) in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let tracks):
-//                print(tracks)
-//            }
-//        }))
+            
+        }
         configureNavBar()
 
     }
@@ -202,7 +174,6 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     
     private func getSpotifyAccessCode() {
         let urlRequest = client.getSpotifyAccessCodeURL()
-        //        let urlRequest = SpotifyNetworkLayer.requestAccessCodeURL()
         print(urlRequest)
         let scheme = "auth"
         let session = ASWebAuthenticationSession(url: urlRequest, callbackURLScheme: scheme) { (callbackURL, error) in
@@ -227,11 +198,9 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         }
         session.presentationContextProvider = self
         session.start()
-        
     }
     
 }
-
 
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -243,33 +212,25 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
         
         let artist = artists[indexPath.row]
-//        print(artist.id)
 
         for image in artist.images {
             if image.height == 160 {
-//                print(image.url)
                 cell.imageView?.kf.setImage(with: image.url, options: []) { result in
                     switch result {
                     case .success(let value):
-//                        print("sucess")
                         DispatchQueue.main.async {
                             cell.textLabel?.text = self.artists[indexPath.row].name
                             cell.imageView?.image = value.image
-
                         }
 
                     case .failure(let error):
                         print("error")
-//                        print(error)
                     }
 
                 }
 
             }
         }
-        
-//        cell.imageView?.image = UIImage(named: "b")
-
         
         return cell
     }
@@ -282,7 +243,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let artist = artists[indexPath.row]
         
         let destinationVC = ArtistTopTracksVC()
-//        destinationVC.label = artist.id
         destinationVC.artist = artist
         artistsTableView.deselectRow(at: indexPath, animated: true)
         self.navigationController?.pushViewController(destinationVC, animated: true)

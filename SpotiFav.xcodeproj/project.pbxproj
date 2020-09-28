@@ -21,6 +21,7 @@
 		2C80F8F0251319210057A05A /* ExpiredToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8EF251319210057A05A /* ExpiredToken.swift */; };
 		2C80F8F3251322530057A05A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F2251322530057A05A /* UserModel.swift */; };
 		2C80F8F5251332580057A05A /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F4251332580057A05A /* Playlist.swift */; };
+		2CAFA4972521935C00C5919F /* PlaylistTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFA4962521935C00C5919F /* PlaylistTableVC.swift */; };
 		2CBEFF78251DB051000DDBD1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 2CBEFF77251DB051000DDBD1 /* Kingfisher */; };
 		2CBEFF7C251DBCE0000DDBD1 /* ArtistTopTracksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBEFF7B251DBCE0000DDBD1 /* ArtistTopTracksVC.swift */; };
 		2CBEFF7E251DC16A000DDBD1 /* ArtistTopTracks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBEFF7D251DC16A000DDBD1 /* ArtistTopTracks.swift */; };
@@ -29,7 +30,7 @@
 		2CF85E4B251AF4490054E856 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E4A251AF4490054E856 /* RequestBuilder.swift */; };
 		2CF85E4D251AF46A0054E856 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E4C251AF46A0054E856 /* Request.swift */; };
 		2CF85E4F251AF7FA0054E856 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E4E251AF7FA0054E856 /* Model.swift */; };
-		2CF85E52251AF9650054E856 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E51251AF9650054E856 /* Client.swift */; };
+		2CF85E52251AF9650054E856 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E51251AF9650054E856 /* APIClient.swift */; };
 		2CF85E54251AFE8F0054E856 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E53251AFE8F0054E856 /* Header.swift */; };
 		2CF85E58251B02350054E856 /* EndingPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E57251B02350054E856 /* EndingPath.swift */; };
 		2CF85E5A251B02820054E856 /* SpotifyBaseURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E59251B02820054E856 /* SpotifyBaseURL.swift */; };
@@ -54,6 +55,7 @@
 		2C80F8EF251319210057A05A /* ExpiredToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredToken.swift; sourceTree = "<group>"; };
 		2C80F8F2251322530057A05A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		2C80F8F4251332580057A05A /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		2CAFA4962521935C00C5919F /* PlaylistTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableVC.swift; sourceTree = "<group>"; };
 		2CBEFF7B251DBCE0000DDBD1 /* ArtistTopTracksVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTopTracksVC.swift; sourceTree = "<group>"; };
 		2CBEFF7D251DC16A000DDBD1 /* ArtistTopTracks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTopTracks.swift; sourceTree = "<group>"; };
 		2CC479C72513D73100203F42 /* UserTopArtists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTopArtists.swift; sourceTree = "<group>"; };
@@ -61,7 +63,7 @@
 		2CF85E4A251AF4490054E856 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
 		2CF85E4C251AF46A0054E856 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		2CF85E4E251AF7FA0054E856 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		2CF85E51251AF9650054E856 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		2CF85E51251AF9650054E856 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		2CF85E53251AFE8F0054E856 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		2CF85E57251B02350054E856 /* EndingPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndingPath.swift; sourceTree = "<group>"; };
 		2CF85E59251B02820054E856 /* SpotifyBaseURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyBaseURL.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */,
 				2C7552352510775200D8238C /* ViewController.swift */,
 				2CBEFF7B251DBCE0000DDBD1 /* ArtistTopTracksVC.swift */,
+				2CAFA4962521935C00C5919F /* PlaylistTableVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -150,7 +153,7 @@
 				2CF85E5E251B160F0054E856 /* Parameters.swift */,
 				2CF85E59251B02820054E856 /* SpotifyBaseURL.swift */,
 				2CF85E4C251AF46A0054E856 /* Request.swift */,
-				2CF85E51251AF9650054E856 /* Client.swift */,
+				2CF85E51251AF9650054E856 /* APIClient.swift */,
 				2C80F8F1251319310057A05A /* Network Models */,
 				2CF85E5B251B06800054E856 /* Model */,
 			);
@@ -268,7 +271,8 @@
 				2CF85E5F251B160F0054E856 /* Parameters.swift in Sources */,
 				2C80F8F0251319210057A05A /* ExpiredToken.swift in Sources */,
 				2CBEFF7C251DBCE0000DDBD1 /* ArtistTopTracksVC.swift in Sources */,
-				2CF85E52251AF9650054E856 /* Client.swift in Sources */,
+				2CF85E52251AF9650054E856 /* APIClient.swift in Sources */,
+				2CAFA4972521935C00C5919F /* PlaylistTableVC.swift in Sources */,
 				2CF85E5D251B069B0054E856 /* SpotifyType.swift in Sources */,
 				2C7552322510775200D8238C /* AppDelegate.swift in Sources */,
 				2CF85E4F251AF7FA0054E856 /* Model.swift in Sources */,

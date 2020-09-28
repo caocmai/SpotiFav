@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Client {
+struct APIClient {
     //    static private let session = URLSession(configuration: URLSessionConfiguration.default)
     private let session: URLSession
     
@@ -43,7 +43,6 @@ struct Client {
     }
     
     internal func getSpotifyAccessCodeURL() -> URL {
-        let accessCodeBaseURL = "https://accounts.spotify.com/authorize"
 
         let paramDictionary = ["client_id" : K.SPOTIFY_API_CLIENT_ID,
                                "redirect_uri" : K.REDIRECT_URI,
@@ -55,14 +54,12 @@ struct Client {
 
             return "\(key)=\(value)"
         }
-
-
+        
         let stringQuery = mapToHTMLQuery.joined(separator: "&")
-
+        let accessCodeBaseURL = "https://accounts.spotify.com/authorize"
         let fullURL = URL(string: accessCodeBaseURL.appending("?\(stringQuery)"))
 
         return fullURL!
-
     }
     
 }

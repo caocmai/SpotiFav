@@ -18,11 +18,11 @@ class Top50ViewController: UIViewController {
     
     var refresh_token: String? = nil
     
-    let client = Client(configuration: URLSessionConfiguration.default)
+    let client = APIClient(configuration: URLSessionConfiguration.default)
     
     let artistsTableView = UITableView()
     
-    var albumns = [Album]()
+    var albumns = [AlumnDetail]()
     
     
     var player: AVAudioPlayer!
@@ -44,6 +44,11 @@ class Top50ViewController: UIViewController {
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
         print(token)
+//        let newlabel = UILabel()
+        
+        if token == nil {
+            emptyMessage(message: "hello", duration: 1.20)
+        } else {
         
         client.call(request: .getUserTopTracks(token: token!, completions: { (result) in
             switch result {
@@ -58,7 +63,7 @@ class Top50ViewController: UIViewController {
                 }
             }
         }))
-   
+        }
         configureNavBar()
   
     }
@@ -195,4 +200,29 @@ extension Top50ViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+}
+
+
+extension UIViewController {
+    
+    func emptyMessage(message: String, duration: Double) {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .gray
+        self.view.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+        
+        label.transform = CGAffineTransform(scaleX: 0, y: 0)
+        label.text = message
+        
+        UIView.animate(withDuration: duration, delay: 0.0,
+                       usingSpringWithDamping: 0.6, initialSpringVelocity: 0.0, options: [],
+                       animations: {
+                        label.transform = CGAffineTransform(scaleX: 1, y: 1)},
+                       completion: nil)
+    }
 }

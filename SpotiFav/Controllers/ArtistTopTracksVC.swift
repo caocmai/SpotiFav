@@ -11,7 +11,7 @@ import AVFoundation
 
 class ArtistTopTracksVC: UIViewController {
     
-    let client = Client(configuration: URLSessionConfiguration.default)
+    let client = APIClient(configuration: URLSessionConfiguration.default)
     
     // do the get here!
     //    var label: String! {

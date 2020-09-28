@@ -8,26 +8,26 @@
 
 import Foundation
 
-struct Playlist: Decodable {
+struct Playlist: Model {
     let name: String
     let images: [PlaylistImage]
     let tracks: Track
 }
 
-struct PlaylistImage: Decodable {
+struct PlaylistImage: Model {
     let url: URL
 }
 
-struct Track: Decodable {
+struct Track: Model {
     let items: [Item]
 }
 
-struct Item: Decodable {
-    let track: Album
+struct Item: Model {
+    let track: AlumnDetail
 }
 
-struct Album: Model {
-    let album: Albumx?
+struct AlumnDetail: Model {
+    let album: Alumn?
     let artists: [Artist]
 //    let popularity: Int
     let name: String
@@ -44,7 +44,7 @@ struct Album: Model {
     
 }
 
-struct Albumx: Model {
+struct Alumn: Model {
     let name: String
     let images: [ArtistImage]
 }

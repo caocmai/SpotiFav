@@ -22,18 +22,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        window?.rootViewController = createTabbar(rootViewController: ViewController(), secondViewController: Top50ViewController())
+        window?.rootViewController = createTabbar(rootViewController: ViewController(), secondViewController: Top50ViewController(), thirdViewController: PlaylistTableVC())
         
         window?.makeKeyAndVisible()
     }
     
-    private func createTabbar(rootViewController: UIViewController, secondViewController: UIViewController) -> UITabBarController {
+    private func createTabbar(rootViewController: UIViewController, secondViewController: UIViewController, thirdViewController: UIViewController) -> UITabBarController {
+        
         let tabbar = UITabBarController()
+        
         rootViewController.tabBarItem = UITabBarItem(title: "HOME", image: UIImage(systemName: "house"), selectedImage: nil)
-        secondViewController.tabBarItem = UITabBarItem(title: "TOP50", image: UIImage(systemName: "pencil.circle"), selectedImage: nil)
+        secondViewController.tabBarItem = UITabBarItem(title: "MY TOP", image: UIImage(systemName: "star.fill"), selectedImage: nil)
+        thirdViewController.tabBarItem = UITabBarItem(title: "PLAYLIST", image: UIImage(systemName: "music.note.list"), selectedImage: nil)
+        
         let navController = UINavigationController(rootViewController: rootViewController)
         let secondNavController = UINavigationController(rootViewController: secondViewController)
-        tabbar.viewControllers = [navController, secondNavController]
+        let thirdNavController = UINavigationController(rootViewController: thirdViewController)
+        
+        tabbar.viewControllers = [navController, secondNavController, thirdNavController]
         return tabbar
     }
 

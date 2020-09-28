@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PostParameters {
+enum Parameters {
     case codeForToken(accessCode: String)
     case refreshTokenForAccessCode(refreshToken: String)
     case timeRange(range: String)
