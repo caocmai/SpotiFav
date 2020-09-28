@@ -39,33 +39,41 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let token = (UserDefaults.standard.string(forKey: "token"))
-        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-       print(token)
+//       print(token)
+        fetchAndConfigureTable()
         
-        if token == nil {
-            emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
-        } else {
-
-        client.call(request: .getUserTopArtists(token: refreshToken!, completions: { (result) in
-                    switch result {
-                    case .failure(let error):
-                        print(error)
-                        print("got back completion; error")
-                    case .success(let results):
-                        self.artists = results.items
-                        DispatchQueue.main.async {
-                            self.configureTableView()
-//                            print(self.artists)
-                        }
-                    }
-                }))
-            
-        }
         configureNavBar()
 
+    }
+    
+    private func fetchAndConfigureTable() {
+        let token = (UserDefaults.standard.string(forKey: "token"))
+        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
+
+        if token == nil {
+                    emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
+                } else {
+
+                client.call(request: .getUserTopArtists(token: refreshToken!, completions: { (result) in
+                            switch result {
+                            case .failure(let error):
+                                print(error)
+                                print("got back completion; error")
+                            case .success(let results):
+                                self.artists = results.items
+                                DispatchQueue.main.async {
+                                    self.configureTableView()
+        //                            print(self.artists)
+                                }
+                            }
+                        }))
+                    
+                }
+        
+//        print("function executed")
+//        artistsTableView.reloadData()
     }
     
     private func configureNavBar() {
@@ -183,11 +191,15 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
                 case .success(let token):
                     UserDefaults.standard.set(token.accessToken, forKey: "token")
                     UserDefaults.standard.set(token.refreshToken, forKey: "refresh_token")
+                    self.fetchAndConfigureTable()
                 }
             }))
         }
         session.presentationContextProvider = self
         session.start()
+        
+        
+        
     }
     
 }

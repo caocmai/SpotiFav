@@ -9,5 +9,5 @@
 import Foundation
 
 struct UserTopTracks: Model {
-    let items: [AlumnDetail]
+    let items: [Alumn]
 }

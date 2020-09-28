@@ -15,5 +15,5 @@ struct ArtistTopTracks: Model {
 struct ArtistTrack: Model {
     let name: String
     let previewUrl: String?
-    let album: AlumnDetail
+    let album: Alumn
 }

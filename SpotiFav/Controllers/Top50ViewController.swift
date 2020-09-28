@@ -22,7 +22,7 @@ class Top50ViewController: UIViewController {
     
     let artistsTableView = UITableView()
     
-    var albumns = [AlumnDetail]()
+    var albumns = [Alumn]()
     
     
     var player: AVAudioPlayer!

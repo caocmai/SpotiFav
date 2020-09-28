@@ -83,14 +83,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2C2E922E251D9EEF008F635A /* View */ = {
-			isa = PBXGroup;
-			children = (
-				2C2E922C251D9EEB008F635A /* TableCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		2C7552252510775200D8238C = {
 			isa = PBXGroup;
 			children = (
@@ -113,8 +105,6 @@
 			children = (
 				2C7552312510775200D8238C /* AppDelegate.swift */,
 				2C7552332510775200D8238C /* SceneDelegate.swift */,
-				2C6077EF2515CF5A00B50BC8 /* Constant.swift */,
-				2C2E922E251D9EEF008F635A /* View */,
 				2C80F8EC251318E80057A05A /* Controllers */,
 				2C80F8EE251319140057A05A /* Network */,
 				2C80F8ED251318FF0057A05A /* Views */,
@@ -139,6 +129,7 @@
 		2C80F8ED251318FF0057A05A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C2E922C251D9EEB008F635A /* TableCell.swift */,
 				2C7552372510775200D8238C /* Main.storyboard */,
 			);
 			path = Views;
@@ -169,6 +160,7 @@
 				2CBEFF7D251DC16A000DDBD1 /* ArtistTopTracks.swift */,
 				2CC479C72513D73100203F42 /* UserTopArtists.swift */,
 				2CC479C92513D93200203F42 /* UserTopTracks.swift */,
+				2CF85E5C251B069B0054E856 /* SpotifyType.swift */,
 				2C6077F32515DA6100B50BC8 /* Tokens.swift */,
 			);
 			path = "Network Models";
@@ -177,8 +169,8 @@
 		2CF85E5B251B06800054E856 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2C6077EF2515CF5A00B50BC8 /* Constant.swift */,
 				2CF85E4E251AF7FA0054E856 /* Model.swift */,
-				2CF85E5C251B069B0054E856 /* SpotifyType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -429,6 +421,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8LPD7G35TZ;
 				INFOPLIST_FILE = SpotiFav/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -446,6 +439,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8LPD7G35TZ;
 				INFOPLIST_FILE = SpotiFav/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

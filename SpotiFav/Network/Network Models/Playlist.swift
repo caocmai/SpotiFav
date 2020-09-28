@@ -23,11 +23,11 @@ struct Track: Model {
 }
 
 struct Item: Model {
-    let track: AlumnDetail
+    let track: Alumn
 }
 
-struct AlumnDetail: Model {
-    let album: Alumn?
+struct Alumn: Model {
+    let album: AlumnDetail?
     let artists: [Artist]
 //    let popularity: Int
     let name: String
@@ -44,7 +44,7 @@ struct AlumnDetail: Model {
     
 }
 
-struct Alumn: Model {
+struct AlumnDetail: Model {
     let name: String
     let images: [ArtistImage]
 }
