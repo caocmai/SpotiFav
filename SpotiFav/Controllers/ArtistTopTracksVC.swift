@@ -13,14 +13,6 @@ class ArtistTopTracksVC: UIViewController {
     
     let client = APIClient(configuration: URLSessionConfiguration.default)
     
-    // do the get here!
-    //    var label: String! {
-    //        didSet {
-    //            fetch()
-    //
-    //        }
-    //    }
-    
     var artist: ArtistItem! {
         didSet {
             fetch()
@@ -34,7 +26,7 @@ class ArtistTopTracksVC: UIViewController {
     var isPlaying = false
     var paused = false
     var trackPlaying = false
-    var curretPlayingIndex = 0
+    var curretPlayingIndex = -1
     
     
     override func viewDidLoad() {
@@ -171,8 +163,6 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
         } catch {
             print("AVAudioPlayer init failed")
         }
-        
     }
-    
-    
+
 }

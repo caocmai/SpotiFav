@@ -24,7 +24,7 @@ public extension RequestBuilder {
     func toURLRequest() -> URLRequest {
         
         let fullURL = URL(string: baseURL + path)
-        print(fullURL)
+//        print(fullURL)
         var request = URLRequest(url: fullURL!)
 
         if params != nil {
@@ -40,11 +40,6 @@ public extension RequestBuilder {
             request.url = components.url
         }
     }
-//        print(params)
-//        components.queryItems = params
-//        let url = components.url!
-//        print("url with components", url)
-        print(request)
         request.allHTTPHeaderFields = headers
         request.httpMethod = method.rawValue.uppercased()
         return request  

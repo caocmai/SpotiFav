@@ -36,16 +36,6 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
     
     var artists = [ArtistItem]()
     
-    let notifyEmptyTableLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.textColor = .gray
-        return label
-    }()
-
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
