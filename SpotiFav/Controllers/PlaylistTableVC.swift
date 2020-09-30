@@ -59,7 +59,7 @@ class PlaylistTableVC: UIViewController {
         trackTableView.translatesAutoresizingMaskIntoConstraints = false
         trackTableView.dataSource = self
         trackTableView.delegate = self
-        trackTableView.register(UITableViewCell.self, forCellReuseIdentifier: String(describing: type(of: PlaylistTableVC.self)))
+        trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         trackTableView.frame = self.view.bounds
     }
 
@@ -72,30 +72,15 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: PlaylistTableVC.self)))!
-        let track = tracks[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self)), for: indexPath) as! TableCell
+        
+        cell.setTrack(track: tracks[indexPath.row])
+//        let track = tracks[indexPath.row]
         
         
 //        print(track.track.album?.images)
         
-        for image in track.track.album!.images {
-            if image.height == 300 {
-                cell.imageView?.kf.setImage(with: image.url) { result in
-                    switch result {
-                    case .failure(let error):
-                        print(error)
-                    case .success(let value):
-                        
-                        DispatchQueue.main.async {
-                            cell.imageView?.image = value.image
-                            cell.textLabel?.text = track.track.name
-
-                        }
-                    }
-
-                }
-            }
-        }
+        
         
 
         

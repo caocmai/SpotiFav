@@ -185,6 +185,11 @@ extension Top50ViewController: UITableViewDelegate, UITableViewDataSource {
             player = try AVAudioPlayer(contentsOf: url)
             //                        player.prepareToPlay()
             //            player.volume = 1.0
+            do {
+               try AVAudioSession.sharedInstance().setCategory(.playback)
+            } catch(let error) {
+                print(error.localizedDescription)
+            }
             player.play()
             isPlaying = true
             //            let test = player.currentTime

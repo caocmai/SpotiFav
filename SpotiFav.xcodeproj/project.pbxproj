@@ -105,6 +105,7 @@
 			children = (
 				2C7552312510775200D8238C /* AppDelegate.swift */,
 				2C7552332510775200D8238C /* SceneDelegate.swift */,
+				2CF85E5B251B06800054E856 /* Model */,
 				2C80F8EC251318E80057A05A /* Controllers */,
 				2C80F8EE251319140057A05A /* Network */,
 				2C80F8ED251318FF0057A05A /* Views */,
@@ -146,7 +147,6 @@
 				2CF85E4C251AF46A0054E856 /* Request.swift */,
 				2CF85E51251AF9650054E856 /* APIClient.swift */,
 				2C80F8F1251319310057A05A /* Network Models */,
-				2CF85E5B251B06800054E856 /* Model */,
 			);
 			path = Network;
 			sourceTree = "<group>";
