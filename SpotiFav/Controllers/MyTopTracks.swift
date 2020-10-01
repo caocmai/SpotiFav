@@ -12,7 +12,7 @@ import UIKit
 import AVFoundation
 import Kingfisher
 
-class Top50ViewController: UIViewController {
+class MyTopTracks: UIViewController {
     
     var token : String? = nil
     
@@ -90,7 +90,7 @@ class Top50ViewController: UIViewController {
 
 
 
-extension Top50ViewController: UITableViewDelegate, UITableViewDataSource {
+extension MyTopTracks: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return albumns.count
     }

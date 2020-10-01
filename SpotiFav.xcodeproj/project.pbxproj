@@ -14,11 +14,11 @@
 		2C6D90282525A44500F72A99 /* SimpleTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6D90272525A44500F72A99 /* SimpleTrack.swift */; };
 		2C7552322510775200D8238C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7552312510775200D8238C /* AppDelegate.swift */; };
 		2C7552342510775200D8238C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7552332510775200D8238C /* SceneDelegate.swift */; };
-		2C7552362510775200D8238C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7552352510775200D8238C /* ViewController.swift */; };
+		2C7552362510775200D8238C /* MyTopArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7552352510775200D8238C /* MyTopArtists.swift */; };
 		2C7552392510775200D8238C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C7552372510775200D8238C /* Main.storyboard */; };
 		2C75523B2510775400D8238C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C75523A2510775400D8238C /* Assets.xcassets */; };
 		2C75523E2510775400D8238C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C75523C2510775400D8238C /* LaunchScreen.storyboard */; };
-		2C7F0AC62512DA7B004195CD /* Top50ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */; };
+		2C7F0AC62512DA7B004195CD /* MyTopTracks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7F0AC52512DA7B004195CD /* MyTopTracks.swift */; };
 		2C80F8EB2512E1E60057A05A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2C80F8EA2512E1E60057A05A /* README.md */; };
 		2C80F8F0251319210057A05A /* ExpiredToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8EF251319210057A05A /* ExpiredToken.swift */; };
 		2C80F8F3251322530057A05A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80F8F2251322530057A05A /* UserModel.swift */; };
@@ -49,12 +49,12 @@
 		2C75522E2510775200D8238C /* SpotiFav.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotiFav.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C7552312510775200D8238C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C7552332510775200D8238C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2C7552352510775200D8238C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2C7552352510775200D8238C /* MyTopArtists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTopArtists.swift; sourceTree = "<group>"; };
 		2C7552382510775200D8238C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2C75523A2510775400D8238C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C75523D2510775400D8238C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C75523F2510775400D8238C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Top50ViewController.swift; sourceTree = "<group>"; };
+		2C7F0AC52512DA7B004195CD /* MyTopTracks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTopTracks.swift; sourceTree = "<group>"; };
 		2C80F8EA2512E1E60057A05A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2C80F8EF251319210057A05A /* ExpiredToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredToken.swift; sourceTree = "<group>"; };
 		2C80F8F2251322530057A05A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -123,8 +123,8 @@
 		2C80F8EC251318E80057A05A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2C7F0AC52512DA7B004195CD /* Top50ViewController.swift */,
-				2C7552352510775200D8238C /* ViewController.swift */,
+				2C7F0AC52512DA7B004195CD /* MyTopTracks.swift */,
+				2C7552352510775200D8238C /* MyTopArtists.swift */,
 				2CBEFF7B251DBCE0000DDBD1 /* ArtistTopTracksVC.swift */,
 				2CAFA4962521935C00C5919F /* PlaylistTableVC.swift */,
 				2C6D90252525946400F72A99 /* FavoritesVC.swift */,
@@ -263,7 +263,7 @@
 				2CF85E4B251AF4490054E856 /* RequestBuilder.swift in Sources */,
 				2CF85E4D251AF46A0054E856 /* Request.swift in Sources */,
 				2C6D90282525A44500F72A99 /* SimpleTrack.swift in Sources */,
-				2C7552362510775200D8238C /* ViewController.swift in Sources */,
+				2C7552362510775200D8238C /* MyTopArtists.swift in Sources */,
 				2C6077F42515DA6100B50BC8 /* Tokens.swift in Sources */,
 				2C6D90262525946400F72A99 /* FavoritesVC.swift in Sources */,
 				2C80F8F3251322530057A05A /* UserModel.swift in Sources */,
@@ -280,7 +280,7 @@
 				2CF85E5A251B02820054E856 /* SpotifyBaseURL.swift in Sources */,
 				2CC479CA2513D93200203F42 /* UserTopTracks.swift in Sources */,
 				2C2E922D251D9EEB008F635A /* TableCell.swift in Sources */,
-				2C7F0AC62512DA7B004195CD /* Top50ViewController.swift in Sources */,
+				2C7F0AC62512DA7B004195CD /* MyTopTracks.swift in Sources */,
 				2CF85E58251B02350054E856 /* EndingPath.swift in Sources */,
 				2C80F8F5251332580057A05A /* Playlist.swift in Sources */,
 				2CBEFF7E251DC16A000DDBD1 /* ArtistTopTracks.swift in Sources */,

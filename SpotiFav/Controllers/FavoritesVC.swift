@@ -9,39 +9,11 @@
 import UIKit
 
 class FavoritesVC: UIViewController {
-
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        view.backgroundColor = .white
-//        guard let refreshToken = UserDefaults.standard.string(forKey: "refresh_token") else {return nil}
-        
-//        let myarray = defaults.stringArray(forKey: "SavedStringArray") ?? [String]()
-
-        
-//        let token = (UserDefaults.standard.string(forKey: "token"))!
-//
-//        let tracks = UserDefaults.standard.stringArray(forKey: "favTracks")!
-//
-//        apiclient.call(request: .getFavTracks(ids: tracks, token: token, completion: { (playlis) in
-//            switch playlis{
-//            case .failure(let error):
-//                print(error)
-//            case .success(let playlist):
-//                print(playlist)
-//            }
-//        }))
-//
-//    }
-//
-    
-    
     
     let apiClient = APIClient(configuration: URLSessionConfiguration.default)
         
-//        var tracks: [Item]!
         var trackTableView = UITableView()
         
-//        var player: AVAudioPlayer!
         var isPlaying = false
         var paused = false
         var curretPlayingIndex = -1

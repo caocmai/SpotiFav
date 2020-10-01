@@ -12,7 +12,7 @@ import AVFoundation
 import Kingfisher
 
 
-class ViewController: UIViewController, ASWebAuthenticationPresentationContextProviding {
+class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProviding {
     
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return view.window ?? ASPresentationAnchor()
@@ -203,7 +203,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
 }
 
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension MyTopArtists: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return artists.count
     }
