@@ -21,13 +21,13 @@ class PlaylistTableVC: UIViewController {
     var isPlaying = false
     var paused = false
     var curretPlayingIndex = -1
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
-
+        
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Playlist"
         let token = UserDefaults.standard.string(forKey: "token")
@@ -36,22 +36,22 @@ class PlaylistTableVC: UIViewController {
         if token == nil {
             emptyMessage(message: "Tap Authenticate", duration: 1.20)
         } else {
-        apiClient.call(request: .getPlaylist(token: token!, playlistId: global50, completions: { (playlist) in
-            switch playlist {
-            case .failure(let error):
-                print(error)
-            case .success(let playlist):
-//                self.tracks = playlist.tracks.items
-//                print(playlist)
-                
-                DispatchQueue.main.async {
-                    self.navigationItem.title = playlist.name
-                    self.tracks = playlist.tracks.items
-                    self.configureTableView()
+            apiClient.call(request: .getPlaylist(token: token!, playlistId: global50, completions: { (playlist) in
+                switch playlist {
+                case .failure(let error):
+                    print(error)
+                case .success(let playlist):
+                    //                self.tracks = playlist.tracks.items
+                    //                print(playlist)
+                    
+                    DispatchQueue.main.async {
+                        self.navigationItem.title = playlist.name
+                        self.tracks = playlist.tracks.items
+                        self.configureTableView()
+                    }
                 }
-            }
-        }))
-    }
+            }))
+        }
     }
     
     private func configureTableView() {
@@ -62,7 +62,7 @@ class PlaylistTableVC: UIViewController {
         trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         trackTableView.frame = self.view.bounds
     }
-
+    
 }
 
 
@@ -74,15 +74,16 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self)), for: indexPath) as! TableCell
         
-        cell.setTrack(track: tracks[indexPath.row])
-//        let track = tracks[indexPath.row]
+        cell.track = tracks[indexPath.row]
+        cell.setTrack(song: tracks[indexPath.row])
+        //        let track = tracks[indexPath.row]
         
         
-//        print(track.track.album?.images)
+        //        print(track.track.album?.images)
         
         
         
-
+        
         
         return cell
     }
@@ -93,32 +94,32 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if isPlaying == true && !paused{
-            player.pause()
-            paused = true
-            print("paused")
-        }
-        else if isPlaying && paused {
-            print("un pased")
-            player.play()
-            paused = false
-        } else {
-            let track = tracks[indexPath.row]
-            if let previewURL = track.track.previewUrl {
-                downloadFileFromURL(url: previewURL)
-            }
-            curretPlayingIndex = indexPath.row
-            
-        }
-        
-        if curretPlayingIndex != indexPath.row {
-            let track = tracks[indexPath.row]
-            if let previewURL = track.track.previewUrl {
-                downloadFileFromURL(url: previewURL)
-            }
-            curretPlayingIndex = indexPath.row
-        }
+        //
+        //        if isPlaying == true && !paused{
+        //            player.pause()
+        //            paused = true
+        //            print("paused")
+        //        }
+        //        else if isPlaying && paused {
+        //            print("un pased")
+        //            player.play()
+        //            paused = false
+        //        } else {
+        //            let track = tracks[indexPath.row]
+        //            if let previewURL = track.track.previewUrl {
+        //                downloadFileFromURL(url: previewURL)
+        //            }
+        //            curretPlayingIndex = indexPath.row
+        //
+        //        }
+        //
+        //        if curretPlayingIndex != indexPath.row {
+        //            let track = tracks[indexPath.row]
+        //            if let previewURL = track.track.previewUrl {
+        //                downloadFileFromURL(url: previewURL)
+        //            }
+        //            curretPlayingIndex = indexPath.row
+        //        }
         
     }
     
@@ -155,5 +156,5 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
             print("AVAudioPlayer init failed")
         }
     }
-
+    
 }

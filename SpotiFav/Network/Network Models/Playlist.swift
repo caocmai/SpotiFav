@@ -27,6 +27,7 @@ struct Item: Model {
 }
 
 struct Alumn: Model {
+    let id: String
     let album: AlumnDetail?
     let artists: [Artist]
 //    let popularity: Int

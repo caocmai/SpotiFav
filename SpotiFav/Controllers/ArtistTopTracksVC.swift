@@ -98,7 +98,7 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
                 
             }
         }
-
+        
         return cell
     }
     
@@ -157,12 +157,12 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
             player = try AVAudioPlayer(contentsOf: url)
             player.play()
             isPlaying = true
-
+            
         } catch let error as NSError {
             print(error.localizedDescription)
         } catch {
             print("AVAudioPlayer init failed")
         }
     }
-
+    
 }

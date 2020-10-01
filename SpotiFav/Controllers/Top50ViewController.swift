@@ -44,28 +44,28 @@ class Top50ViewController: UIViewController {
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
         print(token)
-//        let newlabel = UILabel()
+        //        let newlabel = UILabel()
         
         if token == nil {
             emptyMessage(message: "hello", duration: 1.20)
         } else {
-        
-        client.call(request: .getUserTopTracks(token: token!, completions: { (result) in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let tracks):
-                //                print(tracks)
-                self.albumns = tracks.items
-                
-                DispatchQueue.main.async {
-                    self.configureTableView()
+            
+            client.call(request: .getUserTopTracks(token: token!, completions: { (result) in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let tracks):
+                    //                print(tracks)
+                    self.albumns = tracks.items
+                    
+                    DispatchQueue.main.async {
+                        self.configureTableView()
+                    }
                 }
-            }
-        }))
+            }))
         }
         configureNavBar()
-  
+        
     }
     
     private func configureNavBar() {
@@ -107,24 +107,24 @@ extension Top50ViewController: UITableViewDelegate, UITableViewDataSource {
         
         for image in artist.album!.images {
             if image.height == 300 {
-            //                print(image.url)
-            cell.imageView?.kf.setImage(with: image.url, options: []) { result in
-                switch result {
-                case .success(let value):
-                    DispatchQueue.main.async {
-                        cell.textLabel?.text = self.albumns[indexPath.row].name
-
+                //                print(image.url)
+                cell.imageView?.kf.setImage(with: image.url, options: []) { result in
+                    switch result {
+                    case .success(let value):
+                        DispatchQueue.main.async {
+                            cell.textLabel?.text = self.albumns[indexPath.row].name
+                            
+                            cell.imageView?.image = value.image
+                            
+                        }
                         cell.imageView?.image = value.image
-
+                    case .failure(let error):
+                        print("error")
+                        //                    print(error)
                     }
-                    cell.imageView?.image = value.image
-                case .failure(let error):
-                                            print("error")
-//                    print(error)
+                    
                 }
-                
             }
-        }
             
         }
         
@@ -149,6 +149,7 @@ extension Top50ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let track = albumns[indexPath.row]
             if let previewURL = track.previewUrl {
+//                print("previewURL", previewURL)
                 downloadFileFromURL(url: previewURL)
             }
             curretPlayingIndex = indexPath.row
@@ -186,7 +187,7 @@ extension Top50ViewController: UITableViewDelegate, UITableViewDataSource {
             //                        player.prepareToPlay()
             //            player.volume = 1.0
             do {
-               try AVAudioSession.sharedInstance().setCategory(.playback)
+                try AVAudioSession.sharedInstance().setCategory(.playback)
             } catch(let error) {
                 print(error.localizedDescription)
             }

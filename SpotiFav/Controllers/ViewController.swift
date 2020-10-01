@@ -41,39 +41,39 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-//       print(token)
+        //       print(token)
         fetchAndConfigureTable()
         
         configureNavBar()
-
+        
     }
     
     private func fetchAndConfigureTable() {
         let token = (UserDefaults.standard.string(forKey: "token"))
         let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
-
-        if token == nil {
-                    emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
-                } else {
-
-                client.call(request: .getUserTopArtists(token: refreshToken!, completions: { (result) in
-                            switch result {
-                            case .failure(let error):
-                                print(error)
-                                print("got back completion; error")
-                            case .success(let results):
-                                self.artists = results.items
-                                DispatchQueue.main.async {
-                                    self.configureTableView()
-        //                            print(self.artists)
-                                }
-                            }
-                        }))
-                    
-                }
         
-//        print("function executed")
-//        artistsTableView.reloadData()
+        if token == nil {
+            emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
+        } else {
+            
+            client.call(request: .getUserTopArtists(token: refreshToken!, completions: { (result) in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                    print("got back completion; error")
+                case .success(let results):
+                    self.artists = results.items
+                    DispatchQueue.main.async {
+                        self.configureTableView()
+                        //                            print(self.artists)
+                    }
+                }
+            }))
+            
+        }
+        
+        //        print("function executed")
+        //        artistsTableView.reloadData()
     }
     
     private func configureNavBar() {
@@ -101,7 +101,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         
         var downloadTask: URLSessionDownloadTask
         downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { [weak self] (URL, response, error) in
-
+            
             self?.play(url: URL!)
         })
         
@@ -158,7 +158,7 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         //            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         //        }
         //
-
+        
     }
     
     
@@ -198,8 +198,6 @@ class ViewController: UIViewController, ASWebAuthenticationPresentationContextPr
         session.presentationContextProvider = self
         session.start()
         
-        
-        
     }
     
 }
@@ -214,7 +212,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
         
         let artist = artists[indexPath.row]
-
+        
         for image in artist.images {
             if image.height == 160 {
                 cell.imageView?.kf.setImage(with: image.url, options: []) { result in
@@ -224,13 +222,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                             cell.textLabel?.text = self.artists[indexPath.row].name
                             cell.imageView?.image = value.image
                         }
-
+                        
                     case .failure(let error):
                         print("error")
                     }
-
+                    
                 }
-
+                
             }
         }
         
