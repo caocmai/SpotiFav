@@ -13,7 +13,8 @@ struct ArtistTopTracks: Model {
 }
 
 struct ArtistTrack: Model {
+    let id: String
     let name: String
-    let previewUrl: String?
+    let previewUrl: URL?
     let album: Alumn
 }

@@ -18,6 +18,7 @@ enum EndingPath {
     case search(q: String, type: SpotifyType)
     case playlist(id: String)
     case myTop(type: MyTopTypes)
+    case tracks(ids: [String])
 
     func getPath() -> String {
         switch self {
@@ -38,6 +39,8 @@ enum EndingPath {
             return "playlists/\(id)"
         case .myTop(let type):
             return "me/top/\(type)"
+        case .tracks(let ids):
+            return "tracks/?ids=\(ids.joined(separator: ","))"
         }
     }
 

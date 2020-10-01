@@ -210,7 +210,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
-        
+        cell.accessoryType = .disclosureIndicator
+
         let artist = artists[indexPath.row]
         
         for image in artist.images {

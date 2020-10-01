@@ -132,7 +132,7 @@ extension Request {
         
     }
     
-    // haven't tested parsing not using!
+    
     static func getPlaylist(token: String, playlistId: String, completions: @escaping (Result<Playlist, Error>) -> Void) -> Request {
 
         let apiClient = APIClient(configuration: URLSessionConfiguration.default)
@@ -166,6 +166,35 @@ extension Request {
 
         }
 
+    }
+    
+    static func getFavTracks(ids: [String], token: String, completion: @escaping(Result<ArtistTopTracks, Error>) -> Void) -> Request {
+        let apiClient = APIClient(configuration: URLSessionConfiguration.default)
+        
+                apiClient.call(request: .checkExpiredToken(token: token, completion: { (expiredToken) in
+                    switch expiredToken {
+                    case .failure(_):
+                        print("token still valid")
+        
+                    case .success(_):
+                        print("token expired")
+                        apiClient.call(request: refreshTokenToAccessToken(completion: { (refreshToken) in
+                            switch refreshToken {
+                            case .failure(_):
+                                print("no refresh token returned")
+                            case .success(let refresh):
+                                UserDefaults.standard.set(refresh.accessToken, forKey: "token")
+                                apiClient.call(request: .getFavTracks(ids: ids, token: refresh.accessToken, completion: completion))
+                            }
+                        })!)
+                    }
+                }))
+        
+        return Request.buildRequest(method: .get, header: Header.GETHeader(accessTokeny: token).getProperHeader(), baseURL: SpotifyBaseURL.APICallBase.rawValue, path: EndingPath.tracks(ids: ids).getPath()) { result in
+            result.decoding(ArtistTopTracks.self, completion: completion)
+        }
+        
+        
     }
     
     static func getArtistTopTracks(id: String, token: String, completions: @escaping (Result<ArtistTopTracks, Error>) -> Void) -> Request {

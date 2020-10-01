@@ -16,6 +16,8 @@ class TableCell: UITableViewCell {
     
     var track: Item!
     
+    var simplifiedTrack: SimpleTrack!
+    
     lazy var heartButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -68,8 +70,8 @@ class TableCell: UITableViewCell {
         let heart = UIImage(systemName: "heart.fill")
         let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
         heartButton.setImage(redHeartColor, for: .normal)
-        favArrayIds.append(track.track.id)
-        print(track.track.id)
+        favArrayIds.append(simplifiedTrack.id)
+        print(favArrayIds)
         UserDefaults.standard.set(favArrayIds, forKey: "favTracks")
         
     }
@@ -79,10 +81,10 @@ class TableCell: UITableViewCell {
         
         if Player.shared.player == nil {
             print("player not playing")
-            if let previewURL = track.track.previewUrl {
+            if let previewURL = simplifiedTrack.previewUrl {
                 Player.shared.downloadFileFromURL(url: previewURL)
             }
-            currentPlayingId = track.track.id
+            currentPlayingId = simplifiedTrack.id
             UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
             let play = UIImage(systemName: "pause.fill")
             let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
@@ -91,11 +93,11 @@ class TableCell: UITableViewCell {
         }
         
         
-        if currentPlayingId != track.track.id {
-            if let previewURL = track.track.previewUrl {
+        if currentPlayingId != simplifiedTrack.id {
+            if let previewURL = simplifiedTrack.previewUrl {
                 Player.shared.downloadFileFromURL(url: previewURL)
             }
-            currentPlayingId = track.track.id
+            currentPlayingId = simplifiedTrack.id
             UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
             
             DispatchQueue.main.async {
@@ -111,7 +113,6 @@ class TableCell: UITableViewCell {
                 print("yes")
                 player.pause()
                 
-                
                 let play = UIImage(systemName: "play.fill")
                 let playGray = play?.withTintColor(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), renderingMode: .alwaysOriginal)
                 playbackImage.image = playGray
@@ -126,39 +127,37 @@ class TableCell: UITableViewCell {
             }
             
         }
-        
-        
-        //
-        //
-        //        if currentPlayingId == nil {
-        //
-        //            if let previewURL = track.track.previewUrl {
-        //                Player.shared.downloadFileFromURL(url: previewURL)
-        //            }
-        //            currentPlayingId = track.track.id
-        //            UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
-        //            let play = UIImage(systemName: "pause.fill")
-        //            let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
-        //            playbackImage.image = playGray
-        ////            UserDefaults.standard.set(true, forKey: "isPlaying")
-        //        }
-        
-        
+
     }
     
-    func setTrack(song: Item) {
+    func setTrack(song: SimpleTrack) {
         //        print(favArrayIds)
         
-        if song.track.previewUrl == nil {
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        cellImage.translatesAutoresizingMaskIntoConstraints = false
+        //        playbackImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.contentView.addSubview(heartButton)
+        self.contentView.addSubview(label)
+        self.contentView.addSubview(cellImage)
+        self.contentView.addSubview(hiddenPlayButton)
+        self.contentView.addSubview(playbackImage)
+        
+        cellImage.contentMode = .scaleAspectFit
+        
+        if song.previewUrl == nil {
             hiddenPlayButton.isHidden = true
             playbackImage.isHidden = true
+
         } else {
+
             hiddenPlayButton.isHidden = false
             playbackImage.isHidden = false
         }
         
         if !favArrayIds.isEmpty {
-            if favArrayIds.contains(song.track.id) {
+            if favArrayIds.contains(song.id) {
                 let heart = UIImage(systemName: "heart.fill")
                 let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
                 heartButton.setImage(redHeartColor, for: .normal)
@@ -177,9 +176,7 @@ class TableCell: UITableViewCell {
         
         if let player = Player.shared.player {
             if player.isPlaying {
-                //            print("yes")
-                
-                if currentPlayingId == song.track.id {
+                if currentPlayingId == song.id {
                     let play = UIImage(systemName: "pause.fill")
                     let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
                     playbackImage.image = playGray
@@ -194,27 +191,6 @@ class TableCell: UITableViewCell {
         
         
         
-        //
-        //
-        //        if let player = Player.shared.player {
-        //        if !player.isPlaying {
-        //            let play = UIImage(systemName: "play.fill")
-        //            let playGray = play?.withTintColor(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), renderingMode: .alwaysOriginal)
-        //            playbackImage.image = playGray
-        //            }
-        //        }
-        //
-        label.translatesAutoresizingMaskIntoConstraints = false
-        cellImage.translatesAutoresizingMaskIntoConstraints = false
-        //        playbackImage.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.contentView.addSubview(heartButton)
-        self.contentView.addSubview(label)
-        self.contentView.addSubview(cellImage)
-        self.contentView.addSubview(hiddenPlayButton)
-        self.contentView.addSubview(playbackImage)
-        
-        cellImage.contentMode = .scaleAspectFit
         
         NSLayoutConstraint.activate([
             
@@ -224,25 +200,25 @@ class TableCell: UITableViewCell {
             cellImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
             cellImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor),
             
-            
-            playbackImage.leadingAnchor.constraint(equalTo: cellImage.trailingAnchor, constant: 8),
-            playbackImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -40),
-            playbackImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -40),
-            playbackImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            
-            label.leadingAnchor.constraint(equalTo: playbackImage.trailingAnchor, constant: 8),
+            label.leadingAnchor.constraint(equalTo: cellImage.trailingAnchor, constant: 8),
             label.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            label.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -50),
+            label.trailingAnchor.constraint(equalTo: self.playbackImage.leadingAnchor, constant: 3),
+            
+            
+            playbackImage.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: 8),
+           playbackImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -40),
+           playbackImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -40),
+           playbackImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             
             
             hiddenPlayButton.leadingAnchor.constraint(equalTo: cellImage.trailingAnchor),
             hiddenPlayButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            hiddenPlayButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -20),
+            hiddenPlayButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
             //            playButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -20),
             hiddenPlayButton.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: 5),
             
             
-            heartButton.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 4),
+            heartButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: 4),
             heartButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -10),
             heartButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -10),
             heartButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
@@ -251,7 +227,7 @@ class TableCell: UITableViewCell {
         ])
         
         
-        for image in song.track.album!.images {
+        for image in song.images {
             if image.height == 300 {
                 cellImage.kf.setImage(with: image.url) { result in
                     switch result {
@@ -261,7 +237,7 @@ class TableCell: UITableViewCell {
                         
                         DispatchQueue.main.async {
                             self.cellImage.image = value.image
-                            self.label.text = song.track.name
+                            self.label.text = song.title
                             
                         }
                     }

@@ -22,6 +22,8 @@ class PlaylistTableVC: UIViewController {
     var paused = false
     var curretPlayingIndex = -1
     
+    var simplifiedTracks = [SimpleTrack]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -44,9 +46,14 @@ class PlaylistTableVC: UIViewController {
                     //                self.tracks = playlist.tracks.items
                     //                print(playlist)
                     
+                    for track in playlist.tracks.items {
+                        let newTrack = SimpleTrack(id: track.track.id, title: track.track.name, previewURL: track.track.previewUrl, images: track.track.album!.images)
+                        self.simplifiedTracks.append(newTrack)
+                    }
+                    
                     DispatchQueue.main.async {
                         self.navigationItem.title = playlist.name
-                        self.tracks = playlist.tracks.items
+//                        self.tracks = playlist.tracks.items
                         self.configureTableView()
                     }
                 }
@@ -68,23 +75,18 @@ class PlaylistTableVC: UIViewController {
 
 extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tracks.count
+        simplifiedTracks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self)), for: indexPath) as! TableCell
         
-        cell.track = tracks[indexPath.row]
-        cell.setTrack(song: tracks[indexPath.row])
-        //        let track = tracks[indexPath.row]
-        
-        
-        //        print(track.track.album?.images)
-        
-        
-        
-        
-        
+//        cell.track = tracks[indexPath.row]
+        cell.simplifiedTrack = simplifiedTracks[indexPath.row]
+        cell.setTrack(song: simplifiedTracks[indexPath.row])
+
+        cell.selectionStyle = .none
+
         return cell
     }
     
@@ -93,68 +95,5 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
         return 60
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
-        //        if isPlaying == true && !paused{
-        //            player.pause()
-        //            paused = true
-        //            print("paused")
-        //        }
-        //        else if isPlaying && paused {
-        //            print("un pased")
-        //            player.play()
-        //            paused = false
-        //        } else {
-        //            let track = tracks[indexPath.row]
-        //            if let previewURL = track.track.previewUrl {
-        //                downloadFileFromURL(url: previewURL)
-        //            }
-        //            curretPlayingIndex = indexPath.row
-        //
-        //        }
-        //
-        //        if curretPlayingIndex != indexPath.row {
-        //            let track = tracks[indexPath.row]
-        //            if let previewURL = track.track.previewUrl {
-        //                downloadFileFromURL(url: previewURL)
-        //            }
-        //            curretPlayingIndex = indexPath.row
-        //        }
-        
-    }
-    
-    
-    func downloadFileFromURL(url: URL){
-        
-        var downloadTask: URLSessionDownloadTask
-        downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { [weak self] (URL, response, error) in
-            
-            self?.play(url: URL!)
-        })
-        
-        downloadTask.resume()
-        
-    }
-    
-    func play(url: URL) {
-        print("playing \(url)")
-        
-        do {
-            player = try AVAudioPlayer(contentsOf: url)
-            //                        player.prepareToPlay()
-            //            player.volume = 1.0
-            player.play()
-            isPlaying = true
-            //            let test = player.currentTime
-            //            Thread.sleep(forTimeInterval: 20)
-            //            player.pause()
-            //            Thread.sleep(forTimeInterval: 2)
-            //            player.play()
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        } catch {
-            print("AVAudioPlayer init failed")
-        }
-    }
     
 }
