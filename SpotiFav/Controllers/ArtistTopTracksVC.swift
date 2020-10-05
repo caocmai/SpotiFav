@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AVFoundation
 
 class ArtistTopTracksVC: UIViewController {
     
@@ -23,13 +22,6 @@ class ArtistTopTracksVC: UIViewController {
     var tracks = [ArtistTrack]()
     
     var simplifiedTracks = [SimpleTrack]()
-    
-    var player: AVAudioPlayer!
-    var isPlaying = false
-    var paused = false
-    var trackPlaying = false
-    var curretPlayingIndex = -1
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

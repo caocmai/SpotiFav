@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import Kingfisher
-import AVFoundation
+
 
 class PlaylistTableVC: UIViewController {
     
@@ -16,11 +15,6 @@ class PlaylistTableVC: UIViewController {
     
     var tracks: [Item]!
     var trackTableView = UITableView()
-    
-    var player: AVAudioPlayer!
-    var isPlaying = false
-    var paused = false
-    var curretPlayingIndex = -1
     
     var simplifiedTracks = [SimpleTrack]()
     
@@ -36,7 +30,7 @@ class PlaylistTableVC: UIViewController {
         print(token)
         
         if token == nil {
-            emptyMessage(message: "Tap Authenticate", duration: 1.20)
+            emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
         } else {
             apiClient.call(request: .getPlaylist(token: token!, playlistId: global50, completions: { (playlist) in
                 switch playlist {
@@ -86,7 +80,6 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
         cell.setTrack(song: simplifiedTracks[indexPath.row])
 
         cell.selectionStyle = .none
-
         return cell
     }
     

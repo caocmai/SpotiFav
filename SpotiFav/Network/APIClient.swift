@@ -18,7 +18,7 @@ struct APIClient {
     
     public func call(request: Request) {
         let urlRequest = request.builder.toURLRequest()
-        print(urlRequest)
+//        print(urlRequest)
         session.dataTask(with: urlRequest) { (data, response, error) in
             let result: Result<Data, Error>
             

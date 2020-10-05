@@ -7,10 +7,7 @@
 //
 
 import UIKit
-
-import UIKit
 import AVFoundation
-import Kingfisher
 
 class MyTopTracks: UIViewController {
     
@@ -47,7 +44,7 @@ class MyTopTracks: UIViewController {
         //        let newlabel = UILabel()
         
         if token == nil {
-            emptyMessage(message: "hello", duration: 1.20)
+            emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
         } else {
             
             client.call(request: .getUserTopTracks(token: token!, completions: { (result) in

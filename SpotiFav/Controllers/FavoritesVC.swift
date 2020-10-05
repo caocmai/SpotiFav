@@ -11,35 +11,35 @@ import UIKit
 class FavoritesVC: UIViewController {
     
     let apiClient = APIClient(configuration: URLSessionConfiguration.default)
+    
+    var trackTableView = UITableView()
+    
+    var isPlaying = false
+    var paused = false
+    var curretPlayingIndex = -1
+    
+    var simplifiedTracks = [SimpleTrack]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .white
         
-        var trackTableView = UITableView()
+        let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-        var isPlaying = false
-        var paused = false
-        var curretPlayingIndex = -1
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.title = "My Favorites"
+        let token = UserDefaults.standard.string(forKey: "token")
+        print(token)
         
-        var simplifiedTracks = [SimpleTrack]()
+        guard let tracks = UserDefaults.standard.stringArray(forKey: "favTracks") else {return}
         
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            self.view.backgroundColor = .white
+        if token == nil {
+            emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
             
-            let global50 = "37i9dQZEVXbMDoHDwVN2tF"
-            
-            self.navigationController?.navigationBar.prefersLargeTitles = true
-            self.navigationItem.title = "My Favorites"
-            let token = UserDefaults.standard.string(forKey: "token")
-            print(token)
-             
-            let tracks = UserDefaults.standard.stringArray(forKey: "favTracks")!
-
-            
-            if token == nil {
-                emptyMessage(message: "Tap Authenticate", duration: 1.20)
-            } else {
-                apiClient.call(request: .getFavTracks(ids: tracks, token: token!, completion:
-                    
-                    { (playlist) in
+        } else if !tracks.isEmpty {
+            apiClient.call(request: .getFavTracks(ids: tracks, token: token!, completion:
+                
+                { (playlist) in
                     switch playlist {
                     case .failure(let error):
                         print(error)
@@ -53,48 +53,52 @@ class FavoritesVC: UIViewController {
                         }
                         
                         DispatchQueue.main.async {
-//                            self.navigationItem.title = playlist.name
-    //                        self.tracks = playlist.tracks.items
+                            //                            self.navigationItem.title = playlist.name
+                            //                        self.tracks = playlist.tracks.items
                             self.configureTableView()
                         }
                     }
-                }))
-            }
+            }))
         }
-        
-        private func configureTableView() {
-            self.view.addSubview(trackTableView)
-            trackTableView.translatesAutoresizingMaskIntoConstraints = false
-            trackTableView.dataSource = self
-            trackTableView.delegate = self
-            trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
-            trackTableView.frame = self.view.bounds
-        }
-        
-    }
-
-
-    extension FavoritesVC: UITableViewDelegate, UITableViewDataSource {
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            simplifiedTracks.count
-        }
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self)), for: indexPath) as! TableCell
             
-    //        cell.track = tracks[indexPath.row]
-            cell.simplifiedTrack = simplifiedTracks[indexPath.row]
-            cell.setTrack(song: simplifiedTracks[indexPath.row])
-
-            cell.selectionStyle = .none
-            return cell
+            
+        else {
+            emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
+            
         }
-        
-        
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 60
-        }
-        
+    }
     
+    private func configureTableView() {
+        self.view.addSubview(trackTableView)
+        trackTableView.translatesAutoresizingMaskIntoConstraints = false
+        trackTableView.dataSource = self
+        trackTableView.delegate = self
+        trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
+        trackTableView.frame = self.view.bounds
+    }
+    
+}
+
+
+extension FavoritesVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        simplifiedTracks.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self)), for: indexPath) as! TableCell
+        
+        //        cell.track = tracks[indexPath.row]
+        cell.simplifiedTrack = simplifiedTracks[indexPath.row]
+        cell.setTrack(song: simplifiedTracks[indexPath.row])
+        
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
     
 }

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AVFoundation
 
 class TableCell: UITableViewCell {
     
@@ -47,7 +46,6 @@ class TableCell: UITableViewCell {
     
     var currentPlayingId: String? = nil
     
-    var favArrayIds = [String]()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -57,7 +55,7 @@ class TableCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        favArrayIds = UserDefaults.standard.stringArray(forKey: "favTracks") ?? [String]()
+//        favArrayIds = UserDefaults.standard.stringArray(forKey: "favTracks") ?? [String]()
         //        print(favArrayIds)
         
         currentPlayingId = UserDefaults.standard.string(forKey: "current_playing_id")
@@ -67,22 +65,36 @@ class TableCell: UITableViewCell {
     }
     
     @objc func heartTapped() {
-        let heart = UIImage(systemName: "heart.fill")
-        let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
-        heartButton.setImage(redHeartColor, for: .normal)
-        favArrayIds.append(simplifiedTrack.id)
-        print(favArrayIds)
-        UserDefaults.standard.set(favArrayIds, forKey: "favTracks")
+        var favArrayIds = [String]()
+        
+        favArrayIds = UserDefaults.standard.stringArray(forKey: "favTracks") ?? [String]()
+
+        if !favArrayIds.contains(simplifiedTrack.id) {
+            print("doesn't have id")
+            let heart = UIImage(systemName: "heart.fill")
+            let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
+            heartButton.setImage(redHeartColor, for: .normal)
+            favArrayIds.append(simplifiedTrack.id)
+            UserDefaults.standard.set(favArrayIds, forKey: "favTracks")
+        } else {
+            print("have id")
+            favArrayIds.remove(element: simplifiedTrack.id)
+            let heart = UIImage(systemName: "heart")
+            let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
+            heartButton.setImage(redHeartColor, for: .normal)
+            UserDefaults.standard.set(favArrayIds, forKey: "favTracks")
+
+        }
         
     }
     
     @objc func hiddenPlayButtonTapped() {
         //        print(currentPlayingId)
         
-        if Player.shared.player == nil {
+        if AudioPlayer.shared.player == nil {
             print("player not playing")
             if let previewURL = simplifiedTrack.previewUrl {
-                Player.shared.downloadFileFromURL(url: previewURL)
+                AudioPlayer.shared.downloadFileFromURL(url: previewURL)
             }
             currentPlayingId = simplifiedTrack.id
             UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
@@ -95,7 +107,7 @@ class TableCell: UITableViewCell {
         
         if currentPlayingId != simplifiedTrack.id {
             if let previewURL = simplifiedTrack.previewUrl {
-                Player.shared.downloadFileFromURL(url: previewURL)
+                AudioPlayer.shared.downloadFileFromURL(url: previewURL)
             }
             currentPlayingId = simplifiedTrack.id
             UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
@@ -108,9 +120,8 @@ class TableCell: UITableViewCell {
             
         }
         
-        if let player = Player.shared.player {
+        if let player = AudioPlayer.shared.player {
             if player.isPlaying {
-                print("yes")
                 player.pause()
                 
                 let play = UIImage(systemName: "play.fill")
@@ -122,21 +133,17 @@ class TableCell: UITableViewCell {
                 let play = UIImage(systemName: "pause.fill")
                 let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
                 playbackImage.image = playGray
-                
-                
+
             }
             
         }
-
+        
     }
     
     func setTrack(song: SimpleTrack) {
-        //        print(favArrayIds)
-        
-        
+
         label.translatesAutoresizingMaskIntoConstraints = false
         cellImage.translatesAutoresizingMaskIntoConstraints = false
-        //        playbackImage.translatesAutoresizingMaskIntoConstraints = false
         
         self.contentView.addSubview(heartButton)
         self.contentView.addSubview(label)
@@ -151,11 +158,13 @@ class TableCell: UITableViewCell {
             playbackImage.isHidden = true
 
         } else {
-
             hiddenPlayButton.isHidden = false
             playbackImage.isHidden = false
         }
         
+        var favArrayIds = [String]()
+        favArrayIds = UserDefaults.standard.stringArray(forKey: "favTracks") ?? [String]()
+
         if !favArrayIds.isEmpty {
             if favArrayIds.contains(song.id) {
                 let heart = UIImage(systemName: "heart.fill")
@@ -174,7 +183,7 @@ class TableCell: UITableViewCell {
         }
         
         
-        if let player = Player.shared.player {
+        if let player = AudioPlayer.shared.player {
             if player.isPlaying {
                 if currentPlayingId == song.id {
                     let play = UIImage(systemName: "pause.fill")
@@ -189,41 +198,30 @@ class TableCell: UITableViewCell {
             }
         }
         
-        
-        
-        
         NSLayoutConstraint.activate([
             
+             heartButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+             heartButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
+             heartButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor),
+             heartButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             
-            cellImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            //            cellImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+            cellImage.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor),
             cellImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
             cellImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor),
             
             label.leadingAnchor.constraint(equalTo: cellImage.trailingAnchor, constant: 8),
             label.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            label.trailingAnchor.constraint(equalTo: self.playbackImage.leadingAnchor, constant: 3),
+            label.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -40),
             
-            
-            playbackImage.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: 8),
-           playbackImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -40),
-           playbackImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -40),
-           playbackImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            
-            
-            hiddenPlayButton.leadingAnchor.constraint(equalTo: cellImage.trailingAnchor),
-            hiddenPlayButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+            hiddenPlayButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor),
             hiddenPlayButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
-            //            playButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -20),
-            hiddenPlayButton.trailingAnchor.constraint(equalTo: heartButton.leadingAnchor, constant: 5),
+            hiddenPlayButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
             
+            playbackImage.leadingAnchor.constraint(equalTo: label.trailingAnchor),
+            playbackImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -40),
+            playbackImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -40),
+            playbackImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             
-            heartButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: 4),
-            heartButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -10),
-            heartButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -10),
-            heartButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            
-            //            playButton.leadingAnchor.constraint(equalTo: label.trailingAnchor, constant: 2),
         ])
         
         
@@ -250,58 +248,10 @@ class TableCell: UITableViewCell {
 }
 
 
-class Player {
-    
-    static let shared = Player()
-    var player: AVAudioPlayer!
-    var isPlaying = false
-    
-    func downloadFileFromURL(url: URL){
-        
-        var downloadTask: URLSessionDownloadTask
-        downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { [weak self] (URL, response, error) in
-            
-            self?.play(url: URL!)
-        })
-        
-        downloadTask.resume()
-        
-    }
-    
-    func play(url: URL) {
-        print("playing \(url)")
-        
-        do {
-            player = try AVAudioPlayer(contentsOf: url)
-            //                        player.prepareToPlay()
-            //            player.volume = 1.0
-            do {
-                try AVAudioSession.sharedInstance().setCategory(.playback)
-            } catch(let error) {
-                print(error.localizedDescription)
-            }
-            player.play()
-            isPlaying = true
-            //            let test = player.currentTime
-            //            Thread.sleep(forTimeInterval: 20)
-            //            player.pause()
-            //            Thread.sleep(forTimeInterval: 2)
-            //            player.play()
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        } catch {
-            print("AVAudioPlayer init failed")
-        }
-        
-    }
-    
-    func pause() {
-        if isPlaying {
-            player.pause()
-            isPlaying = false
-        } else {
-            player.play()
-            isPlaying = true
+extension Array where Element: Equatable{
+    mutating func remove (element: Element) {
+        if let i = self.firstIndex(of: element) {
+            self.remove(at: i)
         }
     }
 }
