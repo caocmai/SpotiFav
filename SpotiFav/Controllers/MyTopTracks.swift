@@ -28,6 +28,8 @@ class MyTopTracks: UIViewController {
     var trackPlaying = false
     var curretPlayingIndex = 0
     
+    var simplifiedTracks = [SimpleTrack]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,9 +57,18 @@ class MyTopTracks: UIViewController {
                     //                print(tracks)
                     self.albumns = tracks.items
                     
+                    for track in tracks.items {
+                        let newTrack = SimpleTrack(artistName: track.artists.first?.name, id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album!.images)
+                        self.simplifiedTracks.append(newTrack)
+                    }
+                    
                     DispatchQueue.main.async {
+                        //                            self.navigationItem.title = playlist.name
+                        //                        self.tracks = playlist.tracks.items
                         self.configureTableView()
                     }
+                    
+                
                 }
             }))
         }
@@ -89,143 +100,24 @@ class MyTopTracks: UIViewController {
 
 extension MyTopTracks: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return albumns.count
+        return simplifiedTracks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
         
-        let artist = albumns[indexPath.row]
-        //        print(artist.id)
-        //        print(artist.album.images.first?.url)
-        
-        
-        //        if let safeimages = artist.album.images {
-        
-        for image in artist.album!.images {
-            if image.height == 300 {
-                //                print(image.url)
-                cell.imageView?.kf.setImage(with: image.url, options: []) { result in
-                    switch result {
-                    case .success(let value):
-                        DispatchQueue.main.async {
-                            cell.textLabel?.text = self.albumns[indexPath.row].name
-                            
-                            cell.imageView?.image = value.image
-                            
-                        }
-                        cell.imageView?.image = value.image
-                    case .failure(let error):
-                        print("error")
-                        //                    print(error)
-                    }
-                    
-                }
-            }
-            
-        }
-        
+        let track = simplifiedTracks[indexPath.row]
+        cell.setTrack(song: track, hideHeartButton: true)
+        cell.simplifiedTrack = track
+ 
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 65
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if isPlaying == true && !paused{
-            player.pause()
-            paused = true
-            print("paused")
-        }
-        else if isPlaying && paused {
-            print("un pased")
-            player.play()
-            paused = false
-        } else {
-            let track = albumns[indexPath.row]
-            if let previewURL = track.previewUrl {
-//                print("previewURL", previewURL)
-                downloadFileFromURL(url: previewURL)
-            }
-            curretPlayingIndex = indexPath.row
-            
-        }
-        
-        if curretPlayingIndex != indexPath.row {
-            let track = albumns[indexPath.row]
-            if let previewURL = track.previewUrl {
-                downloadFileFromURL(url: previewURL)
-            }
-            curretPlayingIndex = indexPath.row
-        }
-        
-    }
-    
-    
-    func downloadFileFromURL(url: URL){
-        
-        var downloadTask: URLSessionDownloadTask
-        downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { [weak self] (URL, response, error) in
-            
-            self?.play(url: URL!)
-        })
-        
-        downloadTask.resume()
-        
-    }
-    
-    func play(url: URL) {
-        print("playing \(url)")
-        
-        do {
-            player = try AVAudioPlayer(contentsOf: url)
-            //                        player.prepareToPlay()
-            //            player.volume = 1.0
-            do {
-                try AVAudioSession.sharedInstance().setCategory(.playback)
-            } catch(let error) {
-                print(error.localizedDescription)
-            }
-            player.play()
-            isPlaying = true
-            //            let test = player.currentTime
-            //            Thread.sleep(forTimeInterval: 20)
-            //            player.pause()
-            //            Thread.sleep(forTimeInterval: 2)
-            //            player.play()
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        } catch {
-            print("AVAudioPlayer init failed")
-        }
-        
-    }
     
 }
 
 
-extension UIViewController {
-    
-    func emptyMessage(message: String, duration: Double) {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.textColor = .gray
-        self.view.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        ])
-        
-        label.transform = CGAffineTransform(scaleX: 0, y: 0)
-        label.text = message
-        
-        UIView.animate(withDuration: duration, delay: 0.0,
-                       usingSpringWithDamping: 0.6, initialSpringVelocity: 0.0, options: [],
-                       animations: {
-                        label.transform = CGAffineTransform(scaleX: 1, y: 1)},
-                       completion: nil)
-    }
-}

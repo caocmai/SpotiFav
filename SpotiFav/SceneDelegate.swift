@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabbar = UITabBarController()
         
         rootViewController.tabBarItem = UITabBarItem(title: "HOME", image: UIImage(systemName: "house"), selectedImage: nil)
-        secondViewController.tabBarItem = UITabBarItem(title: "MY TOP", image: UIImage(systemName: "star.fill"), selectedImage: nil)
+        secondViewController.tabBarItem = UITabBarItem(title: "FAVs", image: UIImage(systemName: "heart.fill"), selectedImage: nil)
         thirdViewController.tabBarItem = UITabBarItem(title: "PLAYLIST", image: UIImage(systemName: "music.note.list"), selectedImage: nil)
         
         let navController = UINavigationController(rootViewController: rootViewController)

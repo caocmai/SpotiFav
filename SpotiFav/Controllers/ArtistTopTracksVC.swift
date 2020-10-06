@@ -44,6 +44,8 @@ class ArtistTopTracksVC: UIViewController {
         table.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         table.delegate = self
         table.dataSource = self
+        table.separatorStyle = UITableViewCell.SeparatorStyle.none
+
     }
     
     private func fetch() {
@@ -55,7 +57,7 @@ class ArtistTopTracksVC: UIViewController {
 //                self.tracks = tracks.tracks
                 
                 for track in tracks.tracks {
-                    let newTrack = SimpleTrack(id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album.images!)
+                    let newTrack = SimpleTrack(artistName: track.album.artists.first?.name, id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album.images!)
                     self.simplifiedTracks.append(newTrack)
                 }
                 
@@ -80,14 +82,14 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
 
         let song = simplifiedTracks[indexPath.row]
         cell.simplifiedTrack = song
-        cell.setTrack(song: song)
+        cell.setTrack(song: song, hideHeartButton: false)
         
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 65
     }
 
     

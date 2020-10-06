@@ -41,7 +41,7 @@ class PlaylistTableVC: UIViewController {
                     //                print(playlist)
                     
                     for track in playlist.tracks.items {
-                        let newTrack = SimpleTrack(id: track.track.id, title: track.track.name, previewURL: track.track.previewUrl, images: track.track.album!.images)
+                        let newTrack = SimpleTrack(artistName: track.track.artists.first?.name, id: track.track.id, title: track.track.name, previewURL: track.track.previewUrl, images: track.track.album!.images)
                         self.simplifiedTracks.append(newTrack)
                     }
                     
@@ -62,6 +62,8 @@ class PlaylistTableVC: UIViewController {
         trackTableView.delegate = self
         trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         trackTableView.frame = self.view.bounds
+        trackTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+
     }
     
 }
@@ -77,7 +79,7 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
         
 //        cell.track = tracks[indexPath.row]
         cell.simplifiedTrack = simplifiedTracks[indexPath.row]
-        cell.setTrack(song: simplifiedTracks[indexPath.row])
+        cell.setTrack(song: simplifiedTracks[indexPath.row], hideHeartButton: false)
 
         cell.selectionStyle = .none
         return cell
@@ -85,7 +87,7 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 65
     }
     
     

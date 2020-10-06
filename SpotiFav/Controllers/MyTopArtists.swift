@@ -102,6 +102,7 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
         artistsTableView.dataSource = self
         artistsTableView.delegate = self
         artistsTableView.frame = self.view.bounds
+        artistsTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
     func downloadFileFromURL(url: URL){
@@ -220,31 +221,13 @@ extension MyTopArtists: UITableViewDelegate, UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
 
         let artist = artists[indexPath.row]
-        
-        for image in artist.images {
-            if image.height == 160 {
-                cell.imageView?.kf.setImage(with: image.url, options: []) { result in
-                    switch result {
-                    case .success(let value):
-                        DispatchQueue.main.async {
-                            cell.textLabel?.text = self.artists[indexPath.row].name
-                            cell.imageView?.image = value.image
-                        }
-                        
-                    case .failure(let error):
-                        print("error")
-                    }
-                    
-                }
-                
-            }
-        }
+        cell.setArtist(artist: artist)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 65
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

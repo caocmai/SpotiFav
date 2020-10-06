@@ -32,11 +32,8 @@ class FavoritesVC: UIViewController {
         print(token)
         
         guard let tracks = UserDefaults.standard.stringArray(forKey: "favTracks") else {return}
-        
-        if token == nil {
-            emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
-            
-        } else if !tracks.isEmpty {
+        print(tracks)
+        if !tracks.isEmpty {
             apiClient.call(request: .getFavTracks(ids: tracks, token: token!, completion:
                 
                 { (playlist) in
@@ -48,7 +45,7 @@ class FavoritesVC: UIViewController {
                         //                print(playlist)
                         
                         for track in playlist.tracks {
-                            let newTrack = SimpleTrack(id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album.images!)
+                            let newTrack = SimpleTrack(artistName: track.album.artists.first?.name, id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album.images!)
                             self.simplifiedTracks.append(newTrack)
                         }
                         
@@ -59,12 +56,10 @@ class FavoritesVC: UIViewController {
                         }
                     }
             }))
-        }
-            
-            
-        else {
+        } else if token == nil {
+            emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
+        } else {
             emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
-            
         }
     }
     
@@ -75,6 +70,7 @@ class FavoritesVC: UIViewController {
         trackTableView.delegate = self
         trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         trackTableView.frame = self.view.bounds
+        trackTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
 }
@@ -90,7 +86,7 @@ extension FavoritesVC: UITableViewDelegate, UITableViewDataSource {
         
         //        cell.track = tracks[indexPath.row]
         cell.simplifiedTrack = simplifiedTracks[indexPath.row]
-        cell.setTrack(song: simplifiedTracks[indexPath.row])
+        cell.setTrack(song: simplifiedTracks[indexPath.row], hideHeartButton: false)
         
         cell.selectionStyle = .none
         return cell
@@ -98,7 +94,7 @@ extension FavoritesVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 65
     }
     
 }
