@@ -18,12 +18,18 @@ class AudioPlayer {
     func downloadFileFromURL(url: URL){
         
         var downloadTask: URLSessionDownloadTask
+
         downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { [weak self] (URL, response, error) in
-            
+
             self?.play(url: URL!)
         })
-        
+
         downloadTask.resume()
+        
+        
+//        URLSession.shared.downloadTask(with: url) { (url, response, error) in
+//            self.play(url: url!)
+//        }.resume()
         
     }
     
@@ -32,13 +38,15 @@ class AudioPlayer {
         
         do {
             player = try AVAudioPlayer(contentsOf: url)
-            //                        player.prepareToPlay()
+            //            player.prepareToPlay()
             //            player.volume = 1.0
+            
             do {
                 try AVAudioSession.sharedInstance().setCategory(.playback)
             } catch(let error) {
                 print(error.localizedDescription)
             }
+            
             player.play()
             isPlaying = true
             //            let test = player.currentTime

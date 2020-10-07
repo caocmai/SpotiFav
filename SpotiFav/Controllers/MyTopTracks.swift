@@ -11,9 +11,9 @@ import AVFoundation
 
 class MyTopTracks: UIViewController {
     
-    var token : String? = nil
+//    var token : String? = nil
     
-    var refresh_token: String? = nil
+//    var refresh_token: String? = nil
     
     let client = APIClient(configuration: URLSessionConfiguration.default)
     
@@ -38,17 +38,16 @@ class MyTopTracks: UIViewController {
         let token = (UserDefaults.standard.string(forKey: "token"))
         
         //        print(token)
-        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
+//        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
         
-        let global50 = "37i9dQZEVXbMDoHDwVN2tF"
+//        let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-        print(token)
-        //        let newlabel = UILabel()
+//        print(token)
         
         if token == nil {
             emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
         } else {
-            
+    
             client.call(request: .getUserTopTracks(token: token!, completions: { (result) in
                 switch result {
                 case .failure(let error):
@@ -67,13 +66,10 @@ class MyTopTracks: UIViewController {
                         //                        self.tracks = playlist.tracks.items
                         self.configureTableView()
                     }
-                    
-                
                 }
             }))
         }
         configureNavBar()
-        
     }
     
     private func configureNavBar() {
@@ -82,12 +78,9 @@ class MyTopTracks: UIViewController {
         self.navigationItem.title = "MY TOP TRACKS"
     }
     
-    @objc func authButtontapped() {
-    }
-    
     private func configureTableView() {
-        artistsTableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(artistsTableView)
+        artistsTableView.translatesAutoresizingMaskIntoConstraints = false
         artistsTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         artistsTableView.dataSource = self
         artistsTableView.delegate = self
@@ -97,7 +90,6 @@ class MyTopTracks: UIViewController {
 }
 
 
-
 extension MyTopTracks: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return simplifiedTracks.count
@@ -105,7 +97,7 @@ extension MyTopTracks: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
-        
+
         let track = simplifiedTracks[indexPath.row]
         cell.setTrack(song: track, hideHeartButton: true)
         cell.simplifiedTrack = track
@@ -117,7 +109,7 @@ extension MyTopTracks: UITableViewDelegate, UITableViewDataSource {
         return 65
     }
     
-    
+
 }
 
 

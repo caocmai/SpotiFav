@@ -49,7 +49,6 @@ class TableCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-    
         currentPlayingId = UserDefaults.standard.string(forKey: "current_playing_id")
         
     }
@@ -127,9 +126,8 @@ class TableCell: UITableViewCell {
                 let play = UIImage(systemName: "pause.fill")
                 let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
                 playbackImage.image = playGray
-                
+
             }
-            
         }
         
     }
@@ -156,7 +154,7 @@ class TableCell: UITableViewCell {
             //            print("hide one")
             heartButton.isHidden = true
             NSLayoutConstraint.activate([
-                cellImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+                cellImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
                 hiddenPlayButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             ])
         } else if hideHeartButton! && hidePlayButton! { // To hide both heart and playback button
@@ -166,19 +164,19 @@ class TableCell: UITableViewCell {
             artistLabel.isHidden = true
             playbackImage.isHidden = true
             NSLayoutConstraint.activate([
-                cellImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+                cellImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
             ])
         } else {
             //            print("hide none")
             NSLayoutConstraint.activate([
-                cellImage.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor),
+                cellImage.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor, constant: -3),
                 hiddenPlayButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor),
             ])
         }
         
         NSLayoutConstraint.activate([
             
-            heartButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            heartButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: -5),
             heartButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
             heartButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor),
             heartButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
@@ -197,7 +195,7 @@ class TableCell: UITableViewCell {
             hiddenPlayButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
             hiddenPlayButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
             
-            artistLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -2),
+            artistLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 2),
             artistLabel.leadingAnchor.constraint(equalTo: cellImage.trailingAnchor, constant: 8),
             
             playbackImage.leadingAnchor.constraint(equalTo: label.trailingAnchor),

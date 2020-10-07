@@ -194,7 +194,6 @@ extension Request {
             result.decoding(ArtistTopTracks.self, completion: completion)
         }
         
-        
     }
     
     static func getArtistTopTracks(id: String, token: String, completions: @escaping (Result<ArtistTopTracks, Error>) -> Void) -> Request {

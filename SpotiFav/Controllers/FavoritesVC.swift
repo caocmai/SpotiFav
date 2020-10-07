@@ -11,28 +11,26 @@ import UIKit
 class FavoritesVC: UIViewController {
     
     let apiClient = APIClient(configuration: URLSessionConfiguration.default)
-    
     var trackTableView = UITableView()
-    
-    var isPlaying = false
-    var paused = false
-    var curretPlayingIndex = -1
-    
     var simplifiedTracks = [SimpleTrack]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        
-        let global50 = "37i9dQZEVXbMDoHDwVN2tF"
-        
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "My Favorites"
         let token = UserDefaults.standard.string(forKey: "token")
-        print(token)
+        print("token", token)
+        
+        if token == nil {
+            emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
+        } else {
+            print("tack empty")
+            emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
+        }
         
         guard let tracks = UserDefaults.standard.stringArray(forKey: "favTracks") else {return}
-        print(tracks)
+        print("tracks", tracks)
         if !tracks.isEmpty {
             apiClient.call(request: .getFavTracks(ids: tracks, token: token!, completion:
                 
@@ -56,11 +54,11 @@ class FavoritesVC: UIViewController {
                         }
                     }
             }))
-        } else if token == nil {
-            emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
         } else {
             emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
         }
+        
+        
     }
     
     private func configureTableView() {

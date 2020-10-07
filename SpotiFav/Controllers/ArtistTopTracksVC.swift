@@ -25,16 +25,7 @@ class ArtistTopTracksVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        let token = (UserDefaults.standard.string(forKey: "token"))
-        
-        //        print(token)
-        //        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
-        
-        //        let global50 = "37i9dQZEVXbMDoHDwVN2tF"
-        
-        
+
     }
     
     private func configureTable() {
@@ -49,7 +40,9 @@ class ArtistTopTracksVC: UIViewController {
     }
     
     private func fetch() {
-        client.call(request: .getArtistTopTracks(id: artist.id, token: (UserDefaults.standard.string(forKey: "token"))!, completions: { (result) in
+        let token = (UserDefaults.standard.string(forKey: "token"))
+
+        client.call(request: .getArtistTopTracks(id: artist.id, token: token!, completions: { (result) in
             switch result {
             case .failure(let error):
                 print(error)

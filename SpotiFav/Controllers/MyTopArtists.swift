@@ -18,16 +18,7 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
         return view.window ?? ASPresentationAnchor()
         
     }
-    
-    var token : String? = nil
-    
-    var player: AVAudioPlayer!
-    var refresh_token: String? = nil
 
-    var timer: Timer!
-    
-    var isPlaying = false
-    
     let client = APIClient(configuration: URLSessionConfiguration.default)
     
     let artistsTableView = UITableView()
@@ -103,79 +94,6 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
         artistsTableView.delegate = self
         artistsTableView.frame = self.view.bounds
         artistsTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-    }
-    
-    func downloadFileFromURL(url: URL){
-        
-        var downloadTask: URLSessionDownloadTask
-        downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { [weak self] (URL, response, error) in
-            
-            self?.play(url: URL!)
-        })
-        
-        downloadTask.resume()
-        
-    }
-    
-    func play(url: URL) {
-        print("playing \(url)")
-        
-        do {
-            player = try AVAudioPlayer(contentsOf: url)
-            //                        player.prepareToPlay()
-            //            player.volume = 1.0
-            //            player.play()
-            //            let test = player.currentTime
-            //            Thread.sleep(forTimeInterval: 20)
-            //            player.pause()
-            //            Thread.sleep(forTimeInterval: 2)
-            //            player.play()
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        } catch {
-            print("AVAudioPlayer init failed")
-        }
-        
-    }
-    
-    func simpleButton() {
-        let button = UIButton()
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.setTitle("Log In", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
-        view.addSubview(button)
-        
-        NSLayoutConstraint.activate([
-            button.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        ])
-    }
-    
-    @objc func buttonTapped() {
-        print("button tapped")
-        
-        //        if isPlaying {
-        //            player.pause()
-        //            isPlaying = false
-        //        } else {
-        //            player.play()
-        //            isPlaying = true
-        //
-        //            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-        //        }
-        //
-        
-    }
-    
-    
-    @objc func updateTime() {
-        let currentTime = Int(player.currentTime)
-        let minutes = currentTime/60
-        let seconds = currentTime - minutes * 60
-        
-        print(String(format: "%02d:%02d", minutes,seconds) as String)
     }
     
     private func getSpotifyAccessCode() {

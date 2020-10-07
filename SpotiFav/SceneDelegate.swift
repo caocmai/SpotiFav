@@ -22,24 +22,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        window?.rootViewController = createTabbar(rootViewController: MyTopArtists(), secondViewController: FavoritesVC(), thirdViewController: PlaylistTableVC())
+        window?.rootViewController = createTabbar(firstViewController: MyTopArtists(), secondViewController: FavoritesVC(), thirdViewController: PlaylistTableVC())
         
         window?.makeKeyAndVisible()
     }
     
-    private func createTabbar(rootViewController: UIViewController, secondViewController: UIViewController, thirdViewController: UIViewController) -> UITabBarController {
+    fileprivate func createTabbar(firstViewController: UIViewController, secondViewController: UIViewController, thirdViewController: UIViewController) -> UITabBarController {
         
         let tabbar = UITabBarController()
         
-        rootViewController.tabBarItem = UITabBarItem(title: "HOME", image: UIImage(systemName: "house"), selectedImage: nil)
-        secondViewController.tabBarItem = UITabBarItem(title: "FAVs", image: UIImage(systemName: "heart.fill"), selectedImage: nil)
-        thirdViewController.tabBarItem = UITabBarItem(title: "PLAYLIST", image: UIImage(systemName: "music.note.list"), selectedImage: nil)
+        firstViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: nil)
+        secondViewController.tabBarItem = UITabBarItem(title: "Favs", image: UIImage(systemName: "heart.fill"), selectedImage: nil)
+        thirdViewController.tabBarItem = UITabBarItem(title: "Playlist", image: UIImage(systemName: "music.note.list"), selectedImage: nil)
         
-        let navController = UINavigationController(rootViewController: rootViewController)
+        let firstNavController = UINavigationController(rootViewController: firstViewController)
         let secondNavController = UINavigationController(rootViewController: secondViewController)
         let thirdNavController = UINavigationController(rootViewController: thirdViewController)
         
-        tabbar.viewControllers = [navController, secondNavController, thirdNavController]
+        tabbar.viewControllers = [firstNavController, secondNavController, thirdNavController]
         return tabbar
     }
 

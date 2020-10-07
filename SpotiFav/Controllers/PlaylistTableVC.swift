@@ -23,11 +23,11 @@ class PlaylistTableVC: UIViewController {
         self.view.backgroundColor = .white
         
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
-        
+    
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Playlist"
         let token = UserDefaults.standard.string(forKey: "token")
-        print(token)
+//        print(token)
         
         if token == nil {
             emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
