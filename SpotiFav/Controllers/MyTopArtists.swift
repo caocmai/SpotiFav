@@ -8,8 +8,6 @@
 
 import UIKit
 import AuthenticationServices
-import AVFoundation
-import Kingfisher
 
 
 class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProviding {
@@ -45,7 +43,7 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
             emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
         } else {
             
-            client.call(request: .getUserTopArtists(token: refreshToken!, completions: { (result) in
+            client.call(request: .getUserTopArtists(token: token!, completions: { (result) in
                 switch result {
                 case .failure(let error):
                     print(error)
@@ -102,6 +100,7 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
         let scheme = "auth"
         let session = ASWebAuthenticationSession(url: urlRequest, callbackURLScheme: scheme) { (callbackURL, error) in
             guard error == nil, let callbackURL = callbackURL else { return }
+            
             let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
             guard let requestAccessCode = queryItems?.first(where: { $0.name == "code" })?.value else { return }
             print(" Code \(requestAccessCode)")

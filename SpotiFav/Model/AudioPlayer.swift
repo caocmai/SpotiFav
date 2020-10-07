@@ -13,15 +13,19 @@ class AudioPlayer {
     
     static let shared = AudioPlayer()
     var player: AVAudioPlayer!
-    var isPlaying = false
+//    var isPlaying = false
     
     func downloadFileFromURL(url: URL){
         
         var downloadTask: URLSessionDownloadTask
 
         downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { [weak self] (URL, response, error) in
+            
+            if let url = URL {
+                self?.play(url: url)
 
-            self?.play(url: URL!)
+            }
+
         })
 
         downloadTask.resume()
@@ -48,7 +52,8 @@ class AudioPlayer {
             }
             
             player.play()
-            isPlaying = true
+//            isPlaying = true
+            player.volume = 0.6
             //            let test = player.currentTime
             //            Thread.sleep(forTimeInterval: 20)
             //            player.pause()
@@ -62,13 +67,13 @@ class AudioPlayer {
         
     }
     
-    func pause() {
-        if isPlaying {
-            player.pause()
-            isPlaying = false
-        } else {
-            player.play()
-            isPlaying = true
-        }
-    }
+//    func pause() {
+//        if isPlaying {
+//            player.pause()
+//            isPlaying = false
+//        } else {
+//            player.play()
+//            isPlaying = true
+//        }
+//    }
 }

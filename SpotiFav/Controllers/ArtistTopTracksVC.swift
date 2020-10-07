@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ArtistTopTracksVC: UIViewController {
     
     let client = APIClient(configuration: URLSessionConfiguration.default)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class TableCell: UITableViewCell {
     
@@ -20,7 +21,7 @@ class TableCell: UITableViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(heartTapped), for: .touchUpInside)
-//        button.contentMode = .scaleAspectFit
+        //        button.contentMode = .scaleAspectFit
         return button
     }()
     
@@ -40,16 +41,16 @@ class TableCell: UITableViewCell {
         return button
     }()
     
-    var currentPlayingId: String? = nil
+    //    var currentPlayingId: String? = nil
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        currentPlayingId = UserDefaults.standard.string(forKey: "current_playing_id")
         
     }
     
@@ -60,9 +61,17 @@ class TableCell: UITableViewCell {
     }
     
     @objc func heartTapped() {
-        var favArrayIds = [String]()
         
-        favArrayIds = UserDefaults.standard.stringArray(forKey: "favTracks") ?? [String]()
+        guard var favArrayIds = UserDefaults.standard.stringArray(forKey: "favTracks") else {
+            var favArrayIds = [String]()
+            favArrayIds.append(simplifiedTrack.id)
+            UserDefaults.standard.set(favArrayIds, forKey: "favTracks")
+            let heart = UIImage(systemName: "heart.fill")
+            let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
+            heartButton.setImage(redHeartColor, for: .normal)
+            return
+
+        }
         print(favArrayIds)
         if !favArrayIds.contains(simplifiedTrack.id) {
             print("doesn't have id")
@@ -85,20 +94,40 @@ class TableCell: UITableViewCell {
     }
     
     @objc func hiddenPlayButtonTapped() {
+        var currentPlayingId = UserDefaults.standard.string(forKey: "current_playing_id")
         
-        if AudioPlayer.shared.player == nil {
-            print("player not playing")
-            if let previewURL = simplifiedTrack.previewUrl {
-                AudioPlayer.shared.downloadFileFromURL(url: previewURL)
-            }
-            currentPlayingId = simplifiedTrack.id
-            UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
-            let play = UIImage(systemName: "pause.fill")
-            let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
-            playbackImage.image = playGray
-        }
+        print("currentplayyingsaved:", currentPlayingId)
+        print("tracked passed      :", simplifiedTrack.id)
+        //        if AudioPlayer.shared.player == nil {
+        //            print("player not playing")
+        //            if let previewURL = simplifiedTrack.previewUrl {
+        //                AudioPlayer.shared.downloadFileFromURL(url: previewURL)
+        //            }
+        //            currentPlayingId = simplifiedTrack.id
+        //            UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
+        //            let play = UIImage(systemName: "pause.fill")
+        //            let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
+        //            playbackImage.image = playGray
+        //        }
+        //
+        //        if currentPlayingId != simplifiedTrack.id {
+        //            print("not the same")
+        //            if let previewURL = simplifiedTrack.previewUrl {
+        //                AudioPlayer.shared.downloadFileFromURL(url: previewURL)
+        //            }
+        //            currentPlayingId = simplifiedTrack.id
+        //            UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
+        //
+        //            DispatchQueue.main.async {
+        //                let play = UIImage(systemName: "pause.fill")
+        //                let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
+        //                self.playbackImage.image = playGray
+        //            }
+        //
+        //        }
         
-        if currentPlayingId != simplifiedTrack.id {
+        guard let player = AudioPlayer.shared.player else {
+            // play the new audio beacuse non currently exists
             if let previewURL = simplifiedTrack.previewUrl {
                 AudioPlayer.shared.downloadFileFromURL(url: previewURL)
             }
@@ -110,25 +139,56 @@ class TableCell: UITableViewCell {
                 let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
                 self.playbackImage.image = playGray
             }
-            
+            return
         }
         
-        if let player = AudioPlayer.shared.player {
-            if player.isPlaying {
-                player.pause()
-                
-                let play = UIImage(systemName: "play.fill")
-                let playGray = play?.withTintColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), renderingMode: .alwaysOriginal)
-                playbackImage.image = playGray
-                
-            } else {
-                player.play()
+        // checks to see if audio is playing and user taps on the same row
+        if currentPlayingId == simplifiedTrack.id && player.isPlaying{
+            player.pause()
+            
+            let play = UIImage(systemName: "play.fill")
+            let playGray = play?.withTintColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), renderingMode: .alwaysOriginal)
+            playbackImage.image = playGray
+        // if audio not playing and user taps on the same row
+        } else if currentPlayingId == simplifiedTrack.id && !player.isPlaying {
+            player.play()
+            let play = UIImage(systemName: "pause.fill")
+            let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
+            playbackImage.image = playGray
+            //            currentPlayingId = simplifiedTrack.id
+            //            UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
+        // when the user taps on a different row
+        } else {
+            if let previewURL = simplifiedTrack.previewUrl {
+                AudioPlayer.shared.downloadFileFromURL(url: previewURL)
+            }
+            currentPlayingId = simplifiedTrack.id
+            UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
+            // update the player image
+            DispatchQueue.main.async {
                 let play = UIImage(systemName: "pause.fill")
                 let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
-                playbackImage.image = playGray
-
+                self.playbackImage.image = playGray
             }
         }
+        
+        //
+        //        if let player = AudioPlayer.shared.player {
+        //            if player.isPlaying {
+        //                player.pause()
+        //
+        //                let play = UIImage(systemName: "play.fill")
+        //                let playGray = play?.withTintColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), renderingMode: .alwaysOriginal)
+        //                playbackImage.image = playGray
+        //
+        //            } else {
+        //                player.play()
+        //                let play = UIImage(systemName: "pause.fill")
+        //                let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
+        //                playbackImage.image = playGray
+        //
+        //            }
+        //        }
         
     }
     
@@ -241,6 +301,7 @@ class TableCell: UITableViewCell {
             }
         }
         
+        let currentPlayingId = UserDefaults.standard.string(forKey: "current_playing_id")
         
         if let player = AudioPlayer.shared.player {
             if player.isPlaying {

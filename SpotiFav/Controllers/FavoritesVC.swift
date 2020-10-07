@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class FavoritesVC: UIViewController {
     
     let apiClient = APIClient(configuration: URLSessionConfiguration.default)
@@ -16,20 +17,30 @@ class FavoritesVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "My Favorites"
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        fetchAndConfigFavTracks()
+        
+    }
+    
+    private func fetchAndConfigFavTracks() {
         let token = UserDefaults.standard.string(forKey: "token")
-        print("token", token)
         
         if token == nil {
             emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
-        } else {
-            print("tack empty")
-            emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
         }
         
-        guard let tracks = UserDefaults.standard.stringArray(forKey: "favTracks") else {return}
+        guard let tracks = UserDefaults.standard.stringArray(forKey: "favTracks") else {
+            emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
+            return
+            
+        }
         print("tracks", tracks)
         if !tracks.isEmpty {
             apiClient.call(request: .getFavTracks(ids: tracks, token: token!, completion:
@@ -41,6 +52,7 @@ class FavoritesVC: UIViewController {
                     case .success(let playlist):
                         //                self.tracks = playlist.tracks.items
                         //                print(playlist)
+                        self.simplifiedTracks = [SimpleTrack]()
                         
                         for track in playlist.tracks {
                             let newTrack = SimpleTrack(artistName: track.album.artists.first?.name, id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album.images!)
@@ -51,22 +63,20 @@ class FavoritesVC: UIViewController {
                             //                            self.navigationItem.title = playlist.name
                             //                        self.tracks = playlist.tracks.items
                             self.configureTableView()
+                            self.trackTableView.reloadData()
                         }
                     }
             }))
-        } else {
-            emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
         }
-        
-        
     }
     
     private func configureTableView() {
-        self.view.addSubview(trackTableView)
         trackTableView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(trackTableView)
+        
+        trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         trackTableView.dataSource = self
         trackTableView.delegate = self
-        trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         trackTableView.frame = self.view.bounds
         trackTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
@@ -86,7 +96,6 @@ extension FavoritesVC: UITableViewDelegate, UITableViewDataSource {
         cell.simplifiedTrack = simplifiedTracks[indexPath.row]
         cell.setTrack(song: simplifiedTracks[indexPath.row], hideHeartButton: false)
         
-        cell.selectionStyle = .none
         return cell
     }
     
