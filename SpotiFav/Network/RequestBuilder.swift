@@ -15,7 +15,7 @@ public protocol RequestBuilder {
     var baseURL: String { get }
     var path: String { get }
     var params: [String:Any]? { get }
-
+    
     func toURLRequest() -> URLRequest
 }
 
@@ -24,22 +24,21 @@ public extension RequestBuilder {
     func toURLRequest() -> URLRequest {
         
         let fullURL = URL(string: baseURL + path)
-//        print(fullURL)
+        //        print(fullURL)
         var request = URLRequest(url: fullURL!)
-
+        
         if params != nil {
-            
             if var components = URLComponents(url: fullURL!, resolvingAgainstBaseURL: false)  {
-            components.queryItems = [URLQueryItem]()
-            
-            for (key, value) in params! {
-                let queryItem = URLQueryItem(name: key, value: "\(value)")
-                components.queryItems?.append(queryItem)
+                
+                components.queryItems = [URLQueryItem]()
+                
+                for (key, value) in params! {
+                    let queryItem = URLQueryItem(name: key, value: "\(value)")
+                    components.queryItems?.append(queryItem)
+                }
+                request.url = components.url
             }
-            
-            request.url = components.url
         }
-    }
         request.allHTTPHeaderFields = headers
         request.httpMethod = method.rawValue.uppercased()
         return request  

@@ -26,7 +26,6 @@ class ArtistTopTracksVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     private func configureTable() {

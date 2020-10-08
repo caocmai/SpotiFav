@@ -142,7 +142,7 @@ class TableCell: UITableViewCell {
             return
         }
         
-        // checks to see if audio is playing and user taps on the same row
+        // check to see if audio is playing and user taps on the same row
         if currentPlayingId == simplifiedTrack.id && player.isPlaying{
             player.pause()
             

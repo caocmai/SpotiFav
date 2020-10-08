@@ -18,7 +18,7 @@ struct APIClient {
     
     public func call(request: Request) {
         let urlRequest = request.builder.toURLRequest()
-//        print(urlRequest)
+        //        print(urlRequest)
         session.dataTask(with: urlRequest) { (data, response, error) in
             let result: Result<Data, Error>
             
@@ -28,14 +28,14 @@ struct APIClient {
                 result = .success(data ?? Data())
             }
             
-//            do {
-//                let jsonObject = try JSONSerialization.jsonObject(with: data!, options: [])
-//                  print(jsonObject)
-//            } catch {
-//                print("error with data task")
-//                print(error.localizedDescription)
-//            }
-//                                          
+            //            do {
+            //                let jsonObject = try JSONSerialization.jsonObject(with: data!, options: [])
+            //                  print(jsonObject)
+            //            } catch {
+            //                print("error with data task")
+            //                print(error.localizedDescription)
+            //            }
+            //
             DispatchQueue.main.async {
                 request.completion(result)
             }
@@ -43,22 +43,22 @@ struct APIClient {
     }
     
     internal func getSpotifyAccessCodeURL() -> URL {
-
+        
         let paramDictionary = ["client_id" : K.SPOTIFY_API_CLIENT_ID,
                                "redirect_uri" : K.REDIRECT_URI,
                                "response_type" : K.RESPONSE_TYPE,
                                "scope" : K.SCOPE.joined(separator: "%20")
         ]
-
+        
         let mapToHTMLQuery = paramDictionary.map { key, value in
-
+            
             return "\(key)=\(value)"
         }
         
         let stringQuery = mapToHTMLQuery.joined(separator: "&")
         let accessCodeBaseURL = "https://accounts.spotify.com/authorize"
         let fullURL = URL(string: accessCodeBaseURL.appending("?\(stringQuery)"))
-
+        
         return fullURL!
     }
     

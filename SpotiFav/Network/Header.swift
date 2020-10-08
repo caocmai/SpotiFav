@@ -12,7 +12,7 @@ enum Header {
     case GETHeader(accessTokeny: String)
     case POSTHeader
 
-    func getProperHeader() -> [String:String] {
+    func buildProperHeader() -> [String:String] {
         switch self {
         case .GETHeader (let accessToken):
             return ["Accept": "application/json",

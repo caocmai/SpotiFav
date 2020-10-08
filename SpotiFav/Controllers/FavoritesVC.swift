@@ -67,13 +67,14 @@ class FavoritesVC: UIViewController {
                         }
                     }
             }))
+        } else {
+            emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
         }
     }
     
     private func configureTableView() {
         trackTableView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(trackTableView)
-        
         trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         trackTableView.dataSource = self
         trackTableView.delegate = self

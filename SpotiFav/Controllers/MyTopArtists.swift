@@ -28,9 +28,7 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
         
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
         
-        //       print(token)
         fetchAndConfigureTable()
-        
         configureNavBar()
         
     }
@@ -52,15 +50,12 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
                     self.artists = results.items
                     DispatchQueue.main.async {
                         self.configureTableView()
-                        //                            print(self.artists)
                     }
                 }
             }))
             
         }
-        
-        //        print("function executed")
-        //        artistsTableView.reloadData()
+
     }
     
     private func configureNavBar() {
@@ -104,7 +99,6 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
             let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
             guard let requestAccessCode = queryItems?.first(where: { $0.name == "code" })?.value else { return }
             print(" Code \(requestAccessCode)")
-            //                            print(requestToken)
             UserDefaults.standard.set(requestAccessCode, forKey: "requestAccessCode")
             
             // exchanges access code to access token with refresh token

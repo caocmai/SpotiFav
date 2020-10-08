@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+//// Currently getting the global top 50 tracks
 class PlaylistTableVC: UIViewController {
     
     let apiClient = APIClient(configuration: URLSessionConfiguration.default)
