@@ -77,7 +77,6 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
         cell.simplifiedTrack = song
         cell.setTrack(song: song, hideHeartButton: false)
         
-        
         return cell
     }
     

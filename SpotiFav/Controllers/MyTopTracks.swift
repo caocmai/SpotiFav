@@ -22,13 +22,6 @@ class MyTopTracks: UIViewController {
         
         let token = (UserDefaults.standard.string(forKey: "token"))
         
-        //        print(token)
-//        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
-        
-//        let global50 = "37i9dQZEVXbMDoHDwVN2tF"
-        
-//        print(token)
-        
         if token == nil {
             emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
         } else {
@@ -45,8 +38,6 @@ class MyTopTracks: UIViewController {
                     }
                     
                     DispatchQueue.main.async {
-                        //                            self.navigationItem.title = playlist.name
-                        //                        self.tracks = playlist.tracks.items
                         self.configureTableView()
                     }
                 }

@@ -63,7 +63,6 @@ class PlaylistTableVC: UIViewController {
         trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         trackTableView.frame = self.view.bounds
         trackTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-
     }
     
 }
@@ -81,7 +80,6 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
         cell.simplifiedTrack = simplifiedTracks[indexPath.row]
         cell.setTrack(song: simplifiedTracks[indexPath.row], hideHeartButton: false)
 
-        cell.selectionStyle = .none
         return cell
     }
     

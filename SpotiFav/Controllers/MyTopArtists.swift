@@ -53,9 +53,7 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
                     }
                 }
             }))
-            
         }
-
     }
     
     private func configureNavBar() {
