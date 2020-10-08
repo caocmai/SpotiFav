@@ -2,15 +2,15 @@
 An iOS app to authenticate as well as perform GET and POST calls to the [Spotify Web API](https://developer.spotify.com/documentation/web-api/)
 
 ## Description
-This app authenticates to the [Spotify Web API](https://developer.spotify.com/documentation/web-api/) using the user's Spotify credentials. Once logged in they are provided with a access token that is then used by the app to perform various network calls. 
+This app authenticates to the [Spotify Web API](https://developer.spotify.com/documentation/web-api/) using the user's Spotify credentials. Once logged in they are provided with an access token that is then used by the app to perform various network calls. Additionally, songs can be saved locally to a user's favorite songs list.
 
 ### Features
 * Authenticates to the Spotify Web API to enable API calls
-* POST calls to get to get access token
-* Executes various GET calls for [Spotify endpoints](https://developer.spotify.com/documentation/web-api/reference/)
+* POST calls to get access token from access code or refresh token
+* Various GET calls for [Spotify endpoints](https://developer.spotify.com/documentation/web-api/reference/)
     * GET user top artists
-* Handles expired token, so users don't have to reauthenticate when token expires
-* Track audio preview using AVFoundation
+* Handles expired access token, so users don't have to reauthenticate when token expires
+* Audio preview tracks using AVFoundation with pause and resume functionality
 * Uses GCD(Grand Central Dispatch) to improve user experience 
 * Uses custom network layer to perform network calls.
 
