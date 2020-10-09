@@ -79,7 +79,6 @@ extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self)), for: indexPath) as! TableCell
         
-//        cell.track = tracks[indexPath.row]
         cell.simplifiedTrack = simplifiedTracks[indexPath.row]
         cell.setTrack(song: simplifiedTracks[indexPath.row], hideHeartButton: false)
 

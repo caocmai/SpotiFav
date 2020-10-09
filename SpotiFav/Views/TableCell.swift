@@ -67,24 +67,20 @@ class TableCell: UITableViewCell {
             let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
             heartButton.setImage(redHeartColor, for: .normal)
             return
-
         }
-        print(favArrayIds)
+        
         if !favArrayIds.contains(simplifiedTrack.id) {
-            print("doesn't have id")
             let heart = UIImage(systemName: "heart.fill")
             let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
             heartButton.setImage(redHeartColor, for: .normal)
             favArrayIds.append(simplifiedTrack.id)
         } else {
-            print("have id")
             favArrayIds = favArrayIds.filter(){$0 != simplifiedTrack.id}
             let heart = UIImage(systemName: "heart")
             let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
             heartButton.setImage(redHeartColor, for: .normal)
             
         }
-        print(favArrayIds)
         
         UserDefaults.standard.set(favArrayIds, forKey: "favTracks")
         

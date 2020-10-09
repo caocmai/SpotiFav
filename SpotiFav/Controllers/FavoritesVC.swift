@@ -15,9 +15,9 @@ class FavoritesVC: UIViewController {
     private var trackTableView = UITableView()
     private var simplifiedTracks = [SimpleTrack]()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "My Favorites"

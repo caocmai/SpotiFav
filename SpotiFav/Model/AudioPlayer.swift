@@ -13,7 +13,6 @@ class AudioPlayer {
     
     static let shared = AudioPlayer()
     var player: AVAudioPlayer!
-//    var isPlaying = false
     
     func downloadFileFromURL(url: URL){
         
@@ -43,22 +42,15 @@ class AudioPlayer {
         do {
             player = try AVAudioPlayer(contentsOf: url)
             //            player.prepareToPlay()
-            //            player.volume = 1.0
             
             do {
                 try AVAudioSession.sharedInstance().setCategory(.playback)
             } catch(let error) {
                 print(error.localizedDescription)
             }
-            
             player.play()
-//            isPlaying = true
             player.volume = 0.6
-            //            let test = player.currentTime
-            //            Thread.sleep(forTimeInterval: 20)
-            //            player.pause()
-            //            Thread.sleep(forTimeInterval: 2)
-            //            player.play()
+
         } catch let error as NSError {
             print(error.localizedDescription)
         } catch {
@@ -67,13 +59,4 @@ class AudioPlayer {
         
     }
     
-//    func pause() {
-//        if isPlaying {
-//            player.pause()
-//            isPlaying = false
-//        } else {
-//            player.play()
-//            isPlaying = true
-//        }
-//    }
 }

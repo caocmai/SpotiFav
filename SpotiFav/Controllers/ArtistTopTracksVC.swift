@@ -21,6 +21,7 @@ class ArtistTopTracksVC: UIViewController {
     private let table = UITableView()
     private var simplifiedTracks = [SimpleTrack]()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
