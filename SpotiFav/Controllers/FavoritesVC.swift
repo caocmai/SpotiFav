@@ -11,9 +11,9 @@ import UIKit
 
 class FavoritesVC: UIViewController {
     
-    let apiClient = APIClient(configuration: URLSessionConfiguration.default)
-    var trackTableView = UITableView()
-    var simplifiedTracks = [SimpleTrack]()
+    private let apiClient = APIClient(configuration: URLSessionConfiguration.default)
+    private var trackTableView = UITableView()
+    private var simplifiedTracks = [SimpleTrack]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,8 +50,6 @@ class FavoritesVC: UIViewController {
                     case .failure(let error):
                         print(error)
                     case .success(let playlist):
-                        //                self.tracks = playlist.tracks.items
-                        //                print(playlist)
                         self.simplifiedTracks = [SimpleTrack]()
                         
                         for track in playlist.tracks {
@@ -60,8 +58,6 @@ class FavoritesVC: UIViewController {
                         }
                         
                         DispatchQueue.main.async {
-                            //                            self.navigationItem.title = playlist.name
-                            //                        self.tracks = playlist.tracks.items
                             self.configureTableView()
                             self.trackTableView.reloadData()
                         }
@@ -91,9 +87,9 @@ extension FavoritesVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self)), for: indexPath) as! TableCell
         
-        //        cell.track = tracks[indexPath.row]
         cell.simplifiedTrack = simplifiedTracks[indexPath.row]
         cell.setTrack(song: simplifiedTracks[indexPath.row], hideHeartButton: false)
         

@@ -11,21 +11,24 @@ import UIKit
 
 class MyTopTracks: UIViewController {
     
-    let client = APIClient(configuration: URLSessionConfiguration.default)
+    private let client = APIClient(configuration: URLSessionConfiguration.default)
+    private let myTopTracksTableView = UITableView()
+    private var simplifiedTracks = [SimpleTrack]()
     
-    let myTopTracksTableView = UITableView()    
-    var simplifiedTracks = [SimpleTrack]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        fetchAndConfigure()
+    }
+    
+    private func fetchAndConfigure() {
         let token = (UserDefaults.standard.string(forKey: "token"))
         
         if token == nil {
             emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
         } else {
-    
+            
             client.call(request: .getUserTopTracks(token: token!, completions: { (result) in
                 switch result {
                 case .failure(let error):
@@ -72,11 +75,11 @@ extension MyTopTracks: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
-
+        
         let track = simplifiedTracks[indexPath.row]
         cell.setTrack(song: track, hideHeartButton: true)
         cell.simplifiedTrack = track
- 
+        
         return cell
     }
     
@@ -84,7 +87,6 @@ extension MyTopTracks: UITableViewDelegate, UITableViewDataSource {
         return 65
     }
     
-
 }
 
 

@@ -11,18 +11,15 @@ import UIKit
 
 class ArtistTopTracksVC: UIViewController {
     
-    let client = APIClient(configuration: URLSessionConfiguration.default)
+    private let client = APIClient(configuration: URLSessionConfiguration.default)
     
     var artist: ArtistItem! {
         didSet {
             fetch()
         }
     }
-    
-    let table = UITableView()
-    var tracks = [ArtistTrack]()
-    
-    var simplifiedTracks = [SimpleTrack]()
+    private let table = UITableView()
+    private var simplifiedTracks = [SimpleTrack]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,8 +44,6 @@ class ArtistTopTracksVC: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let tracks):
-//                self.tracks = tracks.tracks
-                
                 for track in tracks.tracks {
                     let newTrack = SimpleTrack(artistName: track.album.artists.first?.name, id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album.images!)
                     self.simplifiedTracks.append(newTrack)
@@ -71,6 +66,7 @@ extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
 
         let song = simplifiedTracks[indexPath.row]

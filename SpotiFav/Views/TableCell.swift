@@ -21,7 +21,6 @@ class TableCell: UITableViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(heartTapped), for: .touchUpInside)
-        //        button.contentMode = .scaleAspectFit
         return button
     }()
     
@@ -40,8 +39,6 @@ class TableCell: UITableViewCell {
         button.addTarget(self, action: #selector(hiddenPlayButtonTapped), for: .touchUpInside)
         return button
     }()
-    
-    //    var currentPlayingId: String? = nil
     
     
     override func awakeFromNib() {
@@ -98,33 +95,6 @@ class TableCell: UITableViewCell {
         
         print("currentplayyingsaved:", currentPlayingId)
         print("tracked passed      :", simplifiedTrack.id)
-        //        if AudioPlayer.shared.player == nil {
-        //            print("player not playing")
-        //            if let previewURL = simplifiedTrack.previewUrl {
-        //                AudioPlayer.shared.downloadFileFromURL(url: previewURL)
-        //            }
-        //            currentPlayingId = simplifiedTrack.id
-        //            UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
-        //            let play = UIImage(systemName: "pause.fill")
-        //            let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
-        //            playbackImage.image = playGray
-        //        }
-        //
-        //        if currentPlayingId != simplifiedTrack.id {
-        //            print("not the same")
-        //            if let previewURL = simplifiedTrack.previewUrl {
-        //                AudioPlayer.shared.downloadFileFromURL(url: previewURL)
-        //            }
-        //            currentPlayingId = simplifiedTrack.id
-        //            UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
-        //
-        //            DispatchQueue.main.async {
-        //                let play = UIImage(systemName: "pause.fill")
-        //                let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
-        //                self.playbackImage.image = playGray
-        //            }
-        //
-        //        }
         
         guard let player = AudioPlayer.shared.player else {
             // play the new audio beacuse non currently exists
@@ -172,24 +142,6 @@ class TableCell: UITableViewCell {
             }
         }
         
-        //
-        //        if let player = AudioPlayer.shared.player {
-        //            if player.isPlaying {
-        //                player.pause()
-        //
-        //                let play = UIImage(systemName: "play.fill")
-        //                let playGray = play?.withTintColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), renderingMode: .alwaysOriginal)
-        //                playbackImage.image = playGray
-        //
-        //            } else {
-        //                player.play()
-        //                let play = UIImage(systemName: "pause.fill")
-        //                let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
-        //                playbackImage.image = playGray
-        //
-        //            }
-        //        }
-        
     }
     
     fileprivate func configureCell(hideHeartButton: Bool?, hidePlayButton: Bool?) {
@@ -211,14 +163,12 @@ class TableCell: UITableViewCell {
         
         // To hide just heartButton
         if hideHeartButton! && !hidePlayButton! {
-            //            print("hide one")
             heartButton.isHidden = true
             NSLayoutConstraint.activate([
                 cellImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
                 hiddenPlayButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             ])
         } else if hideHeartButton! && hidePlayButton! { // To hide both heart and playback button
-            //            print("hide both")
             heartButton.isHidden = true
             hiddenPlayButton.isHidden = true
             artistLabel.isHidden = true
@@ -227,7 +177,7 @@ class TableCell: UITableViewCell {
                 cellImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
             ])
         } else {
-            //            print("hide none")
+            // Don't hide any buttons
             NSLayoutConstraint.activate([
                 cellImage.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor, constant: -3),
                 hiddenPlayButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor),
@@ -241,16 +191,12 @@ class TableCell: UITableViewCell {
             heartButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor),
             heartButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             
-            //            cellImage.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor),
-            
             cellImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
             cellImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor),
             
             label.leadingAnchor.constraint(equalTo: cellImage.trailingAnchor, constant: 8),
             label.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             label.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -40),
-            
-            //            hiddenPlayButton.leadingAnchor.constraint(equalTo: heartButton.trailingAnchor),
             
             hiddenPlayButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor),
             hiddenPlayButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),

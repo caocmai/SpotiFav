@@ -10,24 +10,15 @@ import UIKit
 import AuthenticationServices
 
 
-class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProviding {
-    
-    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        return view.window ?? ASPresentationAnchor()
-        
-    }
+class MyTopArtists: UIViewController {
 
-    let client = APIClient(configuration: URLSessionConfiguration.default)
+    private let client = APIClient(configuration: URLSessionConfiguration.default)
+    private let artistsTableView = UITableView()
+    private var artists = [ArtistItem]()
     
-    let artistsTableView = UITableView()
-    
-    var artists = [ArtistItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let global50 = "37i9dQZEVXbMDoHDwVN2tF"
-        
         fetchAndConfigureTable()
         configureNavBar()
         
@@ -35,7 +26,7 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
     
     private func fetchAndConfigureTable() {
         let token = (UserDefaults.standard.string(forKey: "token"))
-        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
+//        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
         
         if token == nil {
             emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
@@ -97,7 +88,7 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
             let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
             guard let requestAccessCode = queryItems?.first(where: { $0.name == "code" })?.value else { return }
             print(" Code \(requestAccessCode)")
-            UserDefaults.standard.set(requestAccessCode, forKey: "requestAccessCode")
+//            UserDefaults.standard.set(requestAccessCode, forKey: "requestAccessCode")
             
             // exchanges access code to access token with refresh token
             self.client.call(request: .accessCodeToAccessToken(code: requestAccessCode, completion: { (token) in
@@ -111,14 +102,20 @@ class MyTopArtists: UIViewController, ASWebAuthenticationPresentationContextProv
                     self.fetchAndConfigureTable()
                 }
             }))
+            
         }
         session.presentationContextProvider = self
         session.start()
-        
     }
     
 }
 
+extension MyTopArtists: ASWebAuthenticationPresentationContextProviding {
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        return view.window ?? ASPresentationAnchor()
+        
+    }
+}
 
 extension MyTopArtists: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
