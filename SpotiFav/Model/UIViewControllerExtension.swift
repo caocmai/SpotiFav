@@ -16,6 +16,7 @@ extension UIViewController {
         label.font = UIFont.systemFont(ofSize: 20)
         label.textColor = .gray
         self.view.addSubview(label)
+        
         NSLayoutConstraint.activate([
             label.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             label.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
@@ -29,5 +30,9 @@ extension UIViewController {
                        animations: {
                         label.transform = CGAffineTransform(scaleX: 1, y: 1)},
                        completion: nil)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + (duration * 2)) {
+            label.removeFromSuperview()
+        }
     }
 }

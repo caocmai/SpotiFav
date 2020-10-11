@@ -31,7 +31,6 @@ class MyTopArtists: UIViewController {
         if token == nil {
             emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
         } else {
-            
             client.call(request: .getUserTopArtists(token: token!, completions: { (result) in
                 switch result {
                 case .failure(let error):

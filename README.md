@@ -8,7 +8,9 @@ This app authenticates to the [Spotify Web API](https://developer.spotify.com/do
 * Authenticates to the Spotify Web API to enable API calls
 * POST calls to get access token from access code or refresh token
 * Various GET calls for [Spotify endpoints](https://developer.spotify.com/documentation/web-api/reference/)
-    * GET user top artists
+    * GET user's top artists
+    * GET user's top tracks
+    * GET Global Top 50 tracks
 * Handles expired access token, so users don't have to reauthenticate when token expires
 * Audio preview tracks using AVFoundation with pause and resume functionality
 * Uses GCD(Grand Central Dispatch) to improve user experience 

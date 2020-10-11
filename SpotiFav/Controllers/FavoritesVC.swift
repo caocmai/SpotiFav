@@ -31,40 +31,37 @@ class FavoritesVC: UIViewController {
     
     private func fetchAndConfigFavTracks() {
         let token = UserDefaults.standard.string(forKey: "token")
+        var tracks: [String]?
+        tracks = UserDefaults.standard.stringArray(forKey: "favTracks")
         
         if token == nil {
             emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
-        }
-        
-        guard let tracks = UserDefaults.standard.stringArray(forKey: "favTracks") else {
-            emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
-            return
+        }else
             
-        }
-        print("tracks", tracks)
-        if !tracks.isEmpty {
-            apiClient.call(request: .getFavTracks(ids: tracks, token: token!, completion:
-                
-                { (playlist) in
-                    switch playlist {
-                    case .failure(let error):
-                        print(error)
-                    case .success(let playlist):
-                        self.simplifiedTracks = [SimpleTrack]()
-                        
-                        for track in playlist.tracks {
-                            let newTrack = SimpleTrack(artistName: track.album.artists.first?.name, id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album.images!)
-                            self.simplifiedTracks.append(newTrack)
+            if tracks != nil && !tracks!.isEmpty {
+                apiClient.call(request: .getFavTracks(ids: tracks!, token: token!, completion:
+                    
+                    { (playlist) in
+                        switch playlist {
+                        case .failure(let error):
+                            print(error)
+                        case .success(let playlist):
+                            self.simplifiedTracks = [SimpleTrack]()
+                            
+                            for track in playlist.tracks {
+                                let newTrack = SimpleTrack(artistName: track.album.artists.first?.name, id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album.images!)
+                                self.simplifiedTracks.append(newTrack)
+                            }
+                            
+                            DispatchQueue.main.async {
+                                self.configureTableView()
+                                self.trackTableView.reloadData()
+                            }
                         }
-                        
-                        DispatchQueue.main.async {
-                            self.configureTableView()
-                            self.trackTableView.reloadData()
-                        }
-                    }
-            }))
-        } else {
-            emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
+                }))
+            } else {
+                emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
+                trackTableView.removeFromSuperview()
         }
     }
     
