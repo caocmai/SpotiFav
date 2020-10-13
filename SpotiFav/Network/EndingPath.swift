@@ -20,7 +20,7 @@ enum EndingPath {
     case myTop(type: MyTopTypes)
     case tracks(ids: [String])
 
-    func getPath() -> String {
+    func buildPath() -> String {
         switch self {
         case .token:
             return "token"

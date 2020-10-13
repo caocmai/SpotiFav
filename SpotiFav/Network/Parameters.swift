@@ -13,7 +13,7 @@ enum Parameters {
     case refreshTokenForAccessCode(refreshToken: String)
     case timeRange(range: String)
 
-    func getParamters() -> [String:Any] {
+    func buildParameters() -> [String:Any] {
         switch self {
         case .codeForToken(let code):
             return ["grant_type": "authorization_code",

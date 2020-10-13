@@ -13,7 +13,7 @@ import AuthenticationServices
 class MyTopArtists: UIViewController {
 
     private let client = APIClient(configuration: URLSessionConfiguration.default)
-    private let artistsTableView = UITableView()
+    private let tableViewUserArtists = UITableView()
     private var artists = [ArtistItem]()
     
     
@@ -68,15 +68,17 @@ class MyTopArtists: UIViewController {
     }
     
     private func configureTableView() {
-        artistsTableView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(artistsTableView)
-        artistsTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
-        artistsTableView.dataSource = self
-        artistsTableView.delegate = self
-        artistsTableView.frame = self.view.bounds
-        artistsTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableViewUserArtists.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(tableViewUserArtists)
+        tableViewUserArtists.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
+        tableViewUserArtists.dataSource = self
+        tableViewUserArtists.delegate = self
+        tableViewUserArtists.frame = self.view.bounds
+        tableViewUserArtists.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
-    
+
+// - MARK: Get Spotify Access Code
+
     private func getSpotifyAccessCode() {
         let urlRequest = client.getSpotifyAccessCodeURL()
         print(urlRequest)
@@ -89,7 +91,7 @@ class MyTopArtists: UIViewController {
             print(" Code \(requestAccessCode)")
 //            UserDefaults.standard.set(requestAccessCode, forKey: "requestAccessCode")
             
-            // exchanges access code to access token with refresh token
+            // exchanges access code to get access token and refresh token
             self.client.call(request: .accessCodeToAccessToken(code: requestAccessCode, completion: { (token) in
                 print(token)
                 switch token {
@@ -109,6 +111,7 @@ class MyTopArtists: UIViewController {
     
 }
 
+// - MARK: AuthenticationServices Window
 extension MyTopArtists: ASWebAuthenticationPresentationContextProviding {
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return view.window ?? ASPresentationAnchor()
@@ -116,6 +119,7 @@ extension MyTopArtists: ASWebAuthenticationPresentationContextProviding {
     }
 }
 
+// - MARK: UITableView
 extension MyTopArtists: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return artists.count
@@ -140,7 +144,7 @@ extension MyTopArtists: UITableViewDelegate, UITableViewDataSource {
         
         let destinationVC = ArtistTopTracksVC()
         destinationVC.artist = artist
-        artistsTableView.deselectRow(at: indexPath, animated: true)
+        tableViewUserArtists.deselectRow(at: indexPath, animated: true)
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     

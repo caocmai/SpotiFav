@@ -12,7 +12,7 @@ import UIKit
 class PlaylistTableVC: UIViewController {
     
     private let apiClient = APIClient(configuration: URLSessionConfiguration.default)
-    private var trackTableView = UITableView()
+    private var tableViewTracks = UITableView()
     private var simplifiedTracks = [SimpleTrack]()
     
     override func viewDidLoad() {
@@ -59,18 +59,18 @@ class PlaylistTableVC: UIViewController {
     }
     
     private func configureTableView() {
-        self.view.addSubview(trackTableView)
-        trackTableView.translatesAutoresizingMaskIntoConstraints = false
-        trackTableView.dataSource = self
-        trackTableView.delegate = self
-        trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
-        trackTableView.frame = self.view.bounds
-        trackTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        self.view.addSubview(tableViewTracks)
+        tableViewTracks.translatesAutoresizingMaskIntoConstraints = false
+        tableViewTracks.dataSource = self
+        tableViewTracks.delegate = self
+        tableViewTracks.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
+        tableViewTracks.frame = self.view.bounds
+        tableViewTracks.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
 }
 
-
+// - MARK: UITableView
 extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         simplifiedTracks.count

@@ -15,10 +15,10 @@ class ArtistTopTracksVC: UIViewController {
     
     var artist: ArtistItem! {
         didSet {
-            fetch()
+            fetchArtistTopTracks()
         }
     }
-    private let table = UITableView()
+    private let tableViewTracks = UITableView()
     private var simplifiedTracks = [SimpleTrack]()
     
     
@@ -27,17 +27,17 @@ class ArtistTopTracksVC: UIViewController {
     }
     
     private func configureTable() {
-        self.view.addSubview(table)
-        table.translatesAutoresizingMaskIntoConstraints = false
-        table.frame = self.view.bounds
-        table.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
-        table.delegate = self
-        table.dataSource = self
-        table.separatorStyle = UITableViewCell.SeparatorStyle.none
+        self.view.addSubview(tableViewTracks)
+        tableViewTracks.translatesAutoresizingMaskIntoConstraints = false
+        tableViewTracks.frame = self.view.bounds
+        tableViewTracks.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
+        tableViewTracks.delegate = self
+        tableViewTracks.dataSource = self
+        tableViewTracks.separatorStyle = UITableViewCell.SeparatorStyle.none
 
     }
     
-    private func fetch() {
+    private func fetchArtistTopTracks() {
         let token = (UserDefaults.standard.string(forKey: "token"))
 
         client.call(request: .getArtistTopTracks(id: artist.id, token: token!, completions: { (result) in
@@ -61,6 +61,7 @@ class ArtistTopTracksVC: UIViewController {
     
 }
 
+// - MARK: UITableView
 extension ArtistTopTracksVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return simplifiedTracks.count

@@ -26,10 +26,10 @@ extension Request {
     static func accessCodeToAccessToken(code: String, completion: @escaping (Result<Tokens, Error>) -> Void) -> Request {
         
         Request.buildRequest(method: .post,
-                             header: Header.POSTHeader.buildProperHeader(),
+                             header: Header.POSTHeader.buildHeader(),
                              baseURL: SpotifyBaseURL.authBaseURL.rawValue,
-                             path: EndingPath.token.getPath(),
-                             params: Parameters.codeForToken(accessCode: code).getParamters()) { (result) in
+                             path: EndingPath.token.buildPath(),
+                             params: Parameters.codeForToken(accessCode: code).buildParameters()) { (result) in
                                 
                                 result.decoding(Tokens.self, completion: completion)
         }
@@ -38,9 +38,9 @@ extension Request {
     static func checkExpiredToken(token: String, completion: @escaping (Result<ExpireToken, Error>) -> Void) -> Request {
         
         Request.buildRequest(method: .get,
-                             header: Header.GETHeader(accessTokeny: token).buildProperHeader(),
+                             header: Header.GETHeader(accessTokeny: token).buildHeader(),
                              baseURL: SpotifyBaseURL.APICallBase.rawValue,
-                             path: EndingPath.userInfo.getPath()) { (result) in
+                             path: EndingPath.userInfo.buildPath()) { (result) in
                                 
                                 result.decoding(ExpireToken.self, completion: completion)
         }
@@ -51,12 +51,11 @@ extension Request {
         guard let refreshToken = UserDefaults.standard.string(forKey: "refresh_token") else {return nil}
         
         return Request.buildRequest(method: .post,
-                                    header: Header.POSTHeader.buildProperHeader(),
+                                    header: Header.POSTHeader.buildHeader(),
                                     baseURL: SpotifyBaseURL.authBaseURL.rawValue,
-                                    path: EndingPath.token.getPath(),
-                                    params: Parameters.getParamters(.refreshTokenForAccessCode(refreshToken: refreshToken))()) { result in // the data is passed on to here!
+                                    path: EndingPath.token.buildPath(),
+                                    params: Parameters.buildParameters(.refreshTokenForAccessCode(refreshToken: refreshToken))()) { result in // the data is passed on to here!
                                         // makeing decoding call
-                                        print("data result", result)
                                         result.decoding(Tokens.self, completion: completion)
         }
         
@@ -85,9 +84,9 @@ extension Request {
         }))
         
         return Request.buildRequest(method: .get,
-                                    header: Header.GETHeader(accessTokeny: token).buildProperHeader(),
+                                    header: Header.GETHeader(accessTokeny: token).buildHeader(),
                                     baseURL: SpotifyBaseURL.APICallBase.rawValue,
-                                    path: EndingPath.myTop(type: .tracks).getPath(), params: Parameters.timeRange(range: "long_term").getParamters()) {
+                                    path: EndingPath.myTop(type: .tracks).buildPath(), params: Parameters.timeRange(range: "long_term").buildParameters()) {
                                         (result) in
                                         
                                         result.decoding(UserTopTracks.self, completion: completions)
@@ -119,10 +118,10 @@ extension Request {
         }))
         
         return Request.buildRequest(method: .get,
-                                    header: Header.GETHeader(accessTokeny: token).buildProperHeader(),
+                                    header: Header.GETHeader(accessTokeny: token).buildHeader(),
                                     baseURL: SpotifyBaseURL.APICallBase.rawValue,
-                                    path: EndingPath.myTop(type: .artists).getPath(),
-                                    params: Parameters.timeRange(range: "long_term").getParamters()) { (result) in
+                                    path: EndingPath.myTop(type: .artists).buildPath(),
+                                    params: Parameters.timeRange(range: "long_term").buildParameters()) { (result) in
                                         
                                         result.decoding(UserTopArtists.self, completion: completions)
                                         
@@ -155,9 +154,9 @@ extension Request {
         }))
 
         return Request.buildRequest(method: .get,
-                                    header: Header.GETHeader(accessTokeny: token).buildProperHeader(),
+                                    header: Header.GETHeader(accessTokeny: token).buildHeader(),
                                     baseURL: SpotifyBaseURL.APICallBase.rawValue,
-                                    path: EndingPath.playlist(id: playlistId).getPath()) { (result) in
+                                    path: EndingPath.playlist(id: playlistId).buildPath()) { (result) in
 
                                         result.decoding(Playlist.self, completion: completions)
 
@@ -186,7 +185,7 @@ extension Request {
                     }
                 }))
         
-        return Request.buildRequest(method: .get, header: Header.GETHeader(accessTokeny: token).buildProperHeader(), baseURL: SpotifyBaseURL.APICallBase.rawValue, path: EndingPath.tracks(ids: ids).getPath()) { result in
+        return Request.buildRequest(method: .get, header: Header.GETHeader(accessTokeny: token).buildHeader(), baseURL: SpotifyBaseURL.APICallBase.rawValue, path: EndingPath.tracks(ids: ids).buildPath()) { result in
             result.decoding(ArtistTopTracks.self, completion: completion)
         }
         
@@ -215,9 +214,9 @@ extension Request {
                 }))
         
         return Request.buildRequest(method: .get,
-                                    header: Header.GETHeader(accessTokeny: token).buildProperHeader(),
+                                    header: Header.GETHeader(accessTokeny: token).buildHeader(),
                                     baseURL: SpotifyBaseURL.APICallBase.rawValue,
-                                    path: EndingPath.artistTopTracks(artistId: id, country: .US).getPath()) { (result) in
+                                    path: EndingPath.artistTopTracks(artistId: id, country: .US).buildPath()) { (result) in
                                         
                                         result.decoding(ArtistTopTracks.self, completion: completions)
         }
@@ -226,9 +225,9 @@ extension Request {
     static func getUserInfo(token: String, completion: @escaping (Result<UserModel, Error>) -> Void) -> Request {
         
         Request.buildRequest(method: .get,
-                             header: Header.GETHeader(accessTokeny: token).buildProperHeader(),
+                             header: Header.GETHeader(accessTokeny: token).buildHeader(),
                              baseURL: SpotifyBaseURL.APICallBase.rawValue,
-                             path: EndingPath.userInfo.getPath()) { result in
+                             path: EndingPath.userInfo.buildPath()) { result in
                                 
                                 result.decoding(UserModel.self, completion: completion)
         }

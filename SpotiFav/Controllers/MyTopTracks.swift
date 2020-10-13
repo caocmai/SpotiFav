@@ -12,7 +12,7 @@ import UIKit
 class MyTopTracks: UIViewController {
     
     private let client = APIClient(configuration: URLSessionConfiguration.default)
-    private let myTopTracksTableView = UITableView()
+    private let tableViewUserTopTracks = UITableView()
     private var simplifiedTracks = [SimpleTrack]()
     
     
@@ -56,18 +56,18 @@ class MyTopTracks: UIViewController {
     }
     
     private func configureTableView() {
-        self.view.addSubview(myTopTracksTableView)
-        myTopTracksTableView.translatesAutoresizingMaskIntoConstraints = false
-        myTopTracksTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
-        myTopTracksTableView.dataSource = self
-        myTopTracksTableView.delegate = self
-        myTopTracksTableView.frame = self.view.bounds
-        myTopTracksTableView.separatorStyle = .none
+        self.view.addSubview(tableViewUserTopTracks)
+        tableViewUserTopTracks.translatesAutoresizingMaskIntoConstraints = false
+        tableViewUserTopTracks.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
+        tableViewUserTopTracks.dataSource = self
+        tableViewUserTopTracks.delegate = self
+        tableViewUserTopTracks.frame = self.view.bounds
+        tableViewUserTopTracks.separatorStyle = .none
     }
     
 }
 
-
+// - MARK: UITableView
 extension MyTopTracks: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return simplifiedTracks.count

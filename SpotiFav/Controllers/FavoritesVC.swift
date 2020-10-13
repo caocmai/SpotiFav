@@ -12,7 +12,7 @@ import UIKit
 class FavoritesVC: UIViewController {
     
     private let apiClient = APIClient(configuration: URLSessionConfiguration.default)
-    private var trackTableView = UITableView()
+    private var tableViewFavTracks = UITableView()
     private var simplifiedTracks = [SimpleTrack]()
     
     
@@ -55,29 +55,29 @@ class FavoritesVC: UIViewController {
                             
                             DispatchQueue.main.async {
                                 self.configureTableView()
-                                self.trackTableView.reloadData()
+                                self.tableViewFavTracks.reloadData()
                             }
                         }
                 }))
             } else {
                 emptyMessage(message: "No Favorite Songs Yet", duration: 1.20)
-                trackTableView.removeFromSuperview()
+                tableViewFavTracks.removeFromSuperview()
         }
     }
     
     private func configureTableView() {
-        trackTableView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(trackTableView)
-        trackTableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
-        trackTableView.dataSource = self
-        trackTableView.delegate = self
-        trackTableView.frame = self.view.bounds
-        trackTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableViewFavTracks.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(tableViewFavTracks)
+        tableViewFavTracks.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
+        tableViewFavTracks.dataSource = self
+        tableViewFavTracks.delegate = self
+        tableViewFavTracks.frame = self.view.bounds
+        tableViewFavTracks.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
 }
 
-
+// - MARK: UITableView
 extension FavoritesVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         simplifiedTracks.count

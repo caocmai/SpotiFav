@@ -27,12 +27,11 @@ public extension RequestBuilder {
         //        print(fullURL)
         var request = URLRequest(url: fullURL!)
         
-        if params != nil {
+        if let params = params {
             if var components = URLComponents(url: fullURL!, resolvingAgainstBaseURL: false)  {
-                
                 components.queryItems = [URLQueryItem]()
                 
-                for (key, value) in params! {
+                for (key, value) in params {
                     let queryItem = URLQueryItem(name: key, value: "\(value)")
                     components.queryItems?.append(queryItem)
                 }
