@@ -233,6 +233,16 @@ extension Request {
         }
     }
     
+    static func search(token: String, q: String, type: SpotifyType) -> Request {
+        Request.buildRequest(method: .get,
+                             header: Header.GETHeader(accessTokeny: token).buildHeader(),
+                             baseURL: SpotifyBaseURL.APICallBase.rawValue,
+                             path: EndingPath.search(q: q, type: type).buildPath()) { (result) in
+            print(result)
+        }
+  
+    }
+    
 }
 
 

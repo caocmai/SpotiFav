@@ -8,44 +8,44 @@
 
 import Foundation
 
-enum SpotifyType {
-    case album
-    case artist
-    case playlist
-    case track
-    case show
-    case episode
+enum SpotifyType: String {
+    case album = "ablum"
+    case artist = "artist"
+    case playlist = "playlist"
+    case track = "track"
+    case show = "show"
+    case episode = "episode"
 
-    func getSpotifyType() -> String {
-        switch self {
-        case .album:
-            return "album"
-        case .artist:
-            return "artist"
-        case .playlist:
-            return "playlist"
-        case .track:
-            return "track"
-        case .show:
-            return "show"
-        case .episode:
-            return "episode"
-        }
-    }
+//    func getSpotifyType() -> String {
+//        switch self {
+//        case .album:
+//            return "album"
+//        case .artist:
+//            return "artist"
+//        case .playlist:
+//            return "playlist"
+//        case .track:
+//            return "track"
+//        case .show:
+//            return "show"
+//        case .episode:
+//            return "episode"
+//        }
+//    }
 }
 
-enum MyTopTypes {
-    case tracks
-    case artists
+enum MyTopType: String {
+    case tracks = "tracks"
+    case artists = "artists"
 
-    func getType() -> String {
-        switch self {
-        case .tracks:
-            return "tracks"
-        case .artists:
-            return "artists"
-        }
-    }
+//    func getType() -> String {
+//        switch self {
+//        case .tracks:
+//            return "tracks"
+//        case .artists:
+//            return "artists"
+//        }
+//    }
 }
 
 

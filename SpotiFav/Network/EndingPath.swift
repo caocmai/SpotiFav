@@ -17,7 +17,7 @@ enum EndingPath {
     case artistTopTracks(artistId: String, country: Country)
     case search(q: String, type: SpotifyType)
     case playlist(id: String)
-    case myTop(type: MyTopTypes)
+    case myTop(type: MyTopType)
     case tracks(ids: [String])
 
     func buildPath() -> String {
@@ -32,7 +32,7 @@ enum EndingPath {
             return "artists&ids=\(ids.joined(separator: ","))"
         case .search(let q, let type):
             let convertSpacesToProperURL = q.replacingOccurrences(of: " ", with: "%20")
-            return "search&q=\(convertSpacesToProperURL)&type=\(type)"
+            return "search?q=\(convertSpacesToProperURL)&type=\(type)"
         case .artistTopTracks(let id, let country):
             return "artists/\(id)/top-tracks?country=\(country)"
         case .playlist (let id):

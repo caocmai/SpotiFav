@@ -70,7 +70,7 @@ class PlaylistTableVC: UIViewController {
     
 }
 
-// - MARK: UITableView
+// MARK: - UITableView
 extension PlaylistTableVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         simplifiedTracks.count

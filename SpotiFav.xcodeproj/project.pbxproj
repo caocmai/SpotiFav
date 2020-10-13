@@ -40,6 +40,7 @@
 		2CF85E5A251B02820054E856 /* SpotifyBaseURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E59251B02820054E856 /* SpotifyBaseURL.swift */; };
 		2CF85E5D251B069B0054E856 /* SpotifyType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E5C251B069B0054E856 /* SpotifyType.swift */; };
 		2CF85E5F251B160F0054E856 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF85E5E251B160F0054E856 /* Parameters.swift */; };
+		2CF9E648253559D40069D1EF /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF9E647253559D40069D1EF /* SearchTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +78,7 @@
 		2CF85E59251B02820054E856 /* SpotifyBaseURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyBaseURL.swift; sourceTree = "<group>"; };
 		2CF85E5C251B069B0054E856 /* SpotifyType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyType.swift; sourceTree = "<group>"; };
 		2CF85E5E251B160F0054E856 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
+		2CF9E647253559D40069D1EF /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				2C7552352510775200D8238C /* MyTopArtists.swift */,
+				2CF9E647253559D40069D1EF /* SearchTableViewController.swift */,
 				2C7F0AC52512DA7B004195CD /* MyTopTracks.swift */,
 				2CBEFF7B251DBCE0000DDBD1 /* ArtistTopTracksVC.swift */,
 				2CAFA4962521935C00C5919F /* PlaylistTableVC.swift */,
@@ -293,6 +296,7 @@
 				2CF85E5D251B069B0054E856 /* SpotifyType.swift in Sources */,
 				2C7552322510775200D8238C /* AppDelegate.swift in Sources */,
 				2CF85E4F251AF7FA0054E856 /* Model.swift in Sources */,
+				2CF9E648253559D40069D1EF /* SearchTableViewController.swift in Sources */,
 				2C7552342510775200D8238C /* SceneDelegate.swift in Sources */,
 				2CF85E5A251B02820054E856 /* SpotifyBaseURL.swift in Sources */,
 				2CC479CA2513D93200203F42 /* UserTopTracks.swift in Sources */,

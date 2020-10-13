@@ -9,6 +9,10 @@
 import Foundation
 
 
+public enum HTTPMethod: String {
+    case get, post, put, delete
+}
+
 public protocol RequestBuilder {
     var method: HTTPMethod { get }
     var headers: [String: String] { get }
@@ -24,8 +28,10 @@ public extension RequestBuilder {
     func toURLRequest() -> URLRequest {
         
         let fullURL = URL(string: baseURL + path)
-        //        print(fullURL)
+//        print(fullURL)
         var request = URLRequest(url: fullURL!)
+        request.allHTTPHeaderFields = headers
+        request.httpMethod = method.rawValue.uppercased()
         
         if let params = params {
             if var components = URLComponents(url: fullURL!, resolvingAgainstBaseURL: false)  {
@@ -38,9 +44,7 @@ public extension RequestBuilder {
                 request.url = components.url
             }
         }
-        request.allHTTPHeaderFields = headers
-        request.httpMethod = method.rawValue.uppercased()
-        return request  
+        return request
     }
 }
 
@@ -52,6 +56,3 @@ struct BasicRequestBuilder: RequestBuilder {
     var params: [String:Any]?
 }
 
-public enum HTTPMethod: String {
-    case get, post, put, delete
-}

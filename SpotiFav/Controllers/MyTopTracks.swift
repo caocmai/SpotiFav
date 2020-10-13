@@ -67,7 +67,7 @@ class MyTopTracks: UIViewController {
     
 }
 
-// - MARK: UITableView
+// MARK: - UITableView
 extension MyTopTracks: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return simplifiedTracks.count

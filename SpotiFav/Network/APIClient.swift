@@ -28,14 +28,14 @@ struct APIClient {
                 result = .success(data ?? Data())
             }
             
-            //            do {
-            //                let jsonObject = try JSONSerialization.jsonObject(with: data!, options: [])
-            //                  print(jsonObject)
-            //            } catch {
-            //                print("error with data task")
-            //                print(error.localizedDescription)
-            //            }
-            //
+//                do {
+//                    let jsonObject = try JSONSerialization.jsonObject(with: data!, options: [])
+//                      print(jsonObject)
+//                } catch {
+//                    print("error with data task")
+//                    print(error.localizedDescription)
+//                }
+            
             DispatchQueue.main.async {
                 request.completion(result)
             }

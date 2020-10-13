@@ -10,23 +10,56 @@ import UIKit
 import AuthenticationServices
 
 
-class MyTopArtists: UIViewController {
+class MyTopArtists: UIViewController, UISearchBarDelegate {
 
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("tapped enter!")
+        searchController.resignFirstResponder()
+        let VC = SearchTableViewController()
+        VC.searchTerm = searchBar.text
+        switch searchController.searchBar.selectedScopeButtonIndex {
+        case 0:
+            VC.searchType = .artist
+        case 1:
+            VC.searchType = .track
+        default:
+            VC.searchType = .artist
+        }
+        VC.title = searchBar.text?.capitalized
+        self.navigationController?.pushViewController(VC, animated: true)
+        
+    }
+
+    
+    
     private let client = APIClient(configuration: URLSessionConfiguration.default)
     private let tableViewUserArtists = UITableView()
     private var artists = [ArtistItem]()
     
+    private let searchController = UISearchController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchAndConfigureTable()
         configureNavBar()
+        configureSearchBar()
+        
+    }
+    
+    private func configureSearchBar() {
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.searchBar.delegate = self // Monitor when the search/enter button is tapped.
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Spotify"
+        definesPresentationContext = true
+        searchController.searchBar.scopeButtonTitles = ["Artists", "Tracks"]
+        self.navigationItem.searchController = searchController
         
     }
     
     private func fetchAndConfigureTable() {
         let token = (UserDefaults.standard.string(forKey: "token"))
-//        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
+        //        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
         
         if token == nil {
             emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
@@ -53,7 +86,7 @@ class MyTopArtists: UIViewController {
         let authSpotifyBarButton = UIBarButtonItem(title: "Auth Spotify", style: .plain, target: self, action: #selector(authButtontapped))
         self.navigationItem.rightBarButtonItem = authSpotifyBarButton
         
-         let myTopTracks = UIBarButtonItem(title: "Top Tracks", style: .plain, target: self, action: #selector(topTracksTapped))
+        let myTopTracks = UIBarButtonItem(title: "Top Tracks", style: .plain, target: self, action: #selector(topTracksTapped))
         self.navigationItem.leftBarButtonItem = myTopTracks
     }
     
@@ -76,9 +109,9 @@ class MyTopArtists: UIViewController {
         tableViewUserArtists.frame = self.view.bounds
         tableViewUserArtists.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
-
-// - MARK: Get Spotify Access Code
-
+    
+    // MARK: - Get Spotify Access Code
+    
     private func getSpotifyAccessCode() {
         let urlRequest = client.getSpotifyAccessCodeURL()
         print(urlRequest)
@@ -89,7 +122,7 @@ class MyTopArtists: UIViewController {
             let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
             guard let requestAccessCode = queryItems?.first(where: { $0.name == "code" })?.value else { return }
             print(" Code \(requestAccessCode)")
-//            UserDefaults.standard.set(requestAccessCode, forKey: "requestAccessCode")
+            //            UserDefaults.standard.set(requestAccessCode, forKey: "requestAccessCode")
             
             // exchanges access code to get access token and refresh token
             self.client.call(request: .accessCodeToAccessToken(code: requestAccessCode, completion: { (token) in
@@ -111,7 +144,7 @@ class MyTopArtists: UIViewController {
     
 }
 
-// - MARK: AuthenticationServices Window
+// MARK: - AuthenticationServices Window
 extension MyTopArtists: ASWebAuthenticationPresentationContextProviding {
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return view.window ?? ASPresentationAnchor()
@@ -119,7 +152,7 @@ extension MyTopArtists: ASWebAuthenticationPresentationContextProviding {
     }
 }
 
-// - MARK: UITableView
+// MARK: - UITableView
 extension MyTopArtists: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return artists.count
@@ -128,7 +161,7 @@ extension MyTopArtists: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
         cell.accessoryType = .disclosureIndicator
-
+        
         let artist = artists[indexPath.row]
         cell.setArtist(artist: artist)
         

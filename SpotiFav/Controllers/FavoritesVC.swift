@@ -77,7 +77,7 @@ class FavoritesVC: UIViewController {
     
 }
 
-// - MARK: UITableView
+// MARK: - UITableView
 extension FavoritesVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         simplifiedTracks.count
