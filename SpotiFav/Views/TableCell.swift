@@ -284,9 +284,9 @@ class TableCell: UITableViewCell {
     internal func setArtist(artist: ArtistItem) {
         configureCell(hideHeartButton: true, hidePlayButton: true)
         
-        for image in artist.images {
-            if image.height == 160 {
-                cellImage.kf.setImage(with: image.url, options: []) { result in
+//        for image in artist.images {
+//            if image.height == 160 {
+        cellImage.kf.setImage(with: artist.images.first?.url, options: []) { result in
                     switch result {
                     case .success(let value):
                         DispatchQueue.main.async {
@@ -299,8 +299,8 @@ class TableCell: UITableViewCell {
                     
                 }
                 
-            }
-        }
+//            }
+//        }
     }
     
     

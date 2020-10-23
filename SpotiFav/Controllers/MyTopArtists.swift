@@ -10,28 +10,8 @@ import UIKit
 import AuthenticationServices
 
 
-class MyTopArtists: UIViewController, UISearchBarDelegate {
+class MyTopArtists: UIViewController {
 
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("tapped enter!")
-        searchController.resignFirstResponder()
-        let VC = SearchTableViewController()
-        VC.searchTerm = searchBar.text
-        switch searchController.searchBar.selectedScopeButtonIndex {
-        case 0:
-            VC.searchType = .artist
-        case 1:
-            VC.searchType = .track
-        default:
-            VC.searchType = .artist
-        }
-        VC.title = searchBar.text?.capitalized
-        self.navigationController?.pushViewController(VC, animated: true)
-        
-    }
-
-    
-    
     private let client = APIClient(configuration: URLSessionConfiguration.default)
     private let tableViewUserArtists = UITableView()
     private var artists = [ArtistItem]()
@@ -181,4 +161,25 @@ extension MyTopArtists: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
+}
+
+// MARK: - UISearchBarDelegate
+extension MyTopArtists:  UISearchBarDelegate {
+    // tap enter to activate
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchController.resignFirstResponder()
+        let VC = SearchTableViewController()
+        VC.searchTerm = searchBar.text
+        switch searchController.searchBar.selectedScopeButtonIndex {
+        case 0:
+            VC.searchType = .artist
+        case 1:
+            VC.searchType = .track
+        default:
+            VC.searchType = .artist
+        }
+        VC.title = searchBar.text?.capitalized
+        self.navigationController?.pushViewController(VC, animated: true)
+        
+    }
 }
