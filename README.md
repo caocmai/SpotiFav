@@ -22,7 +22,7 @@ This app authenticates to the [Spotify Web API](https://developer.spotify.com/do
 ![](project_images/search2.png) ![](project_images/search3.png)
 
 ### Usage
-Tap "Auth Spotify" and once prompted provide your email and password for Spotify to authenticate and to fetch your top artists, top songs, or see the world's current top 50 songs. Tap on the heart image to either favorite or remove a song as a favorite. Tap anywhere else on the cell to hear a preview of the song. 
+Tap "Auth Spotify" and once prompted provide your email and password for Spotify to authenticate and to fetch your top artists, top songs, or see the world's current top 50 songs. Tap on the heart image to either favorite or remove a song as a favorite. Tap anywhere else on the cell to hear a preview of the song only  if there's a play button to the right (not all songs are previewable). 
 
 ### Run Locally
 Project code can be viewed locally and run in Xcode's simulator by cloning or downloading this [repo](https://github.com/caocmai/spotiFav).
