@@ -17,7 +17,7 @@ This app authenticates to the [Spotify Web API](https://developer.spotify.com/do
 * Uses custom network layer to perform network calls.
 
 ### App Screenshots
-![](project_images/demo1.png)&nbsp; ![](project_images/demo2.png)&nbsp; ![](project_images/demo3.png)
+![](project_images/demo1.png)&nbsp;&nbsp;&nbsp;&nbsp; ![](project_images/demo2.png)&nbsp;&nbsp;&nbsp;&nbsp; ![](project_images/demo3.png)
 
 ### Usage
 Tap "Auth Spotify" and once prompted provide your email and password for Spotify to authenticate and to fetch your top artists, top songs, or see the world's current top 50 songs. Tap on the heart image to either favorite or remove a song as a favorite. Tap anywhere else on the cell to hear a preview of the song. 
