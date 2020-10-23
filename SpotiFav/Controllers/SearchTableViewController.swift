@@ -15,7 +15,7 @@ class SearchTableViewController: UITableViewController {
     private let api = APIClient(configuration: .default)
     var artists: [ArtistItem] = []
     private var simplifiedTracks = [SimpleTrack]()
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
@@ -108,6 +108,7 @@ class SearchTableViewController: UITableViewController {
         
         switch searchType {
         case .artist:
+            cell.accessoryType = .disclosureIndicator
             cell.setArtist(artist: artists[indexPath.row])
         case .track:
             cell.setTrack(song: simplifiedTracks[indexPath.row], hideHeartButton: false)
@@ -121,12 +122,22 @@ class SearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let artist = artists[indexPath.row]
         
-        let destinationVC = ArtistTopTracksVC()
-        destinationVC.artist = artist
+        if searchType == .artist {
+            let artist = artists[indexPath.row]
+            
+            let destinationVC = ArtistTopTracksVC()
+            destinationVC.artist = artist
+            self.navigationController?.pushViewController(destinationVC, animated: true)
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
-        self.navigationController?.pushViewController(destinationVC, animated: true)
+        
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
     
     /*

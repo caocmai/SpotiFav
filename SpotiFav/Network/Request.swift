@@ -241,7 +241,6 @@ extension Request {
                                 
                                 switch type {
                                 case .artist:
-                                    print("fetching artists")
                                     result.decoding(SearchArtists.self, completion: completion)
                                 case .track:
                                     result.decoding(SearchTracks.self, completion: completion)
