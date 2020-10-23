@@ -17,6 +17,7 @@ This app authenticates to the [Spotify Web API](https://developer.spotify.com/do
 * Uses custom network layer to perform network calls.
 
 ### App Screenshots
+![](project_images/demo1.png) ![](project_images/demo2.png ![]()project_images/demo3.png)
 
 
 ### Usage
