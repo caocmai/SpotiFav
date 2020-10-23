@@ -233,12 +233,20 @@ extension Request {
         }
     }
     
-    static func search(token: String, q: String, type: SpotifyType) -> Request {
+    static func search(token: String, q: String, type: SpotifyType, completion: @escaping (Any) -> Void) -> Request {
         Request.buildRequest(method: .get,
                              header: Header.GETHeader(accessTokeny: token).buildHeader(),
                              baseURL: SpotifyBaseURL.APICallBase.rawValue,
                              path: EndingPath.search(q: q, type: type).buildPath()) { (result) in
-            print(result)
+                                
+                                switch type {
+                                case .artist:
+                                    result.decoding(SearchArtists.self, completion: completion)
+                                case .track:
+                                    result.decoding(SearchTracks.self, completion: completion)
+                                default:
+                                    print("this search type not implemented yet")
+                                }
         }
   
     }

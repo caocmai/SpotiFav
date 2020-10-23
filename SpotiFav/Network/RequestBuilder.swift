@@ -28,7 +28,7 @@ public extension RequestBuilder {
     func toURLRequest() -> URLRequest {
         
         let fullURL = URL(string: baseURL + path)
-//        print(fullURL)
+        print(fullURL)
         var request = URLRequest(url: fullURL!)
         request.allHTTPHeaderFields = headers
         request.httpMethod = method.rawValue.uppercased()

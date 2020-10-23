@@ -15,6 +15,7 @@ This app authenticates to the [Spotify Web API](https://developer.spotify.com/do
 * Audio preview tracks using AVFoundation with pause and resume functionality
 * Uses GCD(Grand Central Dispatch) to improve user experience 
 * Uses custom network layer to perform network calls.
+* `coming soon` Search for Artists or Tracks
 
 ### App Screenshots
 ![](project_images/home.png) ![](project_images/auth.png) ![](project_images/playlist.png)

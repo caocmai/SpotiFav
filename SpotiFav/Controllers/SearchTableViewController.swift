@@ -17,9 +17,14 @@ class SearchTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        self.navigationItem.title = (searchType.rawValue + "s").capitalized
     
         let token = (UserDefaults.standard.string(forKey: "token"))
-        api.call(request: .search(token: token!, q: searchTerm, type: searchType))
+        print(token)
+        api.call(request: .search(token: token!, q: searchTerm, type: searchType) { result in
+            print(result)
+            
+            })
 //        print(token)
 
 //        api.call(request: .search(token: token!, q: "Moe", type: .artist))
