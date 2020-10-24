@@ -18,7 +18,7 @@ This app authenticates to the [Spotify Web API](https://developer.spotify.com/do
 * Search for Artists or Tracks from Spotify
 
 ### App Screenshots
-![](project_images/home.png) ![](project_images/auth.png) ![](project_images/playlist.png)
+![](project_images/home.png) ![](project_images/auth.png) ![](project_images/playlist2.png)
 ![](project_images/search2.png) ![](project_images/search3.png)
 
 ### Usage
