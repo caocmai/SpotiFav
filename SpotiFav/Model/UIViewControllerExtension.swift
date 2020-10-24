@@ -31,7 +31,7 @@ extension UIViewController {
                         label.transform = CGAffineTransform(scaleX: 1, y: 1)},
                        completion: nil)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + (duration * 2)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + (duration * 4)) {
             label.removeFromSuperview()
         }
     }
