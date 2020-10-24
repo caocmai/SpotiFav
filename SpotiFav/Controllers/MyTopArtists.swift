@@ -63,7 +63,7 @@ class MyTopArtists: UIViewController {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Top Artists"
-        let authSpotifyBarButton = UIBarButtonItem(title: "Auth Spotify", style: .plain, target: self, action: #selector(authButtontapped))
+        let authSpotifyBarButton = UIBarButtonItem(title: "Login Spotify", style: .plain, target: self, action: #selector(authButtontapped))
         self.navigationItem.rightBarButtonItem = authSpotifyBarButton
         
         let myTopTracks = UIBarButtonItem(title: "Top Tracks", style: .plain, target: self, action: #selector(topTracksTapped))

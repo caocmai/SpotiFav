@@ -262,7 +262,7 @@ class TableCell: UITableViewCell {
         
         for image in song.images {
             if image.height == 300 {
-                cellImage.kf.setImage(with: image.url) { result in
+                cellImage.kf.setImage(with: image.url, completionHandler:  { result in
                     switch result {
                     case .failure(let error):
                         print(error)
@@ -276,7 +276,7 @@ class TableCell: UITableViewCell {
                         }
                     }
                     
-                }
+                })
             }
         }
     }
@@ -286,18 +286,18 @@ class TableCell: UITableViewCell {
         
 //        for image in artist.images {
 //            if image.height == 160 {
-        cellImage.kf.setImage(with: artist.images.first?.url, options: []) { result in
-                    switch result {
-                    case .success(let value):
-                        DispatchQueue.main.async {
-                            self.label.text = artist.name
-                            self.cellImage.image = value.image
-                        }
-                    case .failure(let error):
-                        print(error)
-                    }
-                    
+        cellImage.kf.setImage(with: artist.images.first?.url, options: [], completionHandler:  { result in
+            switch result {
+            case .success(let value):
+                DispatchQueue.main.async {
+                    self.label.text = artist.name
+                    self.cellImage.image = value.image
                 }
+            case .failure(let error):
+                print(error)
+            }
+            
+        })
                 
 //            }
 //        }

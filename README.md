@@ -32,7 +32,7 @@ Tap anywhere else on the cell to hear a preview of the song only  if there's a p
 Project code can be viewed locally and run in Xcode's simulator by cloning or downloading this [repo](https://github.com/caocmai/spotiFav).
 
 ## Built With
-* [Xcode - 11.3.1](https://developer.apple.com/xcode/) - The IDE used
+* [Xcode - 12.1](https://developer.apple.com/xcode/) - The IDE used
 * [Swift - 5.1.4](https://developer.apple.com/swift/) - Programming language
 * [Kingfisher - 5.14.0](https://github.com/onevcat/Kingfisher) - 3rd party library
 
