@@ -89,8 +89,8 @@ class TableCell: UITableViewCell {
     @objc func hiddenPlayButtonTapped() {
         var currentPlayingId = UserDefaults.standard.string(forKey: "current_playing_id")
         
-        print("currentplayyingsaved:", currentPlayingId)
-        print("tracked passed      :", simplifiedTrack.id)
+//        print("currentplayyingsaved:", currentPlayingId)
+//        print("tracked passed      :", simplifiedTrack.id)
         
         guard let player = AudioPlayer.shared.player else {
             // play the new audio beacuse non currently exists
