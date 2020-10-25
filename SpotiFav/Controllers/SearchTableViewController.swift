@@ -42,7 +42,9 @@ class SearchTableViewController: UITableViewController {
                 switch artists {
                 case .success(let something):
                     self.artists = something.artists.items
-                    self.tableView.reloadData()
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 case .failure(let error):
                     print(error)
                 case .none:
@@ -60,7 +62,9 @@ class SearchTableViewController: UITableViewController {
                                                    images: track.album.images!)
                         self.simplifiedTracks.append(newTrack)
                     }
-                    self.tableView.reloadData()
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 case .failure(let error):
                     print(error)
                 case .none:

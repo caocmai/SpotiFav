@@ -156,7 +156,7 @@ extension MyTopArtists:  UISearchBarDelegate {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Spotify"
         definesPresentationContext = true
-        searchController.searchBar.scopeButtonTitles = ["Artists", "Songs"]
+        searchController.searchBar.scopeButtonTitles = ["Artists", "Tracks"]
         self.navigationItem.searchController = searchController
         
     }
