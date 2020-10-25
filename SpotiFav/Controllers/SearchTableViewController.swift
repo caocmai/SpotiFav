@@ -53,7 +53,11 @@ class SearchTableViewController: UITableViewController {
                 switch tracks {
                 case .success(let something):
                     for track in something.tracks.items {
-                        let newTrack = SimpleTrack(artistName: track.album.artists.first?.name, id: track.id, title: track.name, previewURL: track.previewUrl, images: track.album.images!)
+                        let newTrack = SimpleTrack(artistName: track.album.artists.first?.name,
+                                                   id: track.id,
+                                                   title: track.name,
+                                                   previewURL: track.previewUrl,
+                                                   images: track.album.images!)
                         self.simplifiedTracks.append(newTrack)
                     }
                     self.tableView.reloadData()

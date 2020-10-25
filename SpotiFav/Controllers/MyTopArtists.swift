@@ -164,18 +164,18 @@ extension MyTopArtists:  UISearchBarDelegate {
     // tap enter to activate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchController.resignFirstResponder()
-        let VC = SearchTableViewController()
-        VC.searchTerm = searchBar.text
+        let searchViewController = SearchTableViewController()
+        searchViewController.searchTerm = searchBar.text
         switch searchController.searchBar.selectedScopeButtonIndex {
         case 0:
-            VC.searchType = .artist
+            searchViewController.searchType = .artist
         case 1:
-            VC.searchType = .track
+            searchViewController.searchType = .track
         default:
-            VC.searchType = .artist
+            searchViewController.searchType = .artist
         }
-        VC.title = searchBar.text?.capitalized
-        self.navigationController?.pushViewController(VC, animated: true)
+        searchViewController.title = searchBar.text?.capitalized
+        self.navigationController?.pushViewController(searchViewController, animated: true)
         
     }
 }

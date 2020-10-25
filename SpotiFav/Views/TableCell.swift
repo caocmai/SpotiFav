@@ -11,11 +11,10 @@ import Kingfisher
 
 class TableCell: UITableViewCell {
     
+    var simplifiedTrack: SimpleTrack!
     let label = UILabel()
     let artistLabel = UILabel()
     let cellImage = UIImageView()
-    
-    var simplifiedTrack: SimpleTrack!
     
     lazy var heartButton: UIButton = {
         let button = UIButton()
@@ -58,7 +57,6 @@ class TableCell: UITableViewCell {
     }
     
     @objc func heartTapped() {
-        
         guard var favArrayIds = UserDefaults.standard.stringArray(forKey: "favTracks") else {
             var favArrayIds = [String]()
             favArrayIds.append(simplifiedTrack.id)
@@ -89,8 +87,8 @@ class TableCell: UITableViewCell {
     @objc func hiddenPlayButtonTapped() {
         var currentPlayingId = UserDefaults.standard.string(forKey: "current_playing_id")
         
-//        print("currentplayyingsaved:", currentPlayingId)
-//        print("tracked passed      :", simplifiedTrack.id)
+        //        print("currentplayyingsaved:", currentPlayingId)
+        //        print("tracked passed      :", simplifiedTrack.id)
         
         guard let player = AudioPlayer.shared.player else {
             // play the new audio beacuse non currently exists
@@ -115,15 +113,13 @@ class TableCell: UITableViewCell {
             let play = UIImage(systemName: "play.fill")
             let playGray = play?.withTintColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), renderingMode: .alwaysOriginal)
             playbackImage.image = playGray
-        // if audio not playing and user taps on the same row
+            // if audio not playing and user taps on the same row; to resume
         } else if currentPlayingId == simplifiedTrack.id && !player.isPlaying {
             player.play()
             let play = UIImage(systemName: "pause.fill")
             let playGray = play?.withTintColor(#colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), renderingMode: .alwaysOriginal)
             playbackImage.image = playGray
-            //            currentPlayingId = simplifiedTrack.id
-            //            UserDefaults.standard.set(currentPlayingId, forKey: "current_playing_id")
-        // when the user taps on a different row
+            // when the user taps on a different row
         } else {
             if let previewURL = simplifiedTrack.previewUrl {
                 AudioPlayer.shared.downloadFileFromURL(url: previewURL)
@@ -213,10 +209,10 @@ class TableCell: UITableViewCell {
         
         configureCell(hideHeartButton: hideHeartButton, hidePlayButton: false)
         
+        // hide/show play buttons based on if there's preview url
         if song.previewUrl == nil {
             hiddenPlayButton.isHidden = true
             playbackImage.isHidden = true
-            
         } else {
             hiddenPlayButton.isHidden = false
             playbackImage.isHidden = false
@@ -225,13 +221,14 @@ class TableCell: UITableViewCell {
         var favArrayIds = [String]()
         favArrayIds = UserDefaults.standard.stringArray(forKey: "favTracks") ?? [String]()
         
+        // update appropriate heart icon
         if !hideHeartButton {
             if !favArrayIds.isEmpty {
                 if favArrayIds.contains(song.id) {
                     let heart = UIImage(systemName: "heart.fill")
                     let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
                     heartButton.setImage(redHeartColor, for: .normal)
-                }else {
+                } else {
                     let heart = UIImage(systemName: "heart")
                     let redHeartColor = heart?.withTintColor(#colorLiteral(red: 0.8197939992, green: 0, blue: 0.02539807931, alpha: 1), renderingMode: .alwaysOriginal)
                     heartButton.setImage(redHeartColor, for: .normal)
@@ -245,6 +242,7 @@ class TableCell: UITableViewCell {
         
         let currentPlayingId = UserDefaults.standard.string(forKey: "current_playing_id")
         
+        // update appropriate play/pause icon
         if let player = AudioPlayer.shared.player {
             if player.isPlaying {
                 if currentPlayingId == song.id {
@@ -284,8 +282,6 @@ class TableCell: UITableViewCell {
     internal func setArtist(artist: ArtistItem) {
         configureCell(hideHeartButton: true, hidePlayButton: true)
         
-//        for image in artist.images {
-//            if image.height == 160 {
         cellImage.kf.setImage(with: artist.images.first?.url, options: [], completionHandler:  { result in
             switch result {
             case .success(let value):
@@ -296,11 +292,7 @@ class TableCell: UITableViewCell {
             case .failure(let error):
                 print(error)
             }
-            
         })
-                
-//            }
-//        }
     }
     
     
