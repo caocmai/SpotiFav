@@ -19,8 +19,6 @@ class PlaylistTableVC: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = true
-//        self.navigationItem.title = "Playlist"
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,9 +29,8 @@ class PlaylistTableVC: UIViewController {
         let global50 = "37i9dQZEVXbMDoHDwVN2tF"
                 let token = UserDefaults.standard.string(forKey: "token")
         //        print(token)
-                
                 if token == nil {
-                    emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
+                    emptyMessage(message: "Tap Login Spotify", duration: 1.20)
                 } else {
                     apiClient.call(request: .getPlaylist(token: token!, playlistId: global50, completions: { (playlist) in
                         switch playlist {

@@ -35,7 +35,7 @@ class FavoritesVC: UIViewController {
         tracks = UserDefaults.standard.stringArray(forKey: "favTracks")
         
         if token == nil {
-            emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
+            emptyMessage(message: "Tap Login Spotify", duration: 1.20)
         }else
             
             if tracks != nil && !tracks!.isEmpty {

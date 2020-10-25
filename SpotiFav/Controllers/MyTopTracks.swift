@@ -26,7 +26,7 @@ class MyTopTracks: UIViewController {
         let token = (UserDefaults.standard.string(forKey: "token"))
         
         if token == nil {
-            emptyMessage(message: "Tap Auth Spotify", duration: 1.20)
+            emptyMessage(message: "Tap Login Spotify", duration: 1.20)
         } else {
             
             client.call(request: .getUserTopTracks(token: token!, completions: { (result) in

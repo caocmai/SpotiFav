@@ -11,11 +11,10 @@ import AuthenticationServices
 
 
 class MyTopArtists: UIViewController {
-
+    
     private let client = APIClient(configuration: URLSessionConfiguration.default)
     private let tableViewUserArtists = UITableView()
     private var artists = [ArtistItem]()
-    
     private let searchController = UISearchController()
     
     override func viewDidLoad() {
@@ -26,23 +25,12 @@ class MyTopArtists: UIViewController {
         
     }
     
-    private func configureSearchBar() {
-        searchController.searchBar.autocapitalizationType = .none
-        searchController.searchBar.delegate = self // Monitor when the search/enter button is tapped.
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Spotify"
-        definesPresentationContext = true
-        searchController.searchBar.scopeButtonTitles = ["Artists", "Tracks"]
-        self.navigationItem.searchController = searchController
-        
-    }
-    
     private func fetchAndConfigureTable() {
         let token = (UserDefaults.standard.string(forKey: "token"))
         //        let refreshToken = UserDefaults.standard.string(forKey: "refresh_token")
         
         if token == nil {
-            emptyMessage(message: "Tap Auth Spotify To Authenticate!", duration: 1.20)
+            emptyMessage(message: "Tap Login Spotify To Authenticate!", duration: 1.20)
         } else {
             client.call(request: .getUserTopArtists(token: token!, completions: { (result) in
                 switch result {
@@ -102,11 +90,8 @@ class MyTopArtists: UIViewController {
             let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
             guard let requestAccessCode = queryItems?.first(where: { $0.name == "code" })?.value else { return }
             print(" Code \(requestAccessCode)")
-            //            UserDefaults.standard.set(requestAccessCode, forKey: "requestAccessCode")
-            
             // exchanges access code to get access token and refresh token
             self.client.call(request: .accessCodeToAccessToken(code: requestAccessCode, completion: { (token) in
-                print(token)
                 switch token {
                 case .failure(let error):
                     print(error)
@@ -116,7 +101,6 @@ class MyTopArtists: UIViewController {
                     self.fetchAndConfigureTable()
                 }
             }))
-            
         }
         session.presentationContextProvider = self
         session.start()
@@ -165,6 +149,18 @@ extension MyTopArtists: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - UISearchBarDelegate
 extension MyTopArtists:  UISearchBarDelegate {
+    
+    private func configureSearchBar() {
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.searchBar.delegate = self // Monitor when the search/enter button is tapped.
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Spotify"
+        definesPresentationContext = true
+        searchController.searchBar.scopeButtonTitles = ["Artists", "Songs"]
+        self.navigationItem.searchController = searchController
+        
+    }
+    
     // tap enter to activate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchController.resignFirstResponder()

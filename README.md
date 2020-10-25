@@ -22,7 +22,7 @@ This app authenticates to the [Spotify Web API](https://developer.spotify.com/do
 ![](project_images/search2.png) ![](project_images/search3.png)
 
 ### Usage
-Tap "Auth Spotify" and once prompted provide your email and password for Spotify to authenticate and to fetch your top artists, top songs, see the world's current top 50 songs, or preform search functions. 
+Tap "Login Spotify" and once prompted provide your email and password for Spotify to authenticate and to fetch your top artists, top songs, see the world's current top 50 songs, or preform search functions. 
 
 Tap on the heart image to either favorite or remove a song as a favorite. 
 
