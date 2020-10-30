@@ -5,9 +5,9 @@ An iOS app to authenticate as well as perform GET and POST calls to the [Spotify
 This app authenticates to the [Spotify Web API](https://developer.spotify.com/documentation/web-api/) using the user's Spotify credentials. Once logged in they are provided with an access token that is then used by the app to perform various network calls. Additionally, songs can be saved locally to a user's favorite songs list.
 
 ### Features
-* Authenticates to the Spotify Web API to enable API calls
+* [Authenticates](https://developer.spotify.com/documentation/general/guides/authorization-guide/) to the Spotify Web API to enable API calls
 * POST calls to get access token from access code or refresh token
-* Various GET calls for [Spotify endpoints](https://developer.spotify.com/documentation/web-api/reference/)
+* Various GET calls to [Spotify endpoints](https://developer.spotify.com/documentation/web-api/reference/)
     * GET user's top artists
     * GET user's top tracks
     * GET Global Top 50 tracks via playlist
