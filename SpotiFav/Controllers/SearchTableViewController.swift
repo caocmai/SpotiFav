@@ -27,6 +27,10 @@ class SearchTableViewController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //         self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        let backButton = UIBarButtonItem()
+        backButton.title = "Search"
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
     }
     
     private func fetchSearchAndConfigure() {
@@ -34,7 +38,6 @@ class SearchTableViewController: UITableViewController {
         tableView.register(TableCell.self, forCellReuseIdentifier: String(describing: type(of: TableCell.self)))
         
         let token = (UserDefaults.standard.string(forKey: "token"))
-        //        print(token)
         api.call(request: .search(token: token!, q: searchTerm, type: searchType) { result in
             switch self.searchType {
             case .artist:
@@ -93,7 +96,6 @@ class SearchTableViewController: UITableViewController {
         }
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: TableCell.self))) as! TableCell
@@ -113,16 +115,13 @@ class SearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         if searchType == .artist {
             let artist = artists[indexPath.row]
             let destinationVC = ArtistTopTracksVC()
             destinationVC.artist = artist
             self.navigationController?.pushViewController(destinationVC, animated: true)
         }
-        
         tableView.deselectRow(at: indexPath, animated: true)
-        
         
     }
     
