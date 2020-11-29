@@ -6,16 +6,16 @@ This app authenticates to the [Spotify Web API](https://developer.spotify.com/do
 
 ### Features
 * [Authenticates](https://developer.spotify.com/documentation/general/guides/authorization-guide/) to the Spotify Web API to enable API calls
-* POST calls to get access token from access code or refresh token
-* Various GET calls to [Spotify endpoints](https://developer.spotify.com/documentation/web-api/reference/)
+* Initiates POST calls to get access token from access code/refresh token
+* Performs GET calls to [Spotify endpoints](https://developer.spotify.com/documentation/web-api/reference/)
     * GET user's top artists
     * GET user's top tracks
     * GET Global Top 50 tracks via playlist
 * Handles expired access token, so users don't have to reauthenticate when token expires
-* Audio preview tracks using AVFoundation with pause and resume functionality
+* Track audio preview (when possible according to API response) using AVFoundation with pause and resume functionality
 * Uses GCD(Grand Central Dispatch) to improve user experience 
-* Uses custom network layer to perform network calls.
-* Search for Artists or Tracks from Spotify
+* Uses custom network layer to perform network calls
+* Search for artists or tracks from Spotify
 
 ### App Screenshots
 ![](project_images/home.png) ![](project_images/auth.png) ![](project_images/playlist2.png)
