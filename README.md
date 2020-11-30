@@ -19,7 +19,7 @@ This app authenticates to the [Spotify Web API](https://developer.spotify.com/do
 
 ### App Screenshots
 ![](project_images/home.png) ![](project_images/auth.png) ![](project_images/playlist2.png)
-![](project_images/search.png) ![](project_images/search2.png) ![](project_images/search3.png)
+![](project_images/search.png) ![](project_images/search4.png) ![](project_images/search5.png)
 
 ### Usage
 Tap "Login Spotify" and once prompted provide your email and password for Spotify to authenticate and to fetch your top artists, top songs, see the world's current top 50 songs, or preform search functions. 
